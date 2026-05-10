@@ -1,0 +1,19 @@
+# ZenithOS default install exclusion manifest.
+# Format: exclude:package-or-family | reason | override-policy
+
+exclude:dnf | host package manager is apt; avoid dual solver state | explicit-admin-only
+exclude:rpm | host package database is dpkg; avoid duplicate package ownership | explicit-admin-only
+exclude:pacman | host package manager is apt; avoid unsupported solver state | explicit-admin-only
+exclude:snapd | Flatpak is the supported sandboxed app runtime | explicit-admin-only
+exclude:legacy-vga-stack | project direction is modern GOP/compositor-first graphics | never-default
+exclude:xorg-server | workstation target is compositor-native; X compatibility must be optional | compatibility-layer-only
+exclude:unmodified-gnome-session-defaults | ZenithShell owns defaults even when GNOME internals are installed | never-default
+exclude:alternate-compositor-stacks | Mutter/Wayland is the selected compositor path for v1 | profile-only
+exclude:duplicate-web-engines | one default browser engine package family in base image | storage-review-required
+exclude:multiple-office-suites | office suite install is user choice, not base image | user-choice
+exclude:large-games | outside workstation default scope | user-choice
+exclude:developer-megabundles | SDKs/toolchains are optional profiles, not base image | profile-only
+exclude:unused-flatpak-runtimes | runtime duplication breaks 30GB target | automatic-prune
+exclude:unbounded-language-packs | install only selected locale by default | locale-selection
+exclude:debug-symbols-default | debug symbols go to optional symbol repository | explicit-admin-only
+exclude:unbounded-journals | logs capped by storage policy | never-default

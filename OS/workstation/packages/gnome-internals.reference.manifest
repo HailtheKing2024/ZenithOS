@@ -1,0 +1,16 @@
+# GNOME internals reference manifest.
+# These are reference areas for interface design and behavior only.
+# ZenithOS implementations must be original.
+
+reference:gnome-shell | overview, notifications, session shell roles | zenith-shell
+reference:mutter | compositor boundaries, monitor config, input routing | zenith-compositor
+reference:gsettings | typed settings schema model | zenith-settings
+reference:dconf | low-latency per-user settings store behavior | zenith-settings-store
+reference:xdg-desktop-portal | sandbox permission UX and portal APIs | zenith-portal
+reference:gnome-control-center | settings panel taxonomy | zenith-control-center
+reference:gnome-session | session startup and component supervision | zenith-session
+reference:accountsservice | user metadata service model | zenith-accounts
+reference:NetworkManager | network state service model | zenith-network
+reference:PackageKit | graphical package update abstraction | zenith-software
+reference:libadwaita | adaptive desktop widget behavior and spacing conventions | zenith-ui-toolkit
+reference:orca | accessibility service integration | zenith-accessibility

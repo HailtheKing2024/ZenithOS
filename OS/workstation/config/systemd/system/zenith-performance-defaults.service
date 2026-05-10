@@ -1,0 +1,12 @@
+[Unit]
+Description=ZenithOS hardware performance defaults
+After=zenith-hardware-detect.service multi-user.target power-profiles-daemon.service
+Wants=zenith-hardware-detect.service power-profiles-daemon.service
+ConditionVirtualization=!container
+
+[Service]
+Type=oneshot
+ExecStart=/usr/lib/zenith/zenith-performance-defaults
+
+[Install]
+WantedBy=multi-user.target

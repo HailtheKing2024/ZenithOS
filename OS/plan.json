@@ -1,0 +1,108 @@
+{
+  "project": "ZenithOS Workstation",
+  "target_hardware": "Lenovo V14-ADA first, generic x86_64 laptops later",
+  "architecture": "custom Linux distribution with GNOME internals and Zenith-owned UX",
+  "win_condition": "Boot a Linux-based ZenithOS image composed from Zenith apt packages into a clean modern Wayland desktop with apt, Flatpak, first-party Zenith apps, self-hosted image-building tools, and a projected installed footprint under 30GB.",
+  "product_tracks": {
+    "workstation": {
+      "role": "main product",
+      "status": "active",
+      "description": "Linux kernel, systemd, apt/dpkg, Flatpak, Mutter/GNOME internals, GTK/libadwaita, and ZenithShell."
+    },
+    "kernel_lab": {
+      "role": "research prototype",
+      "status": "preserved",
+      "description": "Existing custom Limine kernel retained for OS internals learning and experiments."
+    }
+  },
+  "decisions": {
+    "kernel": {
+      "choice": "Linux kernel",
+      "reason": "Real GNOME internals, hardware support, firmware, graphics, power management, and drivers require Linux interfaces."
+    },
+    "init_system": {
+      "choice": "systemd",
+      "reason": "GNOME sessions, logind, journald, udev, device policy, and desktop services expect systemd semantics."
+    },
+    "package_manager": {
+      "choice": "apt plus dpkg",
+      "reason": "The user explicitly wants apt, and Debian-compatible packages give a stable system update substrate."
+    },
+    "app_runtime": {
+      "choice": "Flatpak supported",
+      "reason": "Flatpak provides modern app distribution and sandboxing without replacing apt for the system."
+    },
+    "display_server": {
+      "choice": "Wayland with Mutter/GNOME Shell internals",
+      "reason": "This gives GNOME-quality compositor/session behavior while allowing a custom Zenith shell surface."
+    },
+    "toolkit": {
+      "choice": "GTK4 plus libadwaita",
+      "reason": "First-party apps should match the modern GNOME platform and remain maintainable."
+    },
+    "audio": {
+      "choice": "PipeWire plus WirePlumber",
+      "reason": "Modern GNOME audio, screen capture, Bluetooth audio, and portals depend on this stack."
+    },
+    "network": {
+      "choice": "NetworkManager plus iwd-capable Wi-Fi path",
+      "reason": "Settings and shell status need a mature network control API."
+    },
+    "security": {
+      "choice": "polkit, AppArmor profiles where available, signed apt metadata, Flatpak portals",
+      "reason": "Privilege boundaries should use existing Linux desktop security interfaces."
+    },
+    "rollback": {
+      "choice": "Btrfs snapshots around apt transactions",
+      "reason": "Snapshot rollback is smaller and simpler than A/B partitions inside the 30GB target."
+    },
+    "self_hosting": {
+      "choice": "ZenithOS ISO includes zenith-build, source manifests, and Linux image tools",
+      "reason": "The OS should rebuild its own rootfs and ISO from inside the live or installed system after the first seed image exists."
+    },
+    "release_engineering": {
+      "choice": "package build -> apt repository -> image compose",
+      "reason": "Large distributions build packages in clean environments, publish repositories, and compose images from repositories instead of copying app files directly into an image."
+    },
+    "feature_order": {
+      "choice": "desktop and first-party apps before installer polish",
+      "reason": "The OS must feel usable before installation and self-hosting become the main milestone."
+    }
+  },
+  "subsystems": [
+    {"id": "linux_kernel_firmware", "priority": "P0", "status": "planned", "depends_on": []},
+    {"id": "bootloader_image", "priority": "P0", "status": "planned", "depends_on": ["linux_kernel_firmware"]},
+    {"id": "rootfs_builder", "priority": "P0", "status": "started", "depends_on": []},
+    {"id": "apt_dpkg_substrate", "priority": "P0", "status": "started", "depends_on": ["rootfs_builder"]},
+    {"id": "zenith_package_builder", "priority": "P0", "status": "started", "depends_on": ["apt_dpkg_substrate"]},
+    {"id": "zenith_apt_repository", "priority": "P0", "status": "started", "depends_on": ["zenith_package_builder"]},
+    {"id": "systemd_userspace", "priority": "P0", "status": "planned", "depends_on": ["apt_dpkg_substrate"]},
+    {"id": "udev_hardware_discovery", "priority": "P0", "status": "planned", "depends_on": ["systemd_userspace", "linux_kernel_firmware"]},
+    {"id": "journald_logging", "priority": "P1", "status": "planned", "depends_on": ["systemd_userspace"]},
+    {"id": "dbus_polkit_portals", "priority": "P0", "status": "planned", "depends_on": ["systemd_userspace"]},
+    {"id": "wayland_mutter_stack", "priority": "P0", "status": "planned", "depends_on": ["dbus_polkit_portals", "udev_hardware_discovery"]},
+    {"id": "gnome_shell_internals", "priority": "P0", "status": "planned", "depends_on": ["wayland_mutter_stack"]},
+    {"id": "gtk_libadwaita_runtime", "priority": "P0", "status": "planned", "depends_on": ["dbus_polkit_portals"]},
+    {"id": "zenith_shell", "priority": "P0", "status": "started", "depends_on": ["gnome_shell_internals", "gtk_libadwaita_runtime", "zenith_apt_repository"]},
+    {"id": "zenith_theme_tokens", "priority": "P1", "status": "started", "depends_on": ["gtk_libadwaita_runtime"]},
+    {"id": "pipewire_audio", "priority": "P1", "status": "planned", "depends_on": ["dbus_polkit_portals"]},
+    {"id": "network_manager", "priority": "P1", "status": "planned", "depends_on": ["udev_hardware_discovery", "dbus_polkit_portals"]},
+    {"id": "flatpak_runtime", "priority": "P1", "status": "started", "depends_on": ["dbus_polkit_portals", "gtk_libadwaita_runtime"]},
+    {"id": "zenith_settings", "priority": "P1", "status": "started", "depends_on": ["gtk_libadwaita_runtime", "network_manager", "pipewire_audio", "zenith_apt_repository"]},
+    {"id": "zenith_terminal", "priority": "P1", "status": "started", "depends_on": ["gtk_libadwaita_runtime", "zenith_apt_repository"]},
+    {"id": "zenith_files", "priority": "P1", "status": "started", "depends_on": ["gtk_libadwaita_runtime", "zenith_apt_repository"]},
+    {"id": "zenith_packages", "priority": "P1", "status": "started", "depends_on": ["apt_dpkg_substrate", "flatpak_runtime", "dbus_polkit_portals", "zenith_apt_repository"]},
+    {"id": "source_built_gnome_platform", "priority": "P1", "status": "planned", "depends_on": ["zenith_package_builder", "wayland_mutter_stack"]},
+    {"id": "self_hosted_builder", "priority": "P0", "status": "started", "depends_on": ["apt_dpkg_substrate", "storage_budget_enforcement"]},
+    {"id": "installer_and_recovery", "priority": "P2", "status": "planned", "depends_on": ["bootloader_image", "apt_dpkg_substrate"]},
+    {"id": "storage_budget_enforcement", "priority": "P0", "status": "started", "depends_on": ["apt_dpkg_substrate", "flatpak_runtime", "journald_logging"]}
+  ],
+  "verification_gate": {
+    "dependency_graph": "must remain acyclic",
+    "storage": "projected installed footprint must stay under 30GB",
+    "boot_test": "image boots to GDM or ZenithShell session on Wayland",
+    "package_test": "apt update, apt install dry-run, and Flatpak remote verification pass inside ZenithOS",
+    "self_host_test": "boot the ISO, run zenith-build check, then build a new rootfs from /usr/src/zenithos",
+    "kernel_lab": "old make run path remains available as kernel-lab-run"
+  }
+}

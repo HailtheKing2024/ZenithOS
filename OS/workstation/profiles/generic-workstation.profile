@@ -1,0 +1,10 @@
+ID=generic-workstation
+NAME="Generic x86_64 Workstation"
+CLASS=generic
+DESCRIPTION="Fallback profile for unknown x86_64 desktops and laptops."
+GRAPHICS_STACK=kernel-drm
+INPUT_STACK=libinput
+NETWORK_STACK=networkmanager
+POWER_POLICY=balanced
+BOOT_POLICY=standard
+NOTES="Use conservative defaults until the installer records a specific hardware profile."

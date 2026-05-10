@@ -1,0 +1,27 @@
+:root {
+    --zenith-bg: #171b20;
+    --zenith-surface: #242a31;
+    --zenith-surface-raised: #303842;
+    --zenith-border: #46515d;
+    --zenith-text: #f4f7f8;
+    --zenith-muted: #aeb8c2;
+    --zenith-accent: #4aa78a;
+    --zenith-blue: #6da7ff;
+    --zenith-warn: #e2b35f;
+    --zenith-danger: #d76a6a;
+    --zenith-radius: 8px;
+}
+
+.zenith-window {
+    background: var(--zenith-surface);
+    border: 1px solid var(--zenith-border);
+    border-radius: var(--zenith-radius);
+}
+
+.zenith-accent {
+    color: var(--zenith-accent);
+}
+
+.zenith-muted {
+    color: var(--zenith-muted);
+}

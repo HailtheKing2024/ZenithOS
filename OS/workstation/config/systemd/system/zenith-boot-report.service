@@ -1,0 +1,13 @@
+[Unit]
+Description=ZenithOS serial boot report
+After=graphical.target display-manager.service gdm3.service
+Wants=display-manager.service
+ConditionKernelCommandLine=zenith.boot_report=1
+
+[Service]
+Type=oneshot
+ExecStartPre=/bin/sleep 12
+ExecStart=/usr/lib/zenith/zenith-boot-report
+
+[Install]
+WantedBy=graphical.target

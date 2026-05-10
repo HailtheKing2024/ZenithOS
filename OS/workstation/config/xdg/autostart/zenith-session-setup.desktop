@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Zenith Session Setup
+Exec=/usr/lib/zenith/zenith-session-setup
+OnlyShowIn=GNOME;
+NoDisplay=true
+X-GNOME-Autostart-enabled=true

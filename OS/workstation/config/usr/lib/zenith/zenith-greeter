@@ -1,0 +1,175 @@
+#!/usr/bin/env python3
+import os
+import subprocess
+
+import gi
+
+gi.require_version("Gtk", "4.0")
+gi.require_version("Adw", "1")
+
+from gi.repository import Adw, Gdk, Gio, Gtk
+
+
+CSS = """
+.zenith-login-root {
+    background: #071017;
+}
+
+.zenith-login-panel {
+    background: rgba(7, 16, 23, 0.92);
+    border: 1px solid rgba(131, 245, 219, 0.30);
+    border-radius: 8px;
+    padding: 34px;
+}
+
+.zenith-login-title {
+    color: #f4f7f8;
+    font-size: 48px;
+    font-weight: 800;
+    letter-spacing: 0;
+}
+
+.zenith-login-subtitle {
+    color: #83f5db;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0;
+}
+
+.zenith-login-user {
+    color: #f4f7f8;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 0;
+}
+
+.zenith-login-meta {
+    color: #b8c3cc;
+    font-size: 13px;
+    letter-spacing: 0;
+}
+"""
+
+
+def load_css():
+    provider = Gtk.CssProvider()
+    provider.load_from_data(CSS.encode("utf-8"))
+    display = Gdk.Display.get_default()
+    if display is not None:
+        Gtk.StyleContext.add_provider_for_display(
+            display,
+            provider,
+            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION,
+        )
+
+
+def session_text():
+    session = os.environ.get("XDG_SESSION_TYPE", "wayland")
+    return f"{session.capitalize()} session"
+
+
+class GreeterWindow(Adw.ApplicationWindow):
+    def __init__(self, app):
+        super().__init__(application=app, title="ZenithOS")
+        self.set_default_size(960, 640)
+        self.fullscreen()
+        self.set_content(self._build_content())
+
+    def _build_content(self):
+        root = Gtk.Overlay()
+        root.add_css_class("zenith-login-root")
+
+        background = Gtk.Picture.new_for_filename("/usr/share/backgrounds/zenith/zenith-default.svg")
+        background.set_can_shrink(False)
+        background.set_content_fit(Gtk.ContentFit.COVER)
+        root.set_child(background)
+
+        center = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+        center.set_halign(Gtk.Align.CENTER)
+        center.set_valign(Gtk.Align.CENTER)
+        center.set_width_request(460)
+        center.add_css_class("zenith-login-panel")
+
+        title = Gtk.Label(label="ZenithOS")
+        title.add_css_class("zenith-login-title")
+        title.set_halign(Gtk.Align.START)
+        center.append(title)
+
+        subtitle = Gtk.Label(label="Workstation")
+        subtitle.add_css_class("zenith-login-subtitle")
+        subtitle.set_halign(Gtk.Align.START)
+        center.append(subtitle)
+
+        user = Gtk.Label(label="zenith")
+        user.add_css_class("zenith-login-user")
+        user.set_margin_top(34)
+        user.set_halign(Gtk.Align.START)
+        center.append(user)
+
+        meta = Gtk.Label(label=session_text())
+        meta.add_css_class("zenith-login-meta")
+        meta.set_halign(Gtk.Align.START)
+        center.append(meta)
+
+        buttons = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
+        buttons.set_margin_top(26)
+        buttons.set_halign(Gtk.Align.START)
+
+        enter = Gtk.Button(label="Enter")
+        enter.add_css_class("suggested-action")
+        enter.connect("clicked", self._enter)
+        buttons.append(enter)
+
+        terminal = Gtk.Button(label="Terminal")
+        terminal.connect("clicked", self._launch, "zenith-terminal")
+        buttons.append(terminal)
+
+        settings = Gtk.Button(label="Settings")
+        settings.connect("clicked", self._launch, "zenith-settings")
+        buttons.append(settings)
+
+        center.append(buttons)
+        root.add_overlay(center)
+        return root
+
+    def _enter(self, _button):
+        marker_dir = os.path.join(os.path.expanduser("~"), ".config", "zenith")
+        os.makedirs(marker_dir, exist_ok=True)
+        with open(os.path.join(marker_dir, "greeter-shown"), "w", encoding="utf-8") as handle:
+            handle.write("shown\n")
+        self.close()
+        try:
+            subprocess.Popen(["zenith-welcome"])
+        except OSError:
+            pass
+
+    def _launch(self, _button, command):
+        try:
+            subprocess.Popen([command])
+        except OSError:
+            pass
+
+
+class GreeterApp(Adw.Application):
+    def __init__(self):
+        super().__init__(
+            application_id="os.zenith.Greeter",
+            flags=Gio.ApplicationFlags.DEFAULT_FLAGS,
+        )
+
+    def do_activate(self):
+        marker = os.path.join(os.path.expanduser("~"), ".config", "zenith", "greeter-shown")
+        if os.path.exists(marker):
+            return
+        load_css()
+        window = GreeterWindow(self)
+        window.present()
+
+
+def main():
+    app = GreeterApp()
+    return app.run(None)
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

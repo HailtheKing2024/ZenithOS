@@ -1,0 +1,15 @@
+[project]
+name = "zenith-terminal"
+version = "0.1.0"
+description = "ZenithOS terminal"
+requires-python = ">=3.11"
+dependencies = [
+  "PyGObject"
+]
+
+[project.scripts]
+zenith-terminal = "zenith_terminal.main:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"

@@ -1,0 +1,10 @@
+ID=lenovo-v14-ada
+NAME="Lenovo V14-ADA"
+CLASS=laptop
+DESCRIPTION="Lenovo V14-ADA class AMD laptop target."
+GRAPHICS_STACK=amdgpu-radv
+INPUT_STACK=i2c-hid-libinput
+NETWORK_STACK=networkmanager-iwd
+POWER_POLICY=ac-performance-battery-balanced
+BOOT_POLICY=hardware
+NOTES="First physical target: AMD APU, Radeon Vega graphics, ACPI battery, and Synaptics or ELAN touchpad."

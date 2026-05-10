@@ -1,0 +1,90 @@
+{
+  "project": "ZenithOS Workstation",
+  "scope": "Linux kernel, system services, apt, Flatpak, GNOME internals, ZenithShell, first-party apps, image build pipeline",
+  "threats": [
+    {
+      "id": "TM-001",
+      "surface": "apt repositories and mirrors",
+      "risk": "man-in-the-middle update attack or malicious package metadata",
+      "severity": "critical",
+      "mitigations": [
+        "require signed repository metadata",
+        "pin trusted repository keys in the image build",
+        "block unsigned or expired metadata",
+        "show repository trust state in Zenith Packages"
+      ]
+    },
+    {
+      "id": "TM-002",
+      "surface": "privileged helpers and polkit actions",
+      "risk": "local privilege escalation through settings, package, or device-control services",
+      "severity": "high",
+      "mitigations": [
+        "prefer dbus services with narrow polkit actions over setuid helpers",
+        "audit retained setuid binaries before release",
+        "log every privileged action through journald",
+        "keep Zenith app UIs unprivileged by default"
+      ]
+    },
+    {
+      "id": "TM-003",
+      "surface": "Flatpak sandbox and portals",
+      "risk": "sandbox escape through broad filesystem grants, portal bugs, or compositor integration",
+      "severity": "high",
+      "mitigations": [
+        "default to least-privilege Flatpak permissions",
+        "prefer document portal access over home-directory access",
+        "surface risky permissions in Zenith Packages",
+        "keep xdg-desktop-portal-gnome updated through apt"
+      ]
+    },
+    {
+      "id": "TM-004",
+      "surface": "GNOME Shell extension and ZenithShell customizations",
+      "risk": "shell crash, session compromise, or lock-screen bypass caused by custom shell code",
+      "severity": "high",
+      "mitigations": [
+        "keep shell extension code small and reviewable",
+        "avoid lock-screen modifications in early milestones",
+        "test extension enable, disable, suspend, resume, and crash recovery",
+        "fall back to stock GNOME Shell session for recovery"
+      ]
+    },
+    {
+      "id": "TM-005",
+      "surface": "kernel modules and firmware",
+      "risk": "malicious or mismatched kernel module gains kernel execution",
+      "severity": "critical",
+      "mitigations": [
+        "use distribution kernel packages and signed update channels",
+        "avoid out-of-tree drivers in the default image",
+        "record firmware and kernel package versions in image metadata",
+        "plan Secure Boot enforcement for release images"
+      ]
+    },
+    {
+      "id": "TM-006",
+      "surface": "storage budget enforcement",
+      "risk": "unbounded apt cache, Flatpak runtimes, logs, crash dumps, or snapshots consume the 30GB target",
+      "severity": "medium",
+      "mitigations": [
+        "cap apt cache and journal size",
+        "keep one mandatory rollback snapshot by default",
+        "prune unused Flatpak runtimes",
+        "fail image builds that exceed the storage budget"
+      ]
+    },
+    {
+      "id": "TM-007",
+      "surface": "image build host",
+      "risk": "host contamination or unpinned local state changes release image contents",
+      "severity": "high",
+      "mitigations": [
+        "build rootfs from manifests",
+        "record package list and versions",
+        "keep generated artifacts out of source control",
+        "run validation before publishing an ISO"
+      ]
+    }
+  ]
+}

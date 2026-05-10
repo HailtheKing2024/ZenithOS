@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Zenith Welcome
+Exec=/usr/lib/zenith/zenith-welcome-once
+OnlyShowIn=GNOME;
+NoDisplay=true
+X-GNOME-Autostart-enabled=true

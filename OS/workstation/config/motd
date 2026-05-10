@@ -1,0 +1,5 @@
+ZenithOS Workstation Preview
+
+This live system is the seed environment for building ZenithOS.
+Use zenith-build inside the desktop to compose future rootfs and ISO images.
+

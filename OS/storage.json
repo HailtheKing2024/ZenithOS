@@ -1,0 +1,37 @@
+{
+  "project": "ZenithOS Workstation",
+  "target_gb": 30,
+  "budget": {
+    "linux_kernel_firmware_gb": 1.6,
+    "base_userspace_gb": 3.8,
+    "gnome_internals_gb": 5.2,
+    "zenith_shell_apps_gb": 2.4,
+    "developer_diagnostics_gb": 0.8,
+    "self_host_builder_gb": 1.6,
+    "flatpak_reserve_gb": 4.0,
+    "rollback_snapshot_reserve_gb": 2.0,
+    "logs_crashdumps_cache_gb": 1.4,
+    "user_data_reserve_gb": 7.2
+  },
+  "caps": {
+    "apt_cache_max_mb": 1536,
+    "journal_max_mb": 512,
+    "crashdump_max_mb": 256,
+    "flatpak_runtime_default_max_gb": 4,
+    "self_host_build_output_max_gb": 6,
+    "mandatory_snapshot_count": 1
+  },
+  "policy": {
+    "system_package_manager": "apt",
+    "package_database": "dpkg",
+    "app_distribution": "Flatpak supported",
+    "excluded_package_manager": "dnf",
+    "default_filesystem": "btrfs preferred for snapshots",
+    "cleanup": "apt clean, apt autoremove, journal vacuuming, and Flatpak uninstall pruning are exposed in Zenith Packages."
+  },
+  "verification": {
+    "sum_must_be_lte_target_gb": true,
+    "manifests_checked_by": "tools/check_workstation.py",
+    "machine_budget": "workstation/storage/budget.json"
+  }
+}

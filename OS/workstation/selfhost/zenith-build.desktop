@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Zenith Builder
+Comment=Build ZenithOS from inside ZenithOS
+Exec=zenith-terminal
+Icon=utilities-terminal
+Terminal=false
+Categories=System;Development;

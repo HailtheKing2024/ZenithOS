@@ -1,0 +1,14 @@
+[Unit]
+Description=ZenithOS hardware profile detection
+DefaultDependencies=no
+After=local-fs.target
+Before=sysinit.target multi-user.target graphical.target display-manager.service zenith-performance-defaults.service
+ConditionVirtualization=!container
+
+[Service]
+Type=oneshot
+ExecStart=/usr/lib/zenith/zenith-hardware-detect
+RemainAfterExit=yes
+
+[Install]
+WantedBy=sysinit.target

@@ -1,0 +1,14 @@
+# Storage enforcement manifest.
+# Format: rule:id | threshold | action | owner
+
+rule:total-target | 30GB | report-error-if-image-exceeds | zenith-pkg
+rule:user-data-reserve | 8.75GB-minimum-free | deny-transaction | zenith-pkg
+rule:apt-archives | 1536MB-max | clean-superseded-and-deny-growth | zenith-pkg
+rule:apt-lists | 256MB-max | refresh-and-prune-old-lists | zenith-pkg
+rule:flatpak-system | 4GB-max | prune-unused-runtimes-or-deny | zenith-pkg
+rule:flatpak-gnome-runtime | 1-active-branch | remove-unused-branch-after-update | zenith-pkg
+rule:logs | 512MB-max | rotate-and-vacuum | zenith-diagnostics
+rule:crashdumps | 256MB-max | keep-newest-first | zenith-diagnostics
+rule:rollback | 1-snapshot | replace-old-known-good | zenith-pkg
+rule:self-host-builds | 6GB-max | warn-clean-or-deny-growth | zenith-builder
+rule:large-transaction | 1024MB-warning | require-storage-review | zenith-pkg

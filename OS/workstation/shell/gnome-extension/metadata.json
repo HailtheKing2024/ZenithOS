@@ -1,0 +1,7 @@
+{
+  "uuid": "zenith-shell@zenithos.local",
+  "name": "ZenithShell",
+  "description": "ZenithOS shell integration layer for GNOME internals.",
+  "shell-version": ["45", "46", "47", "48", "49", "50"],
+  "version": 1
+}

@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Zenith Installer
+Comment=Preview install readiness
+Exec=zenith-installer
+Icon=drive-harddisk
+Terminal=false
+Categories=System;Utility;

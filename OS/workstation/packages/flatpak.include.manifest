@@ -1,0 +1,14 @@
+# ZenithOS Flatpak include manifest.
+# Format: flatpak-scope:name | reason | budget-owner
+
+runtime:org.freedesktop.Platform | common desktop runtime fallback for third-party apps | flatpak_reserve
+runtime:org.freedesktop.Sdk.Extension.openh264 | video compatibility where legally redistributable | flatpak_reserve
+runtime:org.gnome.Platform | GNOME app compatibility runtime, limited to one active branch | flatpak_reserve
+portal:org.freedesktop.portal.Documents | document access mediation | flatpak_reserve
+portal:org.freedesktop.portal.FileChooser | file picker mediation | flatpak_reserve
+portal:org.freedesktop.portal.Notification | notification mediation | flatpak_reserve
+portal:org.freedesktop.portal.ScreenCast | screen capture mediation | flatpak_reserve
+portal:org.freedesktop.portal.Settings | desktop setting export to sandboxed apps | flatpak_reserve
+policy:flatpak-prune-unused-runtimes | remove unused runtimes after updates | apt_cache
+policy:flatpak-single-gnome-branch | keep only one GNOME runtime branch by default | flatpak_reserve
+policy:flatpak-user-install-default | user app installs count against user data reserve | user_data

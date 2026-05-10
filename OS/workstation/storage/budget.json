@@ -1,0 +1,39 @@
+{
+  "project": "ZenithOS Workstation",
+  "target_gb": 30,
+  "reserved_user_data_gb": 8.75,
+  "partitions": {
+    "efi_system_mb": 512,
+    "system_root_gb": 10.5,
+    "var_state_gb": 4.75,
+    "flatpak_system_gb": 4,
+    "rollback_snapshot_gb": 1,
+    "recovery_and_slack_gb": 0.5
+  },
+  "caps": {
+    "apt_archives_mb": 1536,
+    "apt_lists_mb": 256,
+    "logs_total_mb": 512,
+    "crashdumps_total_mb": 256,
+    "flatpak_system_runtimes_gb": 4,
+    "rollback_snapshots": 1
+  },
+  "transaction_guards": {
+    "minimum_free_after_install_gb": 8.75,
+    "deny_if_apt_archives_exceed_mb": 1536,
+    "deny_if_flatpak_system_exceeds_gb": 4,
+    "warn_if_installed_host_packages_exceed_gb": 12,
+    "require_storage_review_above_transaction_mb": 1024,
+    "deny_if_self_host_outputs_exceed_gb": 6
+  },
+  "ownership": {
+    "base_os": "zenith-base",
+    "userspace": "zenith-posix-core",
+    "desktop_core": "zenith-desktop-core",
+    "workstation_ux": "zenith-workstation-defaults",
+    "flatpak": "zenith-flatpak-runtime",
+    "logs": "zenith-diagnostics",
+    "crashdumps": "zenith-diagnostics",
+    "self_host_builder": "zenith-builder"
+  }
+}

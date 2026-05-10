@@ -1,0 +1,15 @@
+[project]
+name = "zenith-settings"
+version = "0.1.0"
+description = "ZenithOS control center"
+requires-python = ">=3.11"
+dependencies = [
+  "PyGObject"
+]
+
+[project.scripts]
+zenith-settings = "zenith_settings.main:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"

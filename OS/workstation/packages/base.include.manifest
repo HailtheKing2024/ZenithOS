@@ -1,0 +1,52 @@
+# ZenithOS default host package include manifest.
+# Format: package-set:package-name | reason | storage-class
+
+base:zenith-base-files | filesystem hierarchy, release metadata, default permissions | base_os
+base:zenith-ca-certificates | TLS and repository trust anchors | base_os
+base:zenith-apt-config | signed APT sources, preferences, hooks | base_os
+base:dpkg | local host package database | base_os
+base:apt | host package dependency resolver and update engine | base_os
+base:libc-runtime | C runtime ABI for host packages | base_os
+base:dynamic-linker | shared library loader ABI | base_os
+base:coreutils | POSIX-compatible shell utilities | userspace
+base:findutils | file discovery utilities | userspace
+base:grep | text search utilities | userspace
+base:sed | stream editing utilities | userspace
+base:gawk | POSIX text processing | userspace
+base:tar | archive support | userspace
+base:xz-utils | package and archive compression | userspace
+base:zstd | package and archive compression | userspace
+base:procps | process inspection tools | userspace
+base:util-linux | mount, block, and system utilities | userspace
+base:kmod | module metadata tooling where applicable | hardware_enablement
+base:dbus-broker | desktop and system message bus | desktop_core
+base:system-service-manager | service lifecycle and socket activation | desktop_core
+base:polkit-compatible-agent | privileged action authorization | desktop_core
+base:packagekit-apt-backend | graphical updates over apt | desktop_core
+base:fontconfig | font discovery and cache layer | desktop_core
+base:freetype | font rasterization | desktop_core
+base:harfbuzz | text shaping | desktop_core
+base:icu | Unicode locale and collation support | desktop_core
+base:xdg-utils | desktop integration helpers | desktop_core
+base:shared-mime-info | MIME database | desktop_core
+base:hicolor-icon-theme | icon fallback theme | desktop_core
+base:adwaita-icon-theme-compatible | GNOME-like icon vocabulary baseline | desktop_core
+base:zenith-settings-schemas | workstation settings schema definitions | desktop_core
+base:zenith-session | login-to-desktop session lifecycle | workstation_ux
+base:zenith-shell | taskbar, launcher, overview, notifications | workstation_ux
+base:zenith-control-center | settings panels | workstation_ux
+base:zenith-terminal | default terminal application | workstation_ux
+base:zenith-files | default file manager | workstation_ux
+base:zenith-text-editor | default lightweight editor | workstation_ux
+base:flatpak | sandboxed desktop app runtime tooling | flatpak
+base:ostree | content-addressed Flatpak runtime storage | flatpak
+base:xdg-desktop-portal | sandbox permission broker | flatpak
+base:xdg-desktop-portal-zenith | ZenithOS portal implementation | flatpak
+base:wireplumber-compatible-session | audio policy session service | desktop_core
+base:pipewire | audio and screen-capture media graph | desktop_core
+base:cups-client | print client integration | desktop_core
+base:bluez-client-tools | Bluetooth user-space tools | hardware_enablement
+base:network-state-service | network status and configuration API | hardware_enablement
+base:zenith-diagnostics | logs, crash triage, hardware reports | diagnostics
+base:orca-compatible-screen-reader | accessibility screen reader interface | accessibility
+base:at-spi2-core | accessibility bus | accessibility

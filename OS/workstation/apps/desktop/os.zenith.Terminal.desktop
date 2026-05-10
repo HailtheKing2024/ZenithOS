@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Zenith Terminal
+Comment=Use the command line
+Exec=zenith-terminal
+Icon=utilities-terminal
+Terminal=false
+Categories=System;TerminalEmulator;

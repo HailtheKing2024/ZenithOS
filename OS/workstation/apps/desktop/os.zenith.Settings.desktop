@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Zenith Settings
+Comment=Control system and desktop settings
+Exec=zenith-settings
+Icon=preferences-system
+Terminal=false
+Categories=Settings;System;

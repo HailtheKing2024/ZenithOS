@@ -1,0 +1,338 @@
+.zenith-panel-chip {
+    spacing: 6px;
+    padding: 3px 10px;
+    border-radius: 8px;
+    background-color: rgba(17, 25, 39, 0.86);
+    border: 1px solid rgba(131, 245, 219, 0.26);
+}
+
+.zenith-panel-icon {
+    color: #83f5db;
+}
+
+.zenith-panel-title {
+    color: #f4f7f8;
+    font-weight: 700;
+    letter-spacing: 0;
+}
+
+.zenith-system-chip {
+    spacing: 6px;
+    padding: 3px 9px;
+    border-radius: 8px;
+    background-color: rgba(31, 35, 43, 0.9);
+    border: 1px solid rgba(247, 188, 97, 0.24);
+}
+
+.zenith-system-chip-icon {
+    color: #f7bc61;
+}
+
+.zenith-system-chip-label {
+    color: #f4f7f8;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0;
+}
+
+.zenith-dock {
+    spacing: 10px;
+    padding: 8px;
+    border-radius: 8px;
+    background-color: rgba(7, 10, 15, 0.88);
+    border: 1px solid rgba(131, 245, 219, 0.24);
+    box-shadow: 0 16px 42px rgba(0, 0, 0, 0.44);
+}
+
+.zenith-dock-separator {
+    width: 1px;
+    min-height: 48px;
+    background-color: rgba(255, 255, 255, 0.16);
+    margin: 5px 2px;
+}
+
+.zenith-dock-button {
+    min-width: 88px;
+    min-height: 58px;
+    border-radius: 8px;
+    padding: 6px 8px;
+    background-color: rgba(36, 42, 49, 0.88);
+    color: #f4f7f8;
+}
+
+.zenith-dock-button:hover,
+.zenith-dock-button:focus {
+    background-color: rgba(54, 76, 92, 0.96);
+}
+
+.zenith-dock-button-primary {
+    background-color: rgba(74, 167, 138, 0.92);
+}
+
+.zenith-dock-button-content {
+    spacing: 3px;
+}
+
+.zenith-dock-icon {
+    color: #f4f7f8;
+}
+
+.zenith-dock-label {
+    color: #f4f7f8;
+    font-size: 11px;
+    font-weight: 600;
+    text-align: center;
+    letter-spacing: 0;
+}
+
+.zenith-launcher-backdrop {
+    background-color: rgba(3, 6, 10, 0.62);
+}
+
+.zenith-launcher-panel {
+    padding: 22px;
+    border-radius: 8px;
+    background-color: rgba(14, 20, 30, 0.96);
+    border: 1px solid rgba(131, 245, 219, 0.22);
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55);
+}
+
+.zenith-launcher-header {
+    spacing: 18px;
+    padding-bottom: 12px;
+}
+
+.zenith-launcher-title-block {
+    spacing: 4px;
+}
+
+.zenith-launcher-title {
+    color: #f4f7f8;
+    font-size: 42px;
+    font-weight: 800;
+    letter-spacing: 0;
+}
+
+.zenith-launcher-subtitle {
+    color: #83f5db;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0;
+}
+
+.zenith-profile-pill {
+    spacing: 7px;
+    padding: 7px 10px;
+    border-radius: 8px;
+    background-color: rgba(38, 46, 58, 0.95);
+    border: 1px solid rgba(247, 188, 97, 0.24);
+}
+
+.zenith-profile-icon {
+    color: #f7bc61;
+}
+
+.zenith-profile-label {
+    color: #f4f7f8;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0;
+}
+
+.zenith-search-row {
+    min-height: 42px;
+    border-radius: 8px;
+    padding: 8px 12px;
+    margin-bottom: 12px;
+    background-color: rgba(4, 8, 12, 0.54);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.zenith-search-row:hover,
+.zenith-search-row:focus {
+    background-color: rgba(31, 44, 52, 0.94);
+    border-color: rgba(131, 245, 219, 0.32);
+}
+
+.zenith-search-row-content {
+    spacing: 9px;
+}
+
+.zenith-search-icon {
+    color: #83f5db;
+}
+
+.zenith-search-label {
+    color: #dce4e8;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0;
+}
+
+.zenith-quick-actions {
+    spacing: 8px;
+    padding-bottom: 14px;
+}
+
+.zenith-quick-action {
+    min-width: 132px;
+    min-height: 40px;
+    border-radius: 8px;
+    padding: 8px 10px;
+    background-color: rgba(20, 35, 42, 0.94);
+    border: 1px solid rgba(131, 245, 219, 0.18);
+    color: #f4f7f8;
+}
+
+.zenith-quick-action:hover,
+.zenith-quick-action:focus {
+    background-color: rgba(38, 67, 76, 0.98);
+    border-color: rgba(131, 245, 219, 0.38);
+}
+
+.zenith-quick-action-row {
+    spacing: 7px;
+}
+
+.zenith-quick-action-icon {
+    color: #83f5db;
+}
+
+.zenith-quick-action-label {
+    color: #f4f7f8;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0;
+}
+
+.zenith-system-actions {
+    spacing: 8px;
+    padding-bottom: 14px;
+}
+
+.zenith-system-action {
+    min-width: 104px;
+    min-height: 38px;
+    border-radius: 8px;
+    padding: 7px 9px;
+    background-color: rgba(39, 39, 47, 0.94);
+    border: 1px solid rgba(247, 188, 97, 0.18);
+    color: #f4f7f8;
+}
+
+.zenith-system-action:hover,
+.zenith-system-action:focus {
+    background-color: rgba(69, 58, 43, 0.98);
+    border-color: rgba(247, 188, 97, 0.42);
+}
+
+.zenith-system-action-row {
+    spacing: 7px;
+}
+
+.zenith-system-action-icon {
+    color: #f7bc61;
+}
+
+.zenith-system-action-label {
+    color: #f4f7f8;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0;
+}
+
+.zenith-section-title {
+    color: #dce4e8;
+    font-size: 13px;
+    font-weight: 800;
+    padding-bottom: 7px;
+    letter-spacing: 0;
+}
+
+.zenith-tasks-group {
+    spacing: 6px;
+    padding-bottom: 14px;
+}
+
+.zenith-tasks-list {
+    spacing: 7px;
+}
+
+.zenith-task-row {
+    min-height: 38px;
+    border-radius: 8px;
+    padding: 7px 9px;
+    background-color: rgba(27, 31, 38, 0.92);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.zenith-task-row:hover,
+.zenith-task-row:focus {
+    background-color: rgba(45, 62, 76, 0.98);
+    border-color: rgba(131, 245, 219, 0.3);
+}
+
+.zenith-task-row-content {
+    spacing: 9px;
+}
+
+.zenith-task-icon {
+    color: #83f5db;
+}
+
+.zenith-task-title {
+    color: #f4f7f8;
+    font-size: 12px;
+    font-weight: 650;
+    letter-spacing: 0;
+}
+
+.zenith-task-empty {
+    color: #9ba9b2;
+    font-size: 12px;
+    padding: 8px 10px;
+    letter-spacing: 0;
+}
+
+.zenith-launcher-grid {
+    spacing: 10px;
+}
+
+.zenith-launcher-card {
+    min-height: 58px;
+    border-radius: 8px;
+    padding: 9px;
+    background-color: rgba(36, 42, 49, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.zenith-launcher-card:hover,
+.zenith-launcher-card:focus {
+    background-color: rgba(45, 62, 76, 0.98);
+    border-color: rgba(131, 245, 219, 0.34);
+}
+
+.zenith-launcher-card-row {
+    spacing: 14px;
+}
+
+.zenith-launcher-card-icon {
+    color: #83f5db;
+}
+
+.zenith-launcher-card-copy {
+    spacing: 3px;
+}
+
+.zenith-launcher-card-title {
+    color: #f4f7f8;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0;
+}
+
+.zenith-launcher-card-subtitle {
+    color: #b8c3cc;
+    font-size: 11px;
+    letter-spacing: 0;
+}

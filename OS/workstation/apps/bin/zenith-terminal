@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+exec python3 /usr/share/zenith/apps/zenith_terminal/main.py "$@"

@@ -1,0 +1,34 @@
+#!/bin/sh
+set +e
+
+out=/run/zenithos-boot-report.log
+
+{
+    echo "=== ZenithOS boot report ==="
+    date -u
+    echo "hostname: $(hostname)"
+    echo
+    echo "-- system state --"
+    systemctl is-system-running || true
+    systemctl get-default || true
+    systemctl is-active display-manager.service gdm3.service || true
+    echo
+    echo "-- boot timing --"
+    systemd-analyze time || true
+    systemd-analyze blame | head -30 || true
+    echo
+    echo "-- critical chain --"
+    systemd-analyze critical-chain graphical.target || true
+    echo
+    echo "-- display services --"
+    systemctl --no-pager --plain status display-manager.service gdm3.service zenith-plymouth-handoff.service || true
+    echo
+    echo "-- display journal --"
+    journalctl -b --no-pager -u display-manager.service -u gdm3.service -u zenith-plymouth-handoff.service -n 80 || true
+} > "$out" 2>&1
+
+if [ -c /dev/ttyS0 ]; then
+    cat "$out" > /dev/ttyS0
+fi
+
+exit 0

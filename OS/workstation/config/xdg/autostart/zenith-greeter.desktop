@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Zenith Greeter
+Exec=/usr/lib/zenith/zenith-greeter
+OnlyShowIn=GNOME;
+NoDisplay=true
+X-GNOME-Autostart-enabled=true

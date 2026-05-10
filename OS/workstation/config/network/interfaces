@@ -1,0 +1,5 @@
+# Minimal early-boot networking file for Debian live-boot.
+# NetworkManager owns real interfaces once the graphical session starts.
+
+auto lo
+iface lo inet loopback

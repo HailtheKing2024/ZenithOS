@@ -1,0 +1,14 @@
+.git/
+build/
+!build/workstation/apt-repo/
+__pycache__/
+*.pyc
+*.iso
+*.img
+*.qcow2
+*.raw
+*.elf
+*.o
+*.d
+*.log
+edk2-*.fd

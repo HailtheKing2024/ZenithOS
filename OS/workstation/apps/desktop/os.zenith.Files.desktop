@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Zenith Files
+Comment=Browse files and mounted volumes
+Exec=zenith-files
+Icon=system-file-manager
+Terminal=false
+Categories=Utility;FileManager;

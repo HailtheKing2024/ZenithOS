@@ -1,0 +1,10 @@
+[Unit]
+Description=ZenithOS first boot marker
+After=graphical.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/touch /run/zenithos-graphical-boot
+
+[Install]
+WantedBy=graphical.target

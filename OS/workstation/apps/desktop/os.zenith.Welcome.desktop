@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Welcome
+Comment=Start using ZenithOS
+Exec=zenith-welcome
+Icon=help-about
+Terminal=false
+Categories=GNOME;GTK;System;

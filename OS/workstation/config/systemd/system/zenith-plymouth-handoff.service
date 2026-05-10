@@ -1,0 +1,14 @@
+[Unit]
+Description=ZenithOS Plymouth to display manager handoff
+DefaultDependencies=no
+After=plymouth-start.service systemd-user-sessions.service
+Before=display-manager.service gdm3.service
+ConditionPathExists=/run/plymouth/pid
+
+[Service]
+Type=oneshot
+ExecStart=-/usr/bin/plymouth quit
+TimeoutSec=5
+
+[Install]
+WantedBy=graphical.target

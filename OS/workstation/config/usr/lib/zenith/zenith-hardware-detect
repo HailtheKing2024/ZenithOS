@@ -1,0 +1,207 @@
+#!/bin/sh
+set -u
+
+profile_dir=/usr/share/zenith/hardware-profiles
+config_file=/etc/zenith/hardware-profile
+run_dir=/run/zenith
+profile_file="$run_dir/hardware-profile"
+env_file="$run_dir/hardware-profile.env"
+
+log() {
+    printf '%s\n' "zenith-hardware-detect: $*"
+}
+
+read_first_line() {
+    path="$1"
+    if [ -r "$path" ]; then
+        IFS= read -r line < "$path" || line=
+        printf '%s' "$line"
+    fi
+}
+
+lower() {
+    printf '%s' "$*" | tr '[:upper:]' '[:lower:]'
+}
+
+contains() {
+    haystack="$1"
+    needle="$2"
+    case "$haystack" in
+        *"$needle"*) return 0 ;;
+        *) return 1 ;;
+    esac
+}
+
+valid_profile_id() {
+    id="$1"
+    case "$id" in
+        ''|*[!A-Za-z0-9._-]*) return 1 ;;
+        *) return 0 ;;
+    esac
+}
+
+profile_exists() {
+    id="$1"
+    valid_profile_id "$id" && [ -f "$profile_dir/$id.profile" ]
+}
+
+cmdline_profile() {
+    if [ ! -r /proc/cmdline ]; then
+        return 1
+    fi
+
+    for arg in $(cat /proc/cmdline); do
+        case "$arg" in
+            zenith.profile=*)
+                printf '%s' "${arg#zenith.profile=}"
+                return 0
+                ;;
+        esac
+    done
+    return 1
+}
+
+config_profile() {
+    if [ ! -r "$config_file" ]; then
+        return 1
+    fi
+
+    while IFS= read -r raw || [ -n "$raw" ]; do
+        raw="${raw%%#*}"
+        id="$(printf '%s' "$raw" | tr -d '[:space:]')"
+        if [ -n "$id" ]; then
+            printf '%s' "$id"
+            return 0
+        fi
+    done < "$config_file"
+    return 1
+}
+
+has_pci_vendor() {
+    vendor="$1"
+    for path in /sys/bus/pci/devices/*/vendor; do
+        [ -r "$path" ] || continue
+        if [ "$(read_first_line "$path")" = "$vendor" ]; then
+            return 0
+        fi
+    done
+    return 1
+}
+
+detect_profile() {
+    sys_vendor="$(lower "$(read_first_line /sys/class/dmi/id/sys_vendor)")"
+    product_name="$(lower "$(read_first_line /sys/class/dmi/id/product_name)")"
+    product_version="$(lower "$(read_first_line /sys/class/dmi/id/product_version)")"
+    board_name="$(lower "$(read_first_line /sys/class/dmi/id/board_name)")"
+    board_vendor="$(lower "$(read_first_line /sys/class/dmi/id/board_vendor)")"
+    cpu_model="$(lower "$(grep -m1 '^model name' /proc/cpuinfo 2>/dev/null || true)")"
+    dmi="$sys_vendor $product_name $product_version $board_name $board_vendor"
+
+    if contains "$dmi" "qemu" ||
+        contains "$dmi" "kvm" ||
+        contains "$dmi" "bochs" ||
+        contains "$dmi" "vmware" ||
+        contains "$dmi" "virtualbox" ||
+        contains "$dmi" "hyper-v" ||
+        contains "$dmi" "microsoft corporation" ||
+        has_pci_vendor "0x1af4"; then
+        printf '%s\n%s' "dev-vm" "virtual hardware detected from DMI or virtio PCI"
+        return 0
+    fi
+
+    if contains "$dmi" "lenovo" &&
+        { contains "$dmi" "v14" || contains "$dmi" "ada"; } &&
+        { contains "$cpu_model" "amd" || has_pci_vendor "0x1002"; }; then
+        printf '%s\n%s' "lenovo-v14-ada" "Lenovo V14/ADA AMD hardware detected from DMI and CPU/PCI"
+        return 0
+    fi
+
+    printf '%s\n%s' "generic-workstation" "no specific hardware profile matched"
+}
+
+shell_quote() {
+    printf "'%s'" "$(printf '%s' "$1" | sed "s/'/'\\\\''/g")"
+}
+
+env_line() {
+    key="$1"
+    value="$2"
+    printf '%s=%s\n' "$key" "$(shell_quote "$value")"
+}
+
+load_profile_field() {
+    key="$1"
+    file="$2"
+    value="$(sed -n "s/^$key=//p" "$file" | head -n1)"
+    value="${value%\"}"
+    value="${value#\"}"
+    printf '%s' "$value"
+}
+
+select_profile() {
+    requested="$(cmdline_profile || true)"
+    if [ -n "$requested" ]; then
+        if profile_exists "$requested"; then
+            printf '%s\n%s\n%s' "$requested" "kernel-command-line" "zenith.profile=$requested"
+            return 0
+        fi
+        log "ignoring unknown kernel profile '$requested'"
+    fi
+
+    requested="$(config_profile || true)"
+    if [ -n "$requested" ]; then
+        if profile_exists "$requested"; then
+            printf '%s\n%s\n%s' "$requested" "etc-config" "$config_file"
+            return 0
+        fi
+        log "ignoring unknown configured profile '$requested'"
+    fi
+
+    detected="$(detect_profile)"
+    id="$(printf '%s\n' "$detected" | sed -n '1p')"
+    reason="$(printf '%s\n' "$detected" | sed -n '2p')"
+    if profile_exists "$id"; then
+        printf '%s\n%s\n%s' "$id" "automatic" "$reason"
+        return 0
+    fi
+
+    printf '%s\n%s\n%s' "generic-workstation" "fallback" "automatic detection produced no installable profile"
+}
+
+main() {
+    mkdir -p "$run_dir"
+
+    selection="$(select_profile)"
+    id="$(printf '%s\n' "$selection" | sed -n '1p')"
+    source="$(printf '%s\n' "$selection" | sed -n '2p')"
+    reason="$(printf '%s\n' "$selection" | sed -n '3p')"
+    manifest="$profile_dir/$id.profile"
+
+    name="$(load_profile_field NAME "$manifest")"
+    class="$(load_profile_field CLASS "$manifest")"
+    graphics="$(load_profile_field GRAPHICS_STACK "$manifest")"
+    input="$(load_profile_field INPUT_STACK "$manifest")"
+    network="$(load_profile_field NETWORK_STACK "$manifest")"
+    power="$(load_profile_field POWER_POLICY "$manifest")"
+    boot="$(load_profile_field BOOT_POLICY "$manifest")"
+    notes="$(load_profile_field NOTES "$manifest")"
+
+    printf '%s\n' "$id" > "$profile_file"
+    {
+        env_line ZENITH_PROFILE_ID "$id"
+        env_line ZENITH_PROFILE_NAME "$name"
+        env_line ZENITH_PROFILE_CLASS "$class"
+        env_line ZENITH_PROFILE_SOURCE "$source"
+        env_line ZENITH_PROFILE_REASON "$reason"
+        env_line ZENITH_PROFILE_GRAPHICS_STACK "$graphics"
+        env_line ZENITH_PROFILE_INPUT_STACK "$input"
+        env_line ZENITH_PROFILE_NETWORK_STACK "$network"
+        env_line ZENITH_PROFILE_POWER_POLICY "$power"
+        env_line ZENITH_PROFILE_BOOT_POLICY "$boot"
+        env_line ZENITH_PROFILE_NOTES "$notes"
+    } > "$env_file"
+
+    log "selected $id via $source: $reason"
+}
+
+main "$@"

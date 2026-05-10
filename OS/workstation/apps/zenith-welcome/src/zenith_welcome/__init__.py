@@ -1,0 +1,1 @@
+"""ZenithOS welcome app."""

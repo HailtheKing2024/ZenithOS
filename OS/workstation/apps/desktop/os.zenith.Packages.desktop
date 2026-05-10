@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Zenith Packages
+Comment=Install updates and manage apps
+Exec=zenith-packages
+Icon=system-software-install
+Terminal=false
+Categories=System;PackageManager;

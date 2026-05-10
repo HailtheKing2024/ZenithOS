@@ -1,0 +1,10 @@
+ID=dev-vm
+NAME="ZenithOS Development VM"
+CLASS=virtual
+DESCRIPTION="QEMU, KVM, WHPX, Hyper-V, VMware, and VirtualBox development profile."
+GRAPHICS_STACK=virtio-gpu
+INPUT_STACK=usb-tablet
+NETWORK_STACK=virtio-net
+POWER_POLICY=balanced
+BOOT_POLICY=fast-direct
+NOTES="Use this profile for seed ISO development, fast boot validation, and virtual hardware."
