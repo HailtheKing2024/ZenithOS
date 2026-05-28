@@ -51,12 +51,48 @@ run_rootfs() {
     require_command rsync
     require_command sudo
 
+    # Ensure signing key is available for the apt repo
+    if [[ -z "$ZENITH_APT_SIGNING_KEY" ]]; then
+        if [ -f "/etc/zenith/keys/build-signing-key.gpg" ]; then
+            # Import secret key to ensure it's available in the current keyring
+            gpg --batch --import-secret-keys "/etc/zenith/keys/build-signing-key.gpg" >/dev/null 2>&1 || true
+            # Extract key ID from the imported key
+            export ZENITH_APT_SIGNING_KEY="$(gpg --batch --list-secret-keys --with-colons "Zenith Build" | awk -F: '/^sec/ {print $5}' | head -n1)"
+            if [[ -z "$ZENITH_APT_SIGNING_KEY" ]]; then
+                export ZENITH_APT_SIGNING_KEY="/etc/zenith/keys/build-signing-key.gpg"
+            fi
+        else
+            echo "No GPG signing key found. Generating a temporary build key..."
+            sudo mkdir -p /etc/zenith/keys
+
+            batch_file=$(mktemp)
+            cat > "$batch_file" <<EOF
+Key-Type: RSA
+Key-Length: 2048
+Name: Zenith Build
+Passphrase:
+%no-check-gpgfile-mode
+%commit
+EOF
+            temp_gnupg=$(mktemp -d)
+            GNUPGHOME="$temp_gnupg" gpg --batch --generate-key "$batch_file" >/dev/null 2>&1
+            GNUPGHOME="$temp_gnupg" gpg --batch --export-secret-keys "Zenith Build" | sudo tee /etc/zenith/keys/build-signing-key.gpg > /dev/null
+
+            export ZENITH_APT_SIGNING_KEY="$(GNUPGHOME="$temp_gnupg" gpg --batch --list-secret-keys --with-colons | awk -F: '/^sec/ {print $5}' | head -n1)"
+
+            gpg --batch --import-secret-keys /etc/zenith/keys/build-signing-key.gpg >/dev/null 2>&1 || true
+
+            rm -rf "$batch_file" "$temp_gnupg"
+        fi
+    fi
+
     local output="$output_root/rootfs-$timestamp"
     mkdir -p "$output_root"
     run_check
     bash "$repo/workstation/iso/build-rootfs.sh" "$output"
     echo "$output" > "$output_root/latest-rootfs.path"
     echo "self-hosted rootfs: $output"
+
 }
 
 run_iso() {

@@ -131,6 +131,47 @@ uint64_t z_close(uint64_t fd)
     return z_syscall6(ZENITH_SYSCALL_CLOSE, fd, 0, 0, 0, 0, 0);
 }
 
+uint64_t z_pipe(uint64_t *fds)
+{
+    return z_syscall6(ZENITH_SYSCALL_PIPE, (uint64_t)(uintptr_t)fds, 0, 0, 0, 0, 0);
+}
+
+uint64_t z_dup2(uint64_t old_fd, uint64_t new_fd)
+{
+    return z_syscall6(ZENITH_SYSCALL_DUP2, old_fd, new_fd, 0, 0, 0, 0);
+}
+
+uint64_t z_getpid(void)
+{
+    return z_syscall6(ZENITH_SYSCALL_GETPID, 0, 0, 0, 0, 0, 0);
+}
+
+uint64_t z_getppid(void)
+{
+    return z_syscall6(ZENITH_SYSCALL_GETPPID, 0, 0, 0, 0, 0, 0);
+}
+
+uint64_t z_reboot(void)
+{
+    return z_syscall6(ZENITH_SYSCALL_REBOOT, 0, 0, 0, 0, 0, 0);
+}
+
+uint64_t z_chdir(const char *path)
+{
+    return z_syscall6(ZENITH_SYSCALL_CHDIR, (uint64_t)(uintptr_t)path, 0, 0, 0, 0, 0);
+}
+
+uint64_t z_getcwd(char *dest, uint64_t max_size)
+{
+    return z_syscall6(ZENITH_SYSCALL_GETCWD,
+                      (uint64_t)(uintptr_t)dest,
+                      max_size,
+                      0,
+                      0,
+                      0,
+                      0);
+}
+
 uint64_t z_strlen(const char *value)
 {
     uint64_t length = 0;

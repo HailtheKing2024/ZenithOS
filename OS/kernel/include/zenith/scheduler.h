@@ -33,6 +33,7 @@ struct interrupt_frame *scheduler_exec_current_from_frame(struct interrupt_frame
                                                           uint64_t arg1);
 uint64_t scheduler_ticks(void);
 uint64_t scheduler_current_task_id(void);
+uint64_t scheduler_current_parent_id(void);
 const char *scheduler_current_task_name(void);
 struct vmm_address_space scheduler_current_address_space(void);
 void scheduler_block_current(uint64_t wait_channel);

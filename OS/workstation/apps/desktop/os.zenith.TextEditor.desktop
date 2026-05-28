@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Zenith Text Editor
+Comment=A simple text editor
+Exec=zenith-text-editor %U
+Icon=text-editor
+Terminal=false
+Categories=Utility;TextEditor;
+MimeType=text/plain;

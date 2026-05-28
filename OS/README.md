@@ -121,6 +121,13 @@ mingw32-make workstation-run-seed-iso
 mingw32-make workstation-run-seed-splash
 ```
 
+Run bounded non-interactive QEMU smoke checks:
+
+```powershell
+mingw32-make workstation-smoke-seed
+mingw32-make workstation-smoke-seed-persistent
+```
+
 Create and boot a persistent dev VM disk:
 
 ```powershell
@@ -153,6 +160,8 @@ Kernel Lab compatibility.
   switcher, hardware-profile chip, and system controls.
 - Zenith Installer now performs non-destructive install readiness checks and
   shows the planned EFI plus Btrfs layout.
+- Beta 2 release hygiene adds changelog, known issues, release notes, ISO
+  SHA256 generation, and `/etc/os-release` version stamping.
 - Kernel Lab preserved without deleting the prototype.
 - Package, Flatpak, GNOME-internals, and storage policies live under
   `workstation/`.

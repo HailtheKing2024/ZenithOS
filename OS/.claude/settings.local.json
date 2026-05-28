@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python *)",
+      "Bash(bash -n workstation/selfhost/zenith-build.sh)",
+      "Bash(bash -n workstation/iso/build-rootfs.sh)",
+      "Bash(bash -n workstation/iso/build-live-iso.sh)",
+      "Bash(bash -n workstation/iso/rebuild-current-seed.sh)",
+      "Bash(bash -n workstation/distro/build-zenith-packages.sh)",
+      "Bash(mingw32-make workstation-smoke-seed *)",
+      "Bash(C:/msys64/usr/bin/xorriso.exe *)",
+      "WebFetch(domain:github.com)",
+      "Bash(dir workstation/apps/zenith-calculator /s /b)",
+      "Bash(mingw32-make workstation-rootfs-wsl *)"
+    ]
+  }
+}

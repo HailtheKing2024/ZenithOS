@@ -9,6 +9,7 @@ dependencies = [
 
 [project.scripts]
 zenith-packages = "zenith_packages.main:main"
+zpkg = "zenith_packages.zpkg:main"
 
 [build-system]
 requires = ["setuptools>=68"]

@@ -8,6 +8,7 @@ enum {
     TOP_BAR_H = 42,
     MAX_WINDOWS = 6,
     MAX_LINES = 12,
+    SESSION_HISTORY_MAX = 8,
     TITLE_H = 36,
     MODE_NORMAL = 0,
     MODE_OVERVIEW = 1
@@ -39,6 +40,9 @@ struct session_state {
     uint64_t cursor_y;
     uint64_t mouse_buttons;
     uint64_t mode;
+    uint64_t terminal_history_count;
+    uint64_t terminal_history_next;
+    char terminal_history[SESSION_HISTORY_MAX][Z_UI_TEXT_CAP];
     char status[Z_UI_TEXT_CAP];
 };
 
@@ -81,6 +85,85 @@ static void copy_text(char *dest, uint64_t dest_size, const char *src)
 static void set_status(struct session_state *state, const char *text)
 {
     copy_text(state->status, sizeof(state->status), text);
+}
+
+static uint64_t string_length(const char *value)
+{
+    uint64_t length = 0;
+
+    while (value[length] != '\0') {
+        length++;
+    }
+
+    return length;
+}
+
+static bool string_starts_with(const char *value, const char *prefix)
+{
+    while (*prefix != '\0') {
+        if (*value++ != *prefix++) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+static void append_text(char *dest, uint64_t dest_size, const char *src)
+{
+    uint64_t length = string_length(dest);
+    uint64_t index = 0;
+
+    while (length + 1 < dest_size && src[index] != '\0') {
+        dest[length++] = src[index++];
+    }
+
+    dest[length] = '\0';
+}
+
+static uint64_t terminal_history_slot(const struct session_state *state, uint64_t view)
+{
+    uint64_t first = state->terminal_history_count < SESSION_HISTORY_MAX ?
+        0 :
+        state->terminal_history_next;
+
+    return (first + view) % SESSION_HISTORY_MAX;
+}
+
+static void terminal_history_add(struct session_state *state, const char *line)
+{
+    if (line[0] == '\0') {
+        return;
+    }
+
+    copy_text(state->terminal_history[state->terminal_history_next],
+              sizeof(state->terminal_history[state->terminal_history_next]),
+              line);
+    state->terminal_history_next = (state->terminal_history_next + 1) % SESSION_HISTORY_MAX;
+    if (state->terminal_history_count < SESSION_HISTORY_MAX) {
+        state->terminal_history_count++;
+    }
+}
+
+static void send_history_line(uint64_t target, const char *line)
+{
+    char payload[Z_UI_TEXT_CAP];
+
+    copy_text(payload, sizeof(payload), "HIST ");
+    append_text(payload, sizeof(payload), line);
+    (void)z_ui_send(Z_UI_MSG_COMMAND,
+                    target,
+                    Z_UI_CMD_BRIDGE_DATA,
+                    0,
+                    string_length(payload),
+                    payload);
+}
+
+static void send_terminal_history(struct session_state *state, uint64_t target)
+{
+    for (uint64_t i = 0; i < state->terminal_history_count; i++) {
+        send_history_line(target, state->terminal_history[terminal_history_slot(state, i)]);
+    }
 }
 
 static int64_t sign_extend16(uint64_t value)
@@ -242,6 +325,21 @@ static void handle_command(struct session_state *state, const struct z_ui_messag
         set_status(state, "OVERVIEW");
     } else if (message->a == Z_UI_CMD_NOTIFY) {
         set_status(state, message->text);
+    } else if (message->a == Z_UI_CMD_BRIDGE_DATA) {
+        if (string_starts_with(message->text, "BRG SETTINGS")) {
+            focus_role(state, Z_UI_ROLE_SETTINGS);
+        } else if (string_starts_with(message->text, "BRG OVERVIEW")) {
+            state->mode = MODE_OVERVIEW;
+            set_status(state, "OVERVIEW");
+        } else if (string_starts_with(message->text, "BRG HIST_LOAD")) {
+            send_terminal_history(state, message->source);
+            set_status(state, "HISTORY LOADED");
+        } else if (string_starts_with(message->text, "BRG HIST_PUSH ")) {
+            terminal_history_add(state, message->text + 14);
+            set_status(state, "HISTORY SAVED");
+        } else {
+            set_status(state, message->text);
+        }
     }
 }
 
@@ -535,6 +633,12 @@ static void handle_mouse(struct session_state *state, uint64_t code, uint64_t ra
 static void handle_key(struct session_state *state, uint64_t key)
 {
     if (key == '\t') {
+        if (state->focus != FOCUS_NONE &&
+            state->focus < MAX_WINDOWS &&
+            state->windows[state->focus].role == Z_UI_ROLE_TERMINAL) {
+            send_key_to_focused(state, key);
+            return;
+        }
         focus_next_window(state);
         return;
     }
@@ -581,6 +685,8 @@ static void init_state(struct session_state *state)
     state->cursor_y = 180;
     state->mouse_buttons = 0;
     state->mode = MODE_NORMAL;
+    state->terminal_history_count = 0;
+    state->terminal_history_next = 0;
     set_status(state, "SESSION READY");
 }
 

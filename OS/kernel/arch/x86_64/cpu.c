@@ -3,6 +3,8 @@
 #include "zenith/compiler.h"
 #include "zenith/serial.h"
 
+#include "io.h"
+
 #include <stddef.h>
 #include <stdint.h>
 
@@ -131,4 +133,22 @@ void x86_64_set_kernel_stack(uint64_t stack_top)
 {
     tss.rsp0 = stack_top;
     x86_64_syscall_kernel_stack_top = stack_top;
+}
+
+ZENITH_NORETURN void x86_64_reboot(void)
+{
+    serial_write("[cpu] reboot requested\n");
+    __asm__ volatile ("cli");
+
+    for (uint64_t timeout = 0; timeout < 100000; timeout++) {
+        if ((inb(0x64) & 0x02) == 0) {
+            break;
+        }
+        io_wait();
+    }
+
+    outb(0x64, 0xfe);
+    for (;;) {
+        __asm__ volatile ("hlt");
+    }
 }

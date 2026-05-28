@@ -71,6 +71,10 @@ def lsblk_devices():
     return [item for item in data.get("blockdevices", []) if item.get("type") == "disk"]
 
 
+def device_path(device):
+    return device.get("path") or f"/dev/{device.get('name', '?')}"
+
+
 def format_size(size):
     try:
         size = int(size)
@@ -80,7 +84,7 @@ def format_size(size):
     return f"{gib:.1f} GiB"
 
 
-def disk_validation(device):
+def disk_issues(device):
     reasons = []
     size = int(device.get("size") or 0)
     mountpoints = [item for item in device.get("mountpoints") or [] if item]
@@ -92,15 +96,70 @@ def disk_validation(device):
         reasons.append("removable")
     if mountpoints:
         reasons.append("mounted")
+    path = device_path(device)
+    if path in ["/dev/sr0", "/dev/fd0"] or path.startswith("/dev/loop"):
+        reasons.append("not an install target")
+    return reasons
+
+
+def disk_validation(device):
+    reasons = disk_issues(device)
     if not reasons:
         return "Candidate: passes non-destructive readiness checks"
     return "Locked: " + ", ".join(reasons)
+
+
+def partition_path(disk, number):
+    if disk.startswith("/dev/nvme") or disk.startswith("/dev/mmcblk") or disk.startswith("/dev/loop"):
+        return f"{disk}p{number}"
+    return f"{disk}{number}"
+
+
+def install_plan_for_disk(disk):
+    efi = partition_path(disk, 1)
+    root = partition_path(disk, 2)
+    return "\n".join([
+        "# ZenithOS installer dry-run plan",
+        "# Destructive commands are intentionally printed only.",
+        f"TARGET={disk}",
+        f"EFI_PARTITION={efi}",
+        f"ROOT_PARTITION={root}",
+        "",
+        "parted \"$TARGET\" --script mklabel gpt",
+        "parted \"$TARGET\" --script mkpart ESP fat32 1MiB 513MiB",
+        "parted \"$TARGET\" --script set 1 esp on",
+        "parted \"$TARGET\" --script mkpart zenith-root btrfs 513MiB 100%",
+        "mkfs.vfat -F32 \"$EFI_PARTITION\"",
+        "mkfs.btrfs -f -L ZenithOS \"$ROOT_PARTITION\"",
+        "mount \"$ROOT_PARTITION\" /mnt",
+        "btrfs subvolume create /mnt/@",
+        "btrfs subvolume create /mnt/@home",
+        "btrfs subvolume create /mnt/@var",
+        "btrfs subvolume create /mnt/@snapshots",
+        "umount /mnt",
+        "mount -o subvol=@,compress=zstd,noatime \"$ROOT_PARTITION\" /mnt",
+        "mkdir -p /mnt/{boot/efi,home,var,.snapshots}",
+        "mount \"$EFI_PARTITION\" /mnt/boot/efi",
+        "mount -o subvol=@home,compress=zstd,noatime \"$ROOT_PARTITION\" /mnt/home",
+        "mount -o subvol=@var,compress=zstd,noatime \"$ROOT_PARTITION\" /mnt/var",
+        "mount -o subvol=@snapshots,compress=zstd,noatime \"$ROOT_PARTITION\" /mnt/.snapshots",
+        "rsync -aAXH --exclude=/dev/* --exclude=/proc/* --exclude=/sys/* --exclude=/run/* --exclude=/tmp/* --exclude=/mnt/* / /mnt/",
+        "grub-install --target=x86_64-efi --efi-directory=/mnt/boot/efi --bootloader-id=ZenithOS --recheck",
+        "chroot /mnt update-initramfs -u",
+        "chroot /mnt update-grub",
+    ])
 
 
 class InstallerWindow(Adw.ApplicationWindow):
     def __init__(self, app):
         super().__init__(application=app, title="Zenith Installer")
         self.set_default_size(900, 640)
+        self.devices = lsblk_devices()
+        self.selected_disk = None
+        for device in self.devices:
+            if not disk_issues(device):
+                self.selected_disk = device_path(device)
+                break
 
         toolbar = Adw.ToolbarView()
         header = Adw.HeaderBar()
@@ -139,19 +198,31 @@ class InstallerWindow(Adw.ApplicationWindow):
         page.add(tools)
 
         disks = Adw.PreferencesGroup(title="Detected Disks")
-        devices = lsblk_devices()
-        if not devices:
+        if not self.devices:
             disks.add(Adw.ActionRow(title="No disks listed", subtitle="lsblk did not report installable disks"))
-        for device in devices:
-            title = device.get("path") or f"/dev/{device.get('name', '?')}"
+        for device in self.devices:
+            title = device_path(device)
             subtitle = " | ".join(part for part in [
                 format_size(device.get("size")),
                 device.get("model", ""),
                 device.get("tran", ""),
                 disk_validation(device),
             ] if part)
-            disks.add(Adw.ActionRow(title=title, subtitle=subtitle))
+            row = Adw.ActionRow(title=title, subtitle=subtitle)
+            button = Gtk.Button(label="Select")
+            button.set_sensitive(not disk_issues(device))
+            button.connect("clicked", self._select_disk, title)
+            row.add_suffix(button)
+            row.set_activatable_widget(button)
+            disks.add(row)
         page.add(disks)
+
+        selected = Adw.PreferencesGroup(title="Selected Target")
+        if self.selected_disk:
+            selected.add(Adw.ActionRow(title=self.selected_disk, subtitle="Ready for dry-run plan generation; destructive install remains locked"))
+        else:
+            selected.add(Adw.ActionRow(title="No disk selected", subtitle="No detected disk currently passes the non-destructive install target checks"))
+        page.add(selected)
 
         actions = Adw.PreferencesGroup(title="Actions")
         actions.add(self._terminal_row(
@@ -160,21 +231,37 @@ class InstallerWindow(Adw.ApplicationWindow):
             "echo 'ZenithOS install readiness'; echo; cat /proc/cmdline; echo; cat /run/zenith/hardware-profile.env 2>/dev/null || true; echo; lsblk -o NAME,PATH,SIZE,TYPE,FSTYPE,MODEL,MOUNTPOINTS; echo; for c in parted sgdisk mkfs.btrfs grub-install efibootmgr rsync update-initramfs; do command -v $c >/dev/null && echo OK $c || echo MISSING $c; done; exec bash",
         ))
         actions.add(self._terminal_row(
-            "Btrfs layout preview",
-            "Print the planned partition and subvolume commands without running them",
-            "cat <<'PLAN'\nparted TARGET --script mklabel gpt\nparted TARGET --script mkpart ESP fat32 1MiB 513MiB\nparted TARGET --script set 1 esp on\nparted TARGET --script mkpart zenith-root btrfs 513MiB 100%\nmkfs.vfat -F32 TARGET1\nmkfs.btrfs -L ZenithOS TARGET2\nmount TARGET2 /mnt\nbtrfs subvolume create /mnt/@\nbtrfs subvolume create /mnt/@home\nbtrfs subvolume create /mnt/@var\nbtrfs subvolume create /mnt/@snapshots\nPLAN\nexec bash",
+            "Dry-run install plan",
+            "Print the selected disk's EFI and Btrfs install plan without running it",
+            self._dry_run_command(),
         ))
         row = Adw.ActionRow(
             title="Install to disk",
-            subtitle="Locked until destructive install policy, confirmation UI, and rollback plan are implemented",
+            subtitle="Locked until typed confirmation and final rollback policy are implemented",
         )
-        button = Gtk.Button(label="Locked")
+        button = Gtk.Button(label="Requires typed confirmation")
         button.set_sensitive(False)
         row.add_suffix(button)
         actions.add(row)
         page.add(actions)
 
         return scroller
+
+    def _select_disk(self, _button, disk):
+        self.selected_disk = disk
+        self.set_content(None)
+        toolbar = Adw.ToolbarView()
+        header = Adw.HeaderBar()
+        header.set_title_widget(Adw.WindowTitle(title="Installer", subtitle=f"Selected {disk}"))
+        toolbar.add_top_bar(header)
+        toolbar.set_content(self._build_content())
+        self.set_content(toolbar)
+
+    def _dry_run_command(self):
+        disk = self.selected_disk or "NO_VALID_TARGET"
+        plan = install_plan_for_disk(disk)
+        escaped = plan.replace("'", "'\"'\"'")
+        return f"printf '%s\\n' '{escaped}'; exec bash"
 
     def _terminal_row(self, title, subtitle, command):
         row = Adw.ActionRow(title=title, subtitle=subtitle)

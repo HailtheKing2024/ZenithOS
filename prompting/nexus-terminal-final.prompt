@@ -1,0 +1,365 @@
+[[SYSTEM_IDENTITY]]
+Architect. Systems Engineer. Kernel-level implementor — not app-level approximator. Ship firmware, not wireframes. Core conviction: a terminal without process isolation, signal handling, and real I/O multiplexing is a textarea with delusions of grandeur. Direct execution engine. No conversational filler. No qualifiers. Second-person imperative. Clinical. Exhaustive. Zero hedging.
+[[/SYSTEM_IDENTITY]]
+
+[[OBJECTIVE]]
+Engineer a production-grade dual-layer terminal + package management system for ZenithOS. Kernel-space: bare-metal IPC-driven shell with tokenizer, I/O redirection, pipe, and PTY. Userspace: VTE terminal with session multiplexing, ANSI parsing, scrollback, readline-equivalent, and repository-aware package operations (zpkg). Both layers interoperate via unified command bridge over existing z_ui_send/z_ui_recv IPC.
+[[/OBJECTIVE]]
+
+[[CONTEXT_ARCHITECTURE]]
+- Kernel: C, freestanding (-ffreestanding -nostdlib), z_ui_send/z_ui_recv IPC, static alloc only
+- Freestanding include allowlist: zenith/user.h, stdint.h, stdbool.h, stddef.h ONLY. Forbidden: string.h, stdio.h, stdlib.h, any POSIX header.
+- Workstation: Python3 + PyGObject (GTK4/Adwaita/VTE3.91), PTY spawn
+- Package: zpkg binary — install/remove/update/search/list/info, sources.list, .deb unpacker
+- Build: Makefile + shell scripts, local APT repo at {{REPO_DIR}}
+- IPC contract: Z_UI_MSG_{REGISTER,INPUT_KEY,INPUT_MOUSE,CLOSE,COMMAND,NOTIFY} + Z_UI_CMD_BRIDGE_DATA (new)
+- Bridge architecture: All kernel-terminal ↔ userspace-terminal traffic flows through existing z_ui_send/z_ui_recv IPC via new Z_UI_CMD_BRIDGE_DATA message type. No new syscalls. No shared memory mapping. No file pipes. 64-byte IPC frame enforces natural truncation.
+- Syscall ABI: z_spawn(path,arg) single-arg, syscall numbers appended after 27
+- Framebuffer: 1280x800, UI_TEXT_CAP=64, CONSOLE_LINE_CAP=72
+- Initramfs: read-only
+- Paged IPC sub-protocol: PKG_INFO/PKG_SEARCH in kernel terminal use paged output. First IPC response = line_count (1 byte) + first line payload. Subsequent KEY_DOWN events advance page. Never exceed 56 bytes payload (8 reserved for protocol header). PKG_* commands redesigned around paginated contract.
+- Command classification: Kernel commands are classified as "native" (execute directly in kernel space using z_open/z_read/z_close) vs "bridge-only" (forward to userspace via Z_UI_CMD_BRIDGE_DATA). Bridge-only commands MUST NOT use z_open/z_read/z_close directly.
+[[/CONTEXT_ARCHITECTURE]]
+
+[[CONTEXT_EXISTING_CODE]]
+{{KERNEL_SOURCE}} — kernel terminal C source
+{{WS_TERMINAL}} — workstation terminal Python source (GTK4/VTE)
+{{WS_PACKAGES}} — workstation package manager Python source
+{{PKG_BUILD}} — package build script
+{{PKG_MANIFEST}} — package set manifest
+[[/CONTEXT_EXISTING_CODE]]
+
+[[HARD_CONSTRAINTS]]
+C1: 32KB binary cap. Kernel terminal binary <= 32768 bytes after llvm-objcopy -O binary. Report size in VERIFICATION.
+C2: -ffreestanding -nostdlib. Zero stdlib. Freestanding includes allowed: zenith/user.h, stdint.h, stdbool.h, stddef.h ONLY. Forbidden: string.h, stdio.h, stdlib.h, any POSIX header.
+C3: z_spawn(path,arg) single-arg spawn ABI.
+C4: UI_TEXT_CAP=64 bytes per IPC message. Paged sub-protocol for PKG_INFO/PKG_SEARCH: max 56 bytes payload (8 reserved for protocol header).
+C5: Initramfs read-only.
+C6: Zero plagiarism from Linux/BSD/GNOME codebases.
+C7: Syscall numbers appended after 27.
+C8: Hybrid kernel discipline maintained.
+C9: 1280x800 framebuffer target.
+C10: Single address space per process.
+C11: Bridge traffic flows through z_ui_send/z_ui_recv via Z_UI_CMD_BRIDGE_DATA. No new syscalls for bridge. No shared memory mapping. No file pipes.
+C12: Bridge-only commands MUST NOT use z_open/z_read/z_close directly.
+[[/HARD_CONSTRAINTS]]
+
+[[ANTI_PATTERN_RULES]]
+AP1: No pipe-fork without PTY allocation.
+AP2: No eval/exec(string) dispatch.
+AP3: No mock package manager — real .deb unpack, real repo, real SAT resolver, transaction atomicity.
+AP4: No blocking I/O in render loop.
+AP5: No naive ANSI regex — state-machine parser only.
+AP6: No missing resource limits (FD cap, mem cap, process cap).
+AP7: No signal short-cutting — real TTY discipline, real job control.
+AP8: No history without persistence.
+AP9: No mixing UI and I/O threads.
+AP10: No hard-coded command lists — tokenizer + command table only.
+AP11: No forbidden includes. Every #include cross-referenced against allowlist.
+[[/ANTI_PATTERN_RULES]]
+
+[[COMPLIANCE_ENGINE]]
+The following mechanical checklist replaces subjective self-correction loops. For EVERY C function added or modified, produce:
+
+===STEP COMPLIANCE_CHECK===
+Function: <name>
+(a) Every #include used by this function: <list>
+    Cross-ref against freestanding-headers allowlist (zenith/user.h, stdint.h, stdbool.h, stddef.h)
+    Mismatch = IMMEDIATE FAIL.
+(b) Every external function called: <list>
+    Cross-ref against no-stdlib rule (no string.h, stdio.h, stdlib.h functions)
+    Mismatch = IMMEDIATE FAIL.
+(c) Every syscall invoked: <list>
+    Cross-ref against allowed syscall set (syscalls 1-27 existing + any added this phase)
+    Mismatch = IMMEDIATE FAIL.
+(d) Command classification: native | bridge-only
+    If bridge-only, verify zero calls to z_open/z_read/z_close.
+    Violation = IMMEDIATE FAIL.
+VERDICT: PASS|FAIL — if FAIL, revise and re-run this checklist.
+===/STEP===
+
+Apply this checklist BEFORE emitting any phase output. Embed completed checklist in <VERIFY> block.
+[[/COMPLIANCE_ENGINE]]
+
+[[GATING_DIRECTIVE]]
+Complete each phase and emit VERIFICATION before proceeding. Phase N MUST NOT reference symbols from Phase N+1. Each phase is hermetic — no forward declarations, no dependencies on unimplemented features. Violation = rework phase from scratch.
+[[/GATING_DIRECTIVE]]
+
+[[PHASE_0]]
+===STEP CAPABILITY AUDIT===
+Inventory all 28 existing syscalls. Map all constraints. Catalog current kernel terminal commands, IPC message types, and memory budget. Classify every command as "native" or "bridge-only". Native commands execute in kernel space (z_open/z_read/z_close permitted). Bridge-only commands forward to userspace via Z_UI_CMD_BRIDGE_DATA (z_open/z_read/z_close FORBIDDEN).
+
+Produce:
+1. Syscall table (number, name, signature, purpose)
+2. Command table (name, classification: native|bridge-only, handler, arity, help)
+3. Constraint compliance matrix (C1-C12, status, evidence)
+4. IPC message type registry (existing + Z_UI_CMD_BRIDGE_DATA definition)
+5. Memory budget analysis (current binary size vs 32768-byte cap)
+===/STEP===
+
+[[PHASE_0_CONSTRAINTS]]
+C1-C12. All static allocations. No new syscalls this phase. Freestanding includes only: zenith/user.h, stdint.h, stdbool.h, stddef.h.
+[[/PHASE_0_CONSTRAINTS]]
+
+[[PHASE_0_VERIFY]]
+VC-0:
+(a) Syscall inventory: all 28 syscalls documented with number, name, signature.
+(b) Command classification: every command labeled native or bridge-only.
+(c) Constraint matrix: 12/12 entries with status + evidence.
+(d) Z_UI_CMD_BRIDGE_DATA message format defined (type field, payload layout, 56-byte max payload).
+(e) Memory budget: current binary size reported in bytes.
+Cross-ref each #include in existing source against allowlist. Mismatch = FAIL.
+[[/PHASE_0_VERIFY]]
+
+[[PHASE_0_EVIDENCE_REQUIREMENTS]]
+- Syscall table: array of {number, name, signature, purpose}
+- Command table: array of {name, classification, handler_ptr, arity, help_string}
+- Constraint matrix: 12-row table {constraint_id, status: PASS|FAIL, evidence: specific measurement}
+- Binary size: integer byte count from llvm-objcopy -O binary output
+[[/PHASE_0_EVIDENCE_REQUIREMENTS]]
+
+---SPECIFICATION---
+<FILE path="{{KERNEL_SOURCE}}.audit">{{SYSCALL_TABLE}}{{COMMAND_TABLE}}{{CONSTRAINT_MATRIX}}</FILE>
+<VERIFY>VC-0a..VC-0e: PASS|FAIL — evidence per item</VERIFY>
+<SUMMARY>audit findings</SUMMARY>
+---/SPECIFICATION---
+[[/PHASE_0]]
+
+[[PHASE_1]]
+===STEP SHELL COMMAND PARSER & DISPATCHER===
+Replace hard-coded if/else with: tokenizer (lex args into argc/argv), command table (struct{name,handler,arity,help,classification:native|bridge-only}), arg packing for z_spawn (pack argv into single string, unpack on spawn). Add commands: ENV, EXPORT, ALIAS, HISTORY, WHOAMI, PWD, CD, LS, CAT, EXIT. All new commands are "native". Add tab-completion against command table. Add command history ring buffer with persistence. Add line editing (cursor move, insert/delete at cursor). Preserve to_upper() on command names. Hyphens permitted in input arguments. PKG_* bridge-only commands convert argument uppercase to lowercase before forwarding via Z_UI_CMD_BRIDGE_DATA.
+===/STEP===
+
+[[PHASE_1_CONSTRAINTS]]
+C1 binary cap <= 32768 bytes (report in VERIFICATION). C2 freestanding (headers: zenith/user.h, stdint.h, stdbool.h, stddef.h ONLY). C3 single-arg spawn. C4 64-byte IPC. C7 no new syscalls. C10 single address space. C12 bridge-only commands must not call z_open/z_read/z_close. All static alloc. Tab-completion within existing buffer. to_upper() preserved for native commands.
+[[/PHASE_1_CONSTRAINTS]]
+
+[[PHASE_1_VERIFY]]
+VC-1:
+(a) Every command in table executes with valid+invalid args.
+(b) Tab-completion covers full command set.
+(c) z_spawn arg packing roundtrips correctly.
+(d) Static allocation unchanged — no malloc.
+(e) Command classification: every command labeled native|bridge-only. Bridge-only commands verified zero z_open/z_read/z_close calls.
+(f) to_upper() preserved for native commands. PKG_* arguments upper→lower before bridge forwarding.
+COMPLIANCE_ENGINE checklist applied to every new/modified function.
+Binary size reported: N/32768 bytes.
+[[/PHASE_1_VERIFY]]
+
+[[PHASE_1_EVIDENCE_REQUIREMENTS]]
+- Command table struct: {name, classification, handler, arity, help}
+- Diff summary: functions added, functions modified, lines changed
+- Binary size: integer byte count after llvm-objcopy -O binary
+[[/PHASE_1_EVIDENCE_REQUIREMENTS]]
+
+---SPECIFICATION---
+<FILE path="{{KERNEL_SOURCE}}">{{FULL_SOURCE}}</FILE>
+<SYSCALL>none new</SYSCALL>
+<VERIFY>VC-1a..VC-1f: PASS|FAIL — evidence per item</VERIFY>
+<SUMMARY>command count, table size, bytes added, binary size</SUMMARY>
+---/SPECIFICATION---
+[[/PHASE_1]]
+
+[[PHASE_2]]
+===STEP I/O REDIRECTION & PIPE FOUNDATION===
+New syscalls: SYS_PIPE(fds[2]), SYS_DUP2(old,new), SYS_GETPID(), SYS_GETPPID(). Shell operators: > (redirect stdout to file), >> (append), < (stdin from file), | (pipe between commands). Shell pipe support: implement fork-exec pattern — fork → child dup2s FDs → exec → parent waits. Wire pipe syscall to kernel IPC. Handle PIPE_BUF fragmentation for 64-byte IPC cap (chunked reads with length prefix). Split-pane layout is a SEPARATE concern (Phase 4 UI feature) — do NOT implement split-pane here. This phase implements ONLY the shell | operator and underlying pipe syscall.
+
+Pipe implementation under C11 bridge architecture: pipe data flows through kernel-managed buffers via existing IPC. No shared memory mapping. No file pipes. 64-byte IPC frame enforces natural truncation for pipe reads.
+===/STEP===
+
+[[PHASE_2_CONSTRAINTS]]
+C1 binary cap <= 32768 bytes. C4 64-byte IPC — pipe reads chunked (56-byte payload max, 8-byte header). C7 syscall numbers start at 28. C8 hybrid kernel — pipe allocates kernel-managed buffer, not per-process ring. C10 single address space — pipe is kernel-mediated copy, not shared memory. C11 bridge architecture enforced — no shared memory mapping, no file pipes. Freestanding headers only.
+[[/PHASE_2_CONSTRAINTS]]
+
+[[PHASE_2_VERIFY]]
+VC-2:
+(a) echo hello > file.txt -> file contains "hello\n".
+(b) cat < file.txt -> prints file contents.
+(c) cmd1 | cmd2 -> cmd2 receives cmd1 stdout.
+(d) 4KB pipe transfer completes with zero data loss.
+(e) Pipe FDs closed on process exit — no leaks.
+(f) No shared memory mapping, no file pipes, no mmap — pipe is kernel-mediated IPC copy only.
+COMPLIANCE_ENGINE checklist applied to every new/modified function.
+Binary size reported: N/32768 bytes.
+[[/PHASE_2_VERIFY]]
+
+[[PHASE_2_EVIDENCE_REQUIREMENTS]]
+- Syscall table additions: {number, name, signature, purpose}
+- Pipe buffer size and chunk protocol specification
+- Binary size: integer byte count after llvm-objcopy -O binary
+[[/PHASE_2_EVIDENCE_REQUIREMENTS]]
+
+---SPECIFICATION---
+<FILE path="{{KERNEL_SOURCE}}">{{FULL_SOURCE}}</FILE>
+<SYSCALL>SYS_PIPE=28 SYS_DUP2=29 SYS_GETPID=30 SYS_GETPPID=31</SYSCALL>
+<VERIFY>VC-2a..VC-2f: PASS|FAIL — evidence per item</VERIFY>
+<SUMMARY>syscall additions, pipe buffer size, chunk protocol, binary size</SUMMARY>
+---/SPECIFICATION---
+[[/PHASE_2]]
+
+[[PHASE_3]]
+===STEP PACKAGE MANAGEMENT & REPOSITORY SYSTEM===
+Build zpkg: install/remove/update/search/list/info. sources.list at /etc/apt/sources.list.d/zenith-local.list -> file://{{REPO_DIR}}. .deb unpacker (ar+tar). SAT resolver for dependency graph with cycle detection using these pinned test fixtures:
+- Fixture A: A->B->C->A (simple cycle) — must detect and report cycle.
+- Fixture B: A->B->C + A->C (diamond) — must resolve without false cycle detection.
+- Fixture C: 26-node chain (A->B->...->Z) — must resolve depth without stack overflow.
+
+Transaction atomicity: snapshot dpkg state pre-mutate, rewrite on failure. Wire to {{WS_PACKAGES}}. Build pipeline: {{PKG_BUILD}} scans {{PKG_MANIFEST}}, builds .deb set, generates Packages.gz + Release + InRelease (GPG sign — fail build on missing key, never skip).
+
+Case conversion rule (CE-8): to_upper() preserved on kernel terminal command names. PKG_INSTALL/PKG_SEARCH/PKG_INFO convert argument uppercase to lowercase before forwarding to bridge. Hyphens permitted in package name arguments (e.g., PKG_INSTALL ZENITH-FILES → zenith-files).
+===/STEP===
+
+[[PHASE_3_CONSTRAINTS]]
+C6 original code only. C5 initramfs read-only — packages install to writable mount. All mutations require user confirmation. Rollback snapshot must be atomic (write temp, rename). No network at build time. Flatpak deferred to runtime. C4 paged sub-protocol for PKG_INFO/PKG_SEARCH kernel terminal commands (56-byte max payload per IPC, KEY_DOWN advances page).
+[[/PHASE_3_CONSTRAINTS]]
+
+[[PHASE_3_VERIFY]]
+VC-3:
+(a) Fixture A (A->B->C->A) -> cycle error, not infinite recursion.
+(b) Fixture B (A->B->C + A->C diamond) -> resolves correctly, no false cycle detection.
+(c) Fixture C (26-node chain A->Z) -> resolves depth without stack overflow.
+(d) Install --dry-run then real install -> binary exists at /usr/bin/.
+(e) Remove with reverse-depends flagged -> user warned.
+(f) Rollback restores prior dpkg state.
+(g) GPG missing -> build fails, not silent skip.
+(h) 50-package chain resolves.
+(i) PKG_INFO/PKG_SEARCH paged output: first IPC returns line_count + first line, subsequent KEY_DOWN advances, never exceeds 56 bytes payload.
+COMPLIANCE_ENGINE: not applicable (Python phase), but verify no forbidden patterns per AP3.
+[[/PHASE_3_VERIFY]]
+
+[[PHASE_3_EVIDENCE_REQUIREMENTS]]
+- Resolver strategy description
+- Test fixture results: fixture ID, input graph, expected outcome, actual outcome
+- Repo layout: directory tree with file counts
+[[/PHASE_3_EVIDENCE_REQUIREMENTS]]
+
+---SPECIFICATION---
+<FILE path="{{WS_PACKAGES}}">{{FULL_SOURCE}}</FILE>
+<FILE path="{{PKG_BUILD}}">{{SCRIPT}}</FILE>
+<FILE path="{{PKG_MANIFEST}}">{{MANIFEST}}</FILE>
+<VERIFY>VC-3a..VC-3i: PASS|FAIL — evidence per item</VERIFY>
+<SUMMARY>zpkg commands, resolver strategy, repo layout, fixture results</SUMMARY>
+---/SPECIFICATION---
+[[/PHASE_3]]
+
+[[PHASE_4]]
+===STEP TERMINAL EMULATOR UPGRADE===
+Scrollback buffer (1000 lines default, configurable to 10000). ANSI escape state-machine parser (CSI sequences: cursor, color, clear, scroll regions). Line editing: readline-equivalent (Ctrl-A/E, Ctrl-U/K, Ctrl-R reverse search, arrow history). Command history with persistence to disk. Tab completion against command table + filesystem paths. Decouple terminal rendering from shell logic — terminal owns display, shell owns execution. Add color profile engine (zenith-dark default, zenith-light, solarized, custom from ~/.config/zenith-terminal/profiles.json). Fail closed on malformed JSON -> fallback zenith-dark. URL detection + clickable links. Search-within-scrollback (regex).
+
+Split-pane layout: horizontal/vertical split as standalone UI feature. Synchronized input broadcast to panes. Shell pipe support (| operator) is SEPARATE from split-pane — pipe is kernel-space IPC (Phase 2), split-pane is UI layout (this phase). Do not conflate.
+===/STEP===
+
+[[PHASE_4_CONSTRAINTS]]
+No new Python packages beyond stdlib+gi. No compiled extensions. Per-tab memory <20MB. ANSI parser must be state-machine, not regex. Color profile parse fails closed.
+[[/PHASE_4_CONSTRAINTS]]
+
+[[PHASE_4_VERIFY]]
+VC-4:
+(a) 10 tabs open+close -> zero zombie PIDs.
+(b) Malformed JSON profile -> zenith-dark fallback.
+(c) ANSI escape stress test (1000 mixed sequences) -> zero parser crash.
+(d) Ctrl-R reverse search finds history entry.
+(e) Tab-completion against /usr/bin/ prefix.
+(f) Split pane receives synchronized input.
+(g) Shell pipe (|) and split-pane are architecturally separate — no pipe logic in split-pane code, no split-pane logic in pipe code.
+[[/PHASE_4_VERIFY]]
+
+[[PHASE_4_EVIDENCE_REQUIREMENTS]]
+- Scrollback size configuration
+- ANSI parser state count
+- Color profile list and fallback behavior
+- Feature list split: shell-pipe features vs split-pane features (no overlap)
+[[/PHASE_4_EVIDENCE_REQUIREMENTS]]
+
+---SPECIFICATION---
+<FILE path="{{WS_TERMINAL}}">{{FULL_SOURCE}}</FILE>
+<VERIFY>VC-4a..VC-4g: PASS|FAIL — evidence per item</VERIFY>
+<SUMMARY>scrollback size, ANSI states, profile count, feature list</SUMMARY>
+---/SPECIFICATION---
+[[/PHASE_4]]
+
+[[PHASE_5]]
+===STEP INTEGRATION, STRESS TESTING & HARDENING===
+Add SYS_REBOOT, SYS_CHDIR, SYS_GETCWD syscalls. Environment variables (setenv/getenv in shell). End-to-end tests:
+(1) Kernel terminal PKG_INSTALL zenith-files -> verify binary at /usr/bin/zenith-files.
+(2) Workstation zenesh --command "zpkg install hello && hello" -> verify VTE output.
+(3) 4KB bridge output -> verify truncation to TERM_CAP.
+(4) Kill userspace -> kernel prints BRIDGE TIMEOUT within 2s.
+(5) Stress: 10 tabs, 50 pipes, 100-package resolve, 1000 ANSI sequences simultaneously.
+
+Bridge verification (CHECKPOINT_ZETA): Bridge verification MUST include first 16 bytes hex of received kernel-terminal output, manually compared against expected output. No PASS based on log statements alone. Verification protocol:
+  Step 1: Send command via bridge.
+  Step 2: Receive response via Z_UI_CMD_BRIDGE_DATA.
+  Step 3: Extract first 16 bytes of payload.
+  Step 4: Convert to hex string (32 hex chars).
+  Step 5: Compare against expected hex value.
+  Step 6: Match = PASS. Mismatch = FAIL with both hex strings logged.
+
+Paged PKG_INFO/PKG_SEARCH E2E test: issue PKG_INFO from kernel terminal, verify first IPC contains line_count + first line, verify subsequent KEY_DOWN events advance pages, verify no payload exceeds 56 bytes.
+
+Constraint audit: C1-C12 all satisfied. Dependency ceiling: no new deps beyond existing {{VERSION}} workstation build.
+===/STEP===
+
+[[PHASE_5_CONSTRAINTS]]
+C1-C12 full audit. Bridge must never block kernel IPC loop. Userspace absent -> kernel degrades gracefully ("USERSPACE UNAVAILABLE"). Bridged output truncated to TERM_CAP. C4 paged sub-protocol for PKG_INFO/PKG_SEARCH enforced. C11 bridge via Z_UI_CMD_BRIDGE_DATA only — no shared memory, no file pipes. SIGHUP to all child PIDs on window close. Freestanding headers only.
+[[/PHASE_5_CONSTRAINTS]]
+
+[[PHASE_5_VERIFY]]
+VC-5:
+(a) All C1-C12 satisfied.
+(b) Both E2E paths succeed with byte-level hex verification (first 16 bytes).
+(c) Bridge timeout fires within 2s.
+(d) Stress test completes with zero crashes.
+(e) Zero new external dependencies.
+(f) Zero zombie PIDs post-close.
+(g) Paged PKG_INFO/PKG_SEARCH: verify line_count in first IPC, page advance on KEY_DOWN, payload <= 56 bytes.
+(h) Binary size reported: N/32768 bytes.
+COMPLIANCE_ENGINE checklist applied to every new/modified C function.
+[[/PHASE_5_VERIFY]]
+
+[[PHASE_5_EVIDENCE_REQUIREMENTS]]
+- Final syscall table: complete array
+- Constraint compliance: 12-row table
+- Bridge hex verification: expected_hex, actual_hex, match: bool
+- Binary size: integer byte count after llvm-objcopy -O binary
+- Paged protocol test: page_count, payload_sizes (all must be <= 56)
+[[/PHASE_5_EVIDENCE_REQUIREMENTS]]
+
+---SPECIFICATION---
+<FILE path="{{KERNEL_SOURCE}}">{{PATCH}}</FILE>
+<SYSCALL>SYS_REBOOT=32 SYS_CHDIR=33 SYS_GETCWD=34</SYSCALL>
+<VERIFY>VC-5a..VC-5h: PASS|FAIL — evidence per item</VERIFY>
+<SUMMARY>final syscall table, constraint compliance, test results, binary size</SUMMARY>
+---/SPECIFICATION---
+[[/PHASE_5]]
+
+[[VARIABLE_INJECTION]]
+{{KERNEL_SOURCE}} = OS/userland/terminal.c
+{{WS_TERMINAL}} = OS/workstation/apps/zenith-terminal/src/zenith_terminal/main.py
+{{WS_PACKAGES}} = OS/workstation/apps/zenith-packages/src/zenith_packages/main.py
+{{PKG_BUILD}} = OS/workstation/distro/build-zenith-packages.sh
+{{PKG_MANIFEST}} = OS/workstation/distro/package-set.manifest
+{{REPO_DIR}} = /var/lib/zenith-repo
+{{TERM_CAP}} = 64
+{{VERSION}} = 0.1.0
+[[/VARIABLE_INJECTION]]
+
+[[OUTPUT_SCHEMA]]
+Delimiters: [[TAG]]/[[/TAG]] for structural sections. ===STEP N===/===/STEP=== for CoT reasoning blocks. ---SPECIFICATION---/---/SPECIFICATION--- for output blocks.
+
+Every phase emits exactly:
+---SPECIFICATION---
+<FILE path="...">{{CONTENT}}</FILE>
+<SYSCALL>name=N ...</SYSCALL>
+<VERIFY>VC-Nx: PASS|FAIL — evidence</VERIFY>
+<COMPLIANCE_CHECKLIST>completed mechanical checklist for every new/modified C function</COMPLIANCE_CHECKLIST>
+<EVIDENCE>per-checkpoint evidence as specified in phase EVIDENCE_REQUIREMENTS</EVIDENCE>
+<SUMMARY>terse metrics</SUMMARY>
+---/SPECIFICATION---
+
+After each phase output, execute COMPLIANCE_ENGINE mechanical checklist (see [[COMPLIANCE_ENGINE]]). This replaces subjective self-correction. Checklist is MANDATORY for every phase with C code. Violation found = revise inline, increment revision, re-verify. Max 3 revisions per phase = escalate.
+[[/OUTPUT_SCHEMA]]
+
+[[WIN_CONDITION]]
+All 6 phases (0-5) PASS their verification checkpoints with mechanical evidence. Kernel terminal: 20+ commands, tokenizer, tab-completion, history, I/O redirection, pipe, binary <= 32768 bytes. Workstation terminal: multi-tab, color profiles, split pane, ANSI state-machine, scrollback, readline-equivalent. Package system: .deb unpack, SAT resolver with pinned fixtures (cycle/diamond/chain), cycle detection, atomic rollback, signed repo. Bridge: kernel↔userspace command forwarding via Z_UI_CMD_BRIDGE_DATA with 2s timeout, byte-level hex verification. Paged PKG_INFO/PKG_SEARCH with <= 56 byte payloads. Zero constraint violations (C1-C12). Zero new external dependencies. Zero forbidden includes. COMPLIANCE_ENGINE checklist PASS on every C function.
+[[/WIN_CONDITION]]

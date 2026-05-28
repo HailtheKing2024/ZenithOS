@@ -82,6 +82,7 @@ class PackagesWindow(Adw.ApplicationWindow):
         status = Adw.PreferencesGroup(title="Status")
         status.add(Adw.ActionRow(title="APT", subtitle=command_output(["apt", "--version"]).splitlines()[0]))
         status.add(Adw.ActionRow(title="Flatpak", subtitle=command_output(["flatpak", "--version"])))
+        status.add(Adw.ActionRow(title="zpkg", subtitle=available("zpkg")))
         status.add(Adw.ActionRow(title="Zenith local packages", subtitle=f"{local_repo_count()} packages in /var/lib/zenith-repo"))
         page.add(status)
 
@@ -112,7 +113,9 @@ class PackagesWindow(Adw.ApplicationWindow):
             ("List system updates", "Read-only apt list --upgradable", ["apt", "list", "--upgradable"]),
             ("Show Flatpak remotes", "Read-only flatpak remotes", ["flatpak", "remotes"]),
             ("Storage audit", "Read-only package and build storage check", ["sh", "-c", "du -sh /var/cache/apt/archives /var/lib/apt/lists /var/lib/flatpak /var/lib/zenith-build 2>/dev/null"]),
-            ("List Zenith repo", "Read-only local package repository list", ["sh", "-c", "grep '^Package: ' /var/lib/zenith-repo/Packages | sed 's/Package: //'"]),
+            ("List Zenith repo", "Read-only local package repository list", ["zpkg", "list"]),
+            ("Resolver self-test", "Cycle, diamond, and long-chain dependency fixtures", ["zpkg", "self-test"]),
+            ("Refresh Zenith source", "Rewrite the local zpkg apt source entry", ["zpkg", "update"]),
         ]:
             row = Adw.ActionRow(title=label, subtitle=subtitle)
             button = Gtk.Button(label="Run")
@@ -157,7 +160,7 @@ class PackagesWindow(Adw.ApplicationWindow):
         if not query:
             self.output.buffer.set_text("Enter a package name or keyword first.\n")
             return
-        self._run_command("APT search", ["apt-cache", "search", query])
+        self._run_command("zpkg search", ["zpkg", "search", query])
 
     def _run_action(self, _button, label, command):
         self._run_command(label, command)

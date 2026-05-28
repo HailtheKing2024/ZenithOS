@@ -2,10 +2,7 @@
 set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
-default_output="$repo_root/build/workstation/rootfs"
-if [[ "$repo_root" == /mnt/* ]]; then
-    default_output="${ZENITH_BUILD_ROOT:-$HOME/zenithos-build/rootfs}"
-fi
+default_output="${ZENITH_BUILD_ROOT:-/var/lib/zenith-build/rootfs}"
 
 output="${1:-$default_output}"
 suite="${ZENITH_SUITE:-trixie}"
@@ -33,8 +30,8 @@ bash "$repo_root/workstation/distro/build-zenith-packages.sh"
 bash "$repo_root/workstation/distro/publish-apt-repo.sh"
 
 if [ -e "$output" ]; then
-    echo "refusing to overwrite existing rootfs: $output" >&2
-    exit 1
+    echo "existing rootfs found at $output; removing for clean build"
+    sudo rm -rf "$output"
 fi
 
 base_manifest="$repo_root/workstation/packages/rootfs.apt.manifest"
@@ -55,7 +52,7 @@ sudo mkdir -p "$output/var/lib/zenith-repo" "$output/etc/apt/sources.list.d"
 sudo rsync -a --delete "$zenith_repo/" "$output/var/lib/zenith-repo/"
 zenith_source="$(mktemp)"
 cat > "$zenith_source" <<'EOF'
-deb [trusted=yes] file:/var/lib/zenith-repo ./
+deb [signed-by=/var/lib/zenith-repo/zenith-archive-keyring.gpg] file:/var/lib/zenith-repo ./
 EOF
 sudo install -m 0644 "$zenith_source" "$output/etc/apt/sources.list.d/zenith-local.list"
 rm -f "$zenith_source"
@@ -70,15 +67,17 @@ sudo rsync -a --delete \
     "$repo_root/" \
     "$output/usr/src/zenithos/"
 
-if ! sudo chroot "$output" getent passwd zenith >/dev/null; then
-    sudo chroot "$output" useradd -m -s /bin/bash zenith
+# Create hailtheking user with password authentication
+if ! sudo chroot "$output" getent passwd hailtheking >/dev/null; then
+ sudo chroot "$output" useradd -m -s /bin/bash hailtheking
 fi
-printf 'zenith:zenith\n' | sudo chroot "$output" chpasswd
+printf 'hailtheking:2976880801\n' | sudo chroot "$output" chpasswd
 
+# Add hailtheking to required groups
 for group in sudo adm audio video plugdev netdev; do
-    if sudo chroot "$output" getent group "$group" >/dev/null; then
-        sudo chroot "$output" usermod -aG "$group" zenith
-    fi
+ if sudo chroot "$output" getent group "$group" >/dev/null; then
+ sudo chroot "$output" usermod -aG "$group" hailtheking
+ fi
 done
 
 sudo chroot "$output" dconf update
@@ -86,13 +85,18 @@ if sudo chroot "$output" sh -c 'command -v plymouth-set-default-theme >/dev/null
     sudo chroot "$output" plymouth-set-default-theme zenith >/dev/null 2>&1 || true
     sudo chroot "$output" update-initramfs -u >/dev/null 2>&1 || true
 fi
-sudo chroot "$output" systemctl enable gdm3.service >/dev/null
+# Display manager: SDDM (with ZenithOS theme) - GDM removed
+# gdm3 is installed as a dependency but should be disabled
+sudo chroot "$output" systemctl disable gdm.service >/dev/null 2>&1 || true
+sudo chroot "$output" systemctl mask gdm.service >/dev/null 2>&1 || true
+sudo chroot "$output" systemctl enable sddm.service >/dev/null
 sudo chroot "$output" systemctl enable NetworkManager.service >/dev/null
 sudo chroot "$output" systemctl enable zenith-firstboot.service >/dev/null
 sudo chroot "$output" systemctl enable zenith-hardware-detect.service >/dev/null
 sudo chroot "$output" systemctl enable zenith-boot-report.service >/dev/null
 sudo chroot "$output" systemctl enable zenith-performance-defaults.service >/dev/null
 sudo chroot "$output" systemctl enable zenith-plymouth-handoff.service >/dev/null
+sudo chroot "$output" systemctl enable zenith-first-boot-apps.service >/dev/null
 for unit in \
     apt-daily.timer \
     apt-daily-upgrade.timer \

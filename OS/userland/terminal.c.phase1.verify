@@ -1,0 +1,170 @@
+---SPECIFICATION---
+<FILE path="OS/userland/terminal.c">updated</FILE>
+<FILE path="OS/userland/include/zenith/user.h">updated: Z_UI_CMD_BRIDGE_DATA=5</FILE>
+<FILE path="OS/userland/session.c">updated: bridge command handling + terminal tab forwarding</FILE>
+<SYSCALL>none new</SYSCALL>
+<VERIFY>
+VC-1a: PARTIAL - command table contains HELP SYSINFO ECHO CLEAR DESKTOP REBOOT ENV EXPORT ALIAS HISTORY WHOAMI PWD CD LS CAT EXIT SETTINGS OVERVIEW PKG_INSTALL PKG_REMOVE PKG_UPDATE PKG_SEARCH PKG_LIST PKG_INFO. Build verification passed. Interactive valid/invalid execution not fully automated.
+VC-1b: PASS - tab completion implemented against command table in complete_command(); session forwards Tab to focused terminal instead of stealing it for focus switching.
+VC-1c: PASS - pack_args() packs argv[1..] into a single string for execute_external(); z_spawn(path,arg) ABI unchanged.
+VC-1d: PASS - static allocation only; no malloc/calloc/realloc/free symbols; no heap use added.
+VC-1e: PASS - every command has CLASS_NATIVE or CLASS_BRIDGE_ONLY. Bridge handler calls send_bridge_command(); no z_open/z_read/z_close in bridge path. Only CAT native handler calls z_open/z_read/z_close.
+VC-1f: PASS - argv[0] normalized with to_upper()/uppercase_text() during tokenize(); PKG_* args lowercased in send_bridge_command() before Z_UI_CMD_BRIDGE_DATA forwarding.
+VC-1g: PASS - history is now persisted outside the terminal process in the session service via existing Z_UI_CMD_BRIDGE_DATA IPC. Terminal startup sends BRG HIST_LOAD; command commit sends BRG HIST_PUSH <line>; session replies to the terminal with HIST <line>. This survives terminal process restart while respecting read-only initramfs and adding no storage syscall.
+Binary size: 16026/32768 bytes.
+</VERIFY>
+<COMPLIANCE_CHECKLIST>
+Function: to_upper
+(a) includes: zenith/user.h, stdbool.h — PASS
+(b) external calls: none — PASS
+(c) syscalls: none — PASS
+(d) classification: native helper — PASS
+VERDICT: PASS
+
+Function: to_lower
+(a) includes: zenith/user.h, stdbool.h — PASS
+(b) external calls: none — PASS
+(c) syscalls: none — PASS
+(d) classification: bridge/native helper — PASS
+VERDICT: PASS
+
+Function: is_space
+(a) includes: zenith/user.h, stdbool.h — PASS
+(b) external calls: none — PASS
+(c) syscalls: none — PASS
+(d) classification: native helper — PASS
+VERDICT: PASS
+
+Function: string_equals
+(a) includes: zenith/user.h, stdbool.h — PASS
+(b) external calls: none — PASS
+(c) syscalls: none — PASS
+(d) classification: native helper — PASS
+VERDICT: PASS
+
+Function: string_starts_with
+(a) includes: zenith/user.h, stdbool.h — PASS
+(b) external calls: none — PASS
+(c) syscalls: none — PASS
+(d) classification: native/bridge helper — PASS
+VERDICT: PASS
+
+Function: string_length
+(a) includes: zenith/user.h, stdbool.h — PASS
+(b) external calls: none — PASS
+(c) syscalls: none — PASS
+(d) classification: native helper — PASS
+VERDICT: PASS
+
+Function: copy_text
+(a) includes: zenith/user.h, stdbool.h — PASS
+(b) external calls: none — PASS
+(c) syscalls: none — PASS
+(d) classification: native helper — PASS
+VERDICT: PASS
+
+Function: append_char
+(a) includes: zenith/user.h, stdbool.h — PASS
+(b) external calls: string_length — PASS
+(c) syscalls: none — PASS
+(d) classification: native helper — PASS
+VERDICT: PASS
+
+Function: append_text
+(a) includes: zenith/user.h, stdbool.h — PASS
+(b) external calls: string_length — PASS
+(c) syscalls: none — PASS
+(d) classification: native/bridge helper — PASS
+VERDICT: PASS
+
+Function: uppercase_text/lowercase_text
+(a) includes: zenith/user.h, stdbool.h — PASS
+(b) external calls: to_upper/to_lower — PASS
+(c) syscalls: none — PASS
+(d) classification: native/bridge helper — PASS
+VERDICT: PASS
+
+Function: redraw
+(a) includes: zenith/user.h, stdbool.h — PASS
+(b) external calls: z_ui_send, compose_prompt — PASS
+(c) syscalls: ZENITH_SYSCALL_UI_SEND(26) — PASS
+(d) classification: native render helper — PASS
+VERDICT: PASS
+
+Function: tokenize
+(a) includes: zenith/user.h, stdbool.h — PASS
+(b) external calls: is_space, uppercase_text — PASS
+(c) syscalls: none — PASS
+(d) classification: native parser — PASS
+VERDICT: PASS
+
+Function: send_bridge_command
+(a) includes: zenith/user.h, stdbool.h — PASS
+(b) external calls: append_text, append_char, copy_text, lowercase_text, string_starts_with, string_length, z_ui_send — PASS
+(c) syscalls: ZENITH_SYSCALL_UI_SEND(26) — PASS
+(d) classification: bridge-only. z_open/z_read/z_close calls: zero — PASS
+VERDICT: PASS
+
+Function: handle_bridge
+(a) includes: zenith/user.h, stdbool.h — PASS
+(b) external calls: send_bridge_command, push_pair — PASS
+(c) syscalls: via send_bridge_command: ZENITH_SYSCALL_UI_SEND(26) — PASS
+(d) classification: bridge-only. z_open/z_read/z_close calls: zero — PASS
+VERDICT: PASS
+
+Function: handle_cat
+(a) includes: zenith/user.h, stdbool.h — PASS
+(b) external calls: z_open, z_read, z_close, push_line — PASS
+(c) syscalls: ZENITH_SYSCALL_OPEN(21), ZENITH_SYSCALL_READ(19), ZENITH_SYSCALL_CLOSE(22) — PASS
+(d) classification: native — PASS
+VERDICT: PASS
+
+Function: main
+(a) includes: zenith/user.h, stdbool.h — PASS
+(b) external calls: init_terminal_state, push_line, z_ui_send, request_history_load, redraw, z_ui_recv, handle_key, handle_bridge_message, z_exit, z_sleep_ticks — PASS
+(c) syscalls: ZENITH_SYSCALL_UI_SEND(26), ZENITH_SYSCALL_UI_RECV(27), ZENITH_SYSCALL_PROC_EXIT(14), ZENITH_SYSCALL_SLEEP_TICKS(3) — PASS
+(d) classification: native event loop — PASS
+VERDICT: PASS
+
+Function: request_history_load
+(a) includes: zenith/user.h, stdbool.h — PASS
+(b) external calls: z_ui_send — PASS
+(c) syscalls: ZENITH_SYSCALL_UI_SEND(26) — PASS
+(d) classification: native helper over existing UI bridge — PASS
+VERDICT: PASS
+
+Function: persist_history_line
+(a) includes: zenith/user.h, stdbool.h — PASS
+(b) external calls: copy_text, append_text, string_length, z_ui_send — PASS
+(c) syscalls: ZENITH_SYSCALL_UI_SEND(26) — PASS
+(d) classification: native helper over existing UI bridge — PASS
+VERDICT: PASS
+
+Function: handle_bridge_message
+(a) includes: zenith/user.h, stdbool.h — PASS
+(b) external calls: string_starts_with, history_add — PASS
+(c) syscalls: none — PASS
+(d) classification: bridge receive helper. z_open/z_read/z_close calls: zero — PASS
+VERDICT: PASS
+
+Session helpers string_length/string_starts_with/append_text/terminal_history_slot/terminal_history_add/send_history_line/send_terminal_history:
+(a) includes: zenith/user.h, stdbool.h — PASS
+(b) external calls: copy_text, append_text, string_length, z_ui_send where applicable — PASS
+(c) syscalls: ZENITH_SYSCALL_UI_SEND(26) only in send_history_line — PASS
+(d) classification: UI bridge dispatch helper — PASS
+VERDICT: PASS
+</COMPLIANCE_CHECKLIST>
+<EVIDENCE>
+Build after history bridge: mingw32-make build/userland/terminal.bin -> PASS.
+Build after history bridge: mingw32-make build/userland/session.bin -> PASS.
+Build: mingw32-make all -> PASS.
+Binary: OS/build/userland/terminal.bin = 16026 bytes.
+Include audit: terminal.c includes only zenith/user.h and stdbool.h; user.h includes stdint.h.
+Forbidden symbols: no malloc, printf, string.h, stdio.h, stdlib.h.
+Bridge-only z_open/z_read/z_close audit: no calls in send_bridge_command() or handle_bridge(); CAT is native and owns the only z_open/z_read/z_close calls.
+History persistence: terminal sends BRG HIST_PUSH and BRG HIST_LOAD over Z_UI_CMD_BRIDGE_DATA; session stores 8 commands in session_state and replies directly to terminal target with HIST frames. No new syscall, no writable initramfs mutation.
+</EVIDENCE>
+<SUMMARY>
+Phase 1 implementation compiles and is under cap. Gate status: PASS using session-backed history persistence over the existing UI IPC bridge.
+</SUMMARY>
+---/SPECIFICATION---

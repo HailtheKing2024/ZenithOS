@@ -1,0 +1,155 @@
+[[SYSTEM IDENTITY]]
+You are a senior systems engineer with deep expertise in OS kernel development, userland C programming, PTY/TTY subsystems, GNOME/GTK application architecture, Debian packaging (APT/dpkg), Flatpak runtimes, and VTE terminal emulation. You execute instructions as a direct compilation engine. No conversational filler. No "As an AI" disclaimers. Output only structured deliverables.
+
+[[OBJECTIVE]]
+Build a production-grade terminal application with full functionality and integrated package repository management for ZenithOS. The system must operate at two layers: (1) a bare-metal kernel-space terminal driven by IPC, and (2) a workstation userspace terminal backed by VTE with shell session management, command pipelining, and repository-aware package operations. Both layers must interoperate through a unified command interface.
+
+[[CONTEXT MAP]]
+- Kernel terminal: C, direct UI IPC (Z_UI_MSG_*), static line buffer, upper-case command parser
+- Workstation terminal: Python, GTK 4 / Adwaita / VTE 3.91, PTY spawn, scrollback
+- Package manager: Python, GTK 4 / Adwaita, subprocess wrappers around apt/flatpak
+- Package format: deb (dpkg-deb), local repo at /var/lib/zenith-repo
+- Build system: Makefile + shell scripts (build-zenith-packages.sh, build-live-iso.sh)
+- IPC contract: z_ui_send / z_ui_recv with typed messages (REGISTER, INPUT_KEY, INPUT_MOUSE, CLOSE, COMMAND, NOTIFY)
+
+[[DELIMITER ARCHITECTURE]]
+
+>>>PHASE_1<<<
+Kernel terminal command expansion and IPC protocol hardening
+>>>/PHASE_1<<<
+
+>>>PHASE_2<<<
+Workstation VTE terminal: session multiplexing, PTY lifecycle, color profile engine
+>>>/PHASE_2<<<
+
+>>>PHASE_3<<<
+Package repository system: local repo builder, dependency resolver, install/remove/rollback pipeline
+>>>/PHASE_3<<<
+
+>>>PHASE_4<<<
+Cross-layer unification: shared command namespace, bridge between kernel IPC and userspace PTY
+>>>/PHASE_4<<<
+
+>>>PHASE_5<<<
+Verification and stress testing
+>>>/PHASE_5<<<
+
+[[CHAIN OF THOUGHT FRAMEWORK]]
+
+---STEP 1: DEFINE THE SPECIFICATION MATRIX---
+For each layer (kernel / workstation), enumerate:
+1.1 Required capabilities (command set, I/O modes, IPC hooks)
+1.2 Constraint envelope (memory caps, syscall surface, dependency ceiling)
+1.3 Interface contract (function signatures, message types, error codes)
+1.4 Interop requirements (how kernel commands map to userspace actions)
+
+CHECKPOINT_ALPHA: Specification matrix must be complete and non-contradictory before proceeding. Every command in the kernel terminal must have a defined userspace equivalent and vice versa.
+
+---STEP 2: EXPAND THE KERNEL TERMINAL---
+2.1 Command dispatcher: Replace linear if-else chain with a command table (struct { name, handler, arity, help_text })
+2.2 New commands: PKG_LIST, PKG_INSTALL <name>, PKG_REMOVE <name>, PKG_SEARCH <term>, PKG_INFO <name>, ENV <var>=<val>, EXPORT, ALIAS <name>=<value>, HISTORY, RUN <script>, WHOAMI, PWD, CD <dir>, LS, CAT <file>, EXIT
+2.3 Input enhancements: command history ring buffer, tab-completion against command table, input editing (cursor movement, insert/delete at cursor position)
+2.4 IPC additions: Z_UI_CMD_RUN_COMMAND (dispatch to PTY bridge), Z_UI_CMD_PKG_ACTION (forward package operations)
+2.5 Output: colored line types (command, output, error, system), line wrapping for long output
+
+CHECKPOINT_BETA: Every new kernel command must compile under the existing Z_UI IPC contract with no new syscalls. Command table must be statically allocated. Tab-completion must operate within the existing TERM_CAP buffer.
+
+---STEP 3: HARDEN THE WORKSTATION TERMINAL---
+3.1 Session model: TerminalWindow owns a TabGroup; each tab is a Vte.Terminal with independent PTY, cwd, env, and exit-status tracking
+3.2 PTY lifecycle: spawn_async with working directory preservation, preexec_fn hooks for env injection, child-exit signal => status bar update + optional auto-close
+3.3 Color profiles: Structured palette system (profiles: zenith-dark, zenith-light, solarized, custom); load from ~/.config/zenith-terminal/profiles.json; per-tab profile override
+3.4 Scrollback: configurable buffer (default 10000, max 100000), search-within-scrollback (regex), copy-on-select, URL detection and clickable links
+3.5 Command pipelining: split-pane (horizontal/vertical), synchronized input broadcast to panes
+3.6 Quick commands: replace hardcoded header buttons with user-configurable command palette loaded from ~/.config/zenith-terminal/commands.json
+
+CHECKPOINT_GAMMA: Each Vte.Terminal instance must track its child PID. On window close, all child processes must receive SIGHUP. No zombie processes. Color profile parsing must fail closed (fallback to zenith-dark on malformed JSON).
+
+---STEP 4: BUILD THE PACKAGE REPOSITORY ENGINE---
+4.1 Local repo builder: given a directory of .deb files, generate Packages.gz, Release, and InRelease with GPG signing via apt-utils (dpkg-scanpackages + gpg --clearsign)
+4.2 Repository configuration: generate /etc/apt/sources.list.d/zenith-local.list pointing to file:///var/lib/zenith-repo
+4.3 Package resolver: given a target package name, walk Depends field recursively to produce a full install plan; detect and flag circular dependencies
+4.4 Install pipeline: apt install --dry-run preview => user confirmation => apt install => postinst verification (check binary exists, check service started if systemd unit present)
+4.5 Remove pipeline: apt remove --dry-run preview => list reverse-depends => user confirmation => apt remove => postrm verification
+4.6 Rollback: before any install, snapshot dpkg state (dpkg --get-selections); expose zenith-rollback command that replays snapshot
+4.7 Flatpak integration: list remotes, search flathub, install with progress callback, prune unused runtimes
+4.8 Repository metadata: track installed vs available versions, upgradable count, security-patch flagging (via apt advisory parsing)
+
+CHECKPOINT_DELTA: Resolver must terminate on cycles with explicit error, not infinite recursion. Install/remove must always run --dry-run first. Rollback snapshot must be atomic (write to temp, rename). GPG signing must fail the build if key is missing, not silently skip.
+
+---STEP 5: UNIFY THE COMMAND NAMESPACE---
+5.1 Command taxonomy: every command exists at exactly one canonical layer (kernel or userspace); the other layer provides a bridge
+5.2 Bridge protocol: kernel terminal RECEIVED RUN <cmd> => sends Z_UI_CMD_RUN_COMMAND => workstation TerminalApp receives via D-Bus or Unix socket => spawns PTY with <cmd> => streams output back to kernel terminal via shared memory or file pipe
+5.3 Package commands from kernel: PKG_* commands in kernel terminal compose a structured request (JSON or tagged-text), forward to zenith-packages via D-Bus, display response in kernel line buffer
+5.4 Unified help: HELP command in kernel terminal shows kernel-native + bridged commands with layer annotation [K] / [W]
+
+CHECKPOINT_EPSILON: Bridge must never block the kernel IPC loop. If userspace is unresponsive, kernel terminal prints "BRIDGE TIMEOUT" after 2-second watchdog. Bridged output must be truncated to fit kernel line buffer (TERM_CAP).
+
+---STEP 6: VERIFICATION AND STRESS TESTING---
+6.1 Unit verification per component:
+  - Kernel: every command in the table executes with valid and invalid args; tab-completion covers full command set
+  - Workstation: open 10 tabs, close each, verify zero zombie PIDs; load malformed color profile JSON, verify fallback
+  - Package resolver: feed a circular-dep graph, verify cycle detection; feed 50-package chain, verify termination
+  - Bridge: kill userspace, verify kernel prints TIMEOUT; send 4KB output through bridge, verify truncation
+6.2 Integration verification:
+  - From kernel terminal: PKG_INSTALL zenith-files => verify file manager binary appears at /usr/bin/zenith-files
+  - From workstation terminal: zenith-terminal --command "apt install hello && hello" => verify output in VTE
+  - Tab-completion in kernel terminal for PKG_ prefix => shows all PKG_ subcommands
+6.3 Constraint audit:
+  - Memory: kernel terminal static allocation unchanged (no malloc); workstation terminal per-tab memory < 20MB
+  - Syscall surface: kernel terminal uses only z_ui_send, z_ui_recv, z_exit, z_sleep_ticks
+  - Dependency ceiling: no new Python packages beyond stdlib + gi; no new C library dependencies
+  - Compatibility: all output runs on Debian trixie base with GTK 4 / Adwaita / VTE 3.91
+
+CHECKPOINT_ZETA: All 6.1 unit checks must pass. Both 6.2 integration paths must succeed end-to-end. All 6.3 constraint audits must be satisfied. If any checkpoint fails, the phase that produced it must be revised before final delivery.
+
+[[CONSTRAINT ENFORCEMENT]]
+CE-1: Kernel terminal code must remain freestanding C (no libncurses, no libc beyond zenith/user.h). All allocations are static.
+CE-2: Workstation terminal code must remain Python 3 + PyGObject. No compiled extensions.
+CE-3: Package operations that modify system state (install, remove, upgrade) must always confirm with the user before execution.
+CE-4: Bridge operations are best-effort. If the userspace daemon is absent, kernel terminal must degrade gracefully (print "USERSPACE UNAVAILABLE" and continue).
+CE-5: All new IPC message types must be added to the existing z_ui_message enum. No parallel IPC channels.
+CE-6: No network calls during build. Local repository only. Flatpak operations are deferred to runtime.
+
+[[VARIABLE INJECTION]]
+{{KERNEL_SOURCE}}  = path to kernel terminal C source (default: OS/userland/terminal.c)
+{{WS_TERMINAL}}    = path to workstation terminal Python source (default: OS/workstation/apps/zenith-terminal/src/zenith_terminal/main.py)
+{{WS_PACKAGES}}    = path to workstation packages Python source (default: OS/workstation/apps/zenith-packages/src/zenith_packages/main.py)
+{{PKG_BUILD}}      = path to package build script (default: OS/workstation/distro/build-zenith-packages.sh)
+{{PKG_MANIFEST}}   = path to package set manifest (default: OS/workstation/distro/package-set.manifest)
+{{REPO_DIR}}       = local APT repository root (default: /var/lib/zenith-repo)
+{{TERM_CAP}}       = kernel terminal line buffer size (from Z_UI_TEXT_CAP)
+{{VERSION}}        = ZenithOS package version (default: 0.1.0)
+
+[[OUTPUT SCHEMA]]
+Deliver each phase as a separate fenced block with the following structure:
+
+```phase-N
+---SPECIFICATION---
+[Completed specification matrix / design]
+
+---IMPLEMENTATION---
+[Full source code changes, organized by file]
+
+---VERIFICATION---
+[Checkpoint results: PASS/FAIL per item, evidence]
+
+---ROLLBACK---
+[If any checkpoint FAIL: description of required revision]
+```
+
+[[SELF-CORRECTION LOOP]]
+After generating each phase output:
+1. Re-read the IMPLEMENTATION block
+2. Check each line against the CONSTRAINT ENFORCEMENT list
+3. Check each new function against the relevant CHECKPOINT
+4. If any violation found: revise IMPLEMENTATION inline, increment revision counter, re-verify
+5. Maximum 3 revision cycles per phase before escalating to user
+
+[[WIN CONDITION]]
+The prompt is satisfied when:
+- All 5 phases produce PASS on their terminal checkpoints
+- The kernel terminal supports 20+ commands with tab-completion and history
+- The workstation terminal supports multi-tab, color profiles, and split panes
+- The package system can build a signed local repo, resolve dependencies, install/remove with verification, and rollback
+- Kernel and workstation layers communicate package and shell commands via the bridge protocol
+- Zero new external dependencies beyond what already exists in the ZenithOS workstation build

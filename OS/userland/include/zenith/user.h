@@ -39,7 +39,8 @@ enum z_ui_command {
     Z_UI_CMD_SHOW_TERMINAL = 1,
     Z_UI_CMD_SHOW_SETTINGS = 2,
     Z_UI_CMD_SHOW_OVERVIEW = 3,
-    Z_UI_CMD_NOTIFY = 4
+    Z_UI_CMD_NOTIFY = 4,
+    Z_UI_CMD_BRIDGE_DATA = 5
 };
 
 struct z_ui_message {
@@ -80,7 +81,14 @@ enum zenith_syscall_number {
     ZENITH_SYSCALL_CONSOLE_CLEAR = 24,
     ZENITH_SYSCALL_UI_BIND_SESSION = 25,
     ZENITH_SYSCALL_UI_SEND = 26,
-    ZENITH_SYSCALL_UI_RECV = 27
+    ZENITH_SYSCALL_UI_RECV = 27,
+    ZENITH_SYSCALL_PIPE = 28,
+    ZENITH_SYSCALL_DUP2 = 29,
+    ZENITH_SYSCALL_GETPID = 30,
+    ZENITH_SYSCALL_GETPPID = 31,
+    ZENITH_SYSCALL_REBOOT = 32,
+    ZENITH_SYSCALL_CHDIR = 33,
+    ZENITH_SYSCALL_GETCWD = 34
 };
 
 uint64_t z_syscall6(uint64_t number,
@@ -109,6 +117,13 @@ uint64_t z_read(uint64_t fd, void *buffer, uint64_t size);
 uint64_t z_write(uint64_t fd, const void *buffer, uint64_t size);
 uint64_t z_open(const char *path);
 uint64_t z_close(uint64_t fd);
+uint64_t z_pipe(uint64_t *fds);
+uint64_t z_dup2(uint64_t old_fd, uint64_t new_fd);
+uint64_t z_getpid(void);
+uint64_t z_getppid(void);
+uint64_t z_reboot(void);
+uint64_t z_chdir(const char *path);
+uint64_t z_getcwd(char *dest, uint64_t max_size);
 uint64_t z_strlen(const char *value);
 uint64_t z_ui_bind_session(void);
 uint64_t z_ui_send(uint64_t type,

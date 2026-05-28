@@ -19,18 +19,18 @@ fi
 bash "$repo_root/workstation/distro/build-zenith-packages.sh"
 bash "$repo_root/workstation/distro/publish-apt-repo.sh"
 
-mkdir -p "$rootfs/etc/systemd/system" "$rootfs/usr/src/zenithos"
-ln -sfn /dev/null "$rootfs/etc/systemd/system/live-config.service"
+sudo mkdir -p "$rootfs/etc/systemd/system" "$rootfs/usr/src/zenithos"
+sudo ln -sfn /dev/null "$rootfs/etc/systemd/system/live-config.service"
 
-mkdir -p "$rootfs/var/lib/zenith-repo" "$rootfs/etc/apt/sources.list.d"
-rsync -a --delete "$repo_root/build/workstation/apt-repo/" "$rootfs/var/lib/zenith-repo/"
+sudo mkdir -p "$rootfs/var/lib/zenith-repo" "$rootfs/etc/apt/sources.list.d"
+sudo rsync -a --delete "$repo_root/build/workstation/apt-repo/" "$rootfs/var/lib/zenith-repo/"
 cat > "$rootfs/etc/apt/sources.list.d/zenith-local.list" <<'EOF'
-deb [trusted=yes] file:/var/lib/zenith-repo ./
+deb [signed-by=/var/lib/zenith-repo/zenith-archive-keyring.gpg] file:/var/lib/zenith-repo ./
 EOF
-chroot "$rootfs" apt-get update
-chroot "$rootfs" env DEBIAN_FRONTEND=noninteractive dpkg --configure -a || true
-chroot "$rootfs" env DEBIAN_FRONTEND=noninteractive apt-get -f install -y || true
-chroot "$rootfs" env DEBIAN_FRONTEND=noninteractive apt-get install -y --reinstall \
+sudo chroot "$rootfs" apt-get update
+sudo chroot "$rootfs" env DEBIAN_FRONTEND=noninteractive dpkg --configure -a || true
+sudo chroot "$rootfs" env DEBIAN_FRONTEND=noninteractive apt-get -f install -y || true
+sudo chroot "$rootfs" env DEBIAN_FRONTEND=noninteractive apt-get install -y --reinstall \
     zenith-settings \
     zenith-terminal \
     zenith-packages \
@@ -41,19 +41,19 @@ chroot "$rootfs" env DEBIAN_FRONTEND=noninteractive apt-get install -y --reinsta
     zenith-workstation-defaults \
     zenith-builder
 
-chroot "$rootfs" systemctl enable zenith-hardware-detect.service >/dev/null 2>&1 || true
+sudo chroot "$rootfs" systemctl enable zenith-hardware-detect.service >/dev/null 2>&1 || true
 
-if chroot "$rootfs" getent passwd zenith >/dev/null; then
-    printf 'zenith:zenith\n' | chroot "$rootfs" chpasswd
+if sudo chroot "$rootfs" getent passwd zenith >/dev/null; then
+    printf 'zenith:zenith\n' | sudo chroot "$rootfs" chpasswd
 fi
-rm -f "$rootfs/home/zenith/.config/zenith/greeter-shown"
+sudo rm -f "$rootfs/home/zenith/.config/zenith/greeter-shown"
 
-rsync -a --delete \
+sudo rsync -a --delete \
     --exclude-from "$repo_root/workstation/selfhost/sources.exclude" \
     "$repo_root/" \
     "$rootfs/usr/src/zenithos/"
 
-touch "$rootfs/etc/.updated" "$rootfs/var/.updated"
+sudo touch "$rootfs/etc/.updated" "$rootfs/var/.updated"
 
 bash "$repo_root/workstation/iso/build-live-iso.sh" "$rootfs" "$output"
 

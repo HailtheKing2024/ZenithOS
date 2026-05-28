@@ -32,6 +32,7 @@ fi
 require_command grub-mkrescue
 require_command mformat
 require_command mksquashfs
+require_command sha256sum
 require_command xorriso
 
 kernel="$(find "$rootfs/boot" -maxdepth 1 -type f -name 'vmlinuz-*' | sort | tail -n 1)"
@@ -57,13 +58,9 @@ sudo mksquashfs "$rootfs" "$stage/live/filesystem.squashfs" \
     -e 'var/tmp/*'
 
 cat > "$stage/boot/grub/grub.cfg" <<'EOF'
-terminal_input console
-terminal_output console
-
-set timeout=1
-set timeout_style=menu
+set timeout=0
+set timeout_style=hidden
 set default=0
-set gfxpayload=keep
 
 set live_args="boot=live username=zenith hostname=zenithos locales=en_US.UTF-8 keyboard-layouts=us"
 set serial_args="$live_args console=tty0 console=ttyS0,115200n8"
@@ -91,5 +88,7 @@ menuentry "ZenithOS Workstation (live-boot shell)" {
 EOF
 
 grub-mkrescue -o "$output" "$stage"
+sha256sum "$output" > "$output.sha256"
 
 echo "ZenithOS live ISO created at $output"
+echo "SHA256 written to $output.sha256"

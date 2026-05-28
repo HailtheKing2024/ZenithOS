@@ -36,7 +36,9 @@ plymouth-themes
 btrfs-progs
 snapper
 
-gdm3
+sddm
+qml6-module-qtquick
+qml6-module-qtmultimedia
 accountsservice
 gnome-keyring
 gnome-session
@@ -79,12 +81,18 @@ orca
 # ZenithOS self-hosted image builder
 make
 git
+
+# Popular applications (pre-installed)
+# VS Code and Chrome will be installed via Flatpak instead
+# to keep rootfs small and get auto-updates
+
 rsync
 dpkg-dev
 fakeroot
 mmdebstrap
 debootstrap
 debian-archive-keyring
+gnupg
 squashfs-tools
 xorriso
 isolinux

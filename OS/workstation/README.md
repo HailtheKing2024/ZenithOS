@@ -62,6 +62,13 @@ path remains available for focused testing:
 mingw32-make workstation-run-seed-splash
 ```
 
+For unattended boot smoke validation:
+
+```powershell
+mingw32-make workstation-smoke-seed
+mingw32-make workstation-smoke-seed-persistent
+```
+
 For a persistent development VM, create the live-boot persistence disk once and
 then use the persistent runner:
 
@@ -75,13 +82,14 @@ The disk is `build/workstation/zenithos-persistence.raw`, defaults to a sparse
 `/persistence.conf` with `/ union`. It is for the dev VM only; final hardware
 installs should use the installer and a real partition layout.
 
-The live image should autologin to the `zenith` user and show the Zenith-owned
-greeter. If a display-manager fallback ever asks for credentials, use:
+The live image requires manual login. At the GDM login screen, enter:
 
 ```text
-user: zenith
-password: zenith
+user: hailtheking
+password: 2976880801
 ```
+
+After first login, you can change your password with `passwd`.
 
 ## Hardware Profiles
 
@@ -125,7 +133,8 @@ Diagnostics.
 - Zenith Files with places, search, hidden-file toggle, metadata, parent
   navigation, file opening, and terminal-here.
 - Zenith Installer readiness dashboard with non-destructive disk validation,
-  Btrfs layout preview, bootloader plan, and install-report actions.
+  selected target tracking, disk-specific dry-run plan generation, bootloader
+  plan, and install-report actions.
 - Zenith Terminal with command sessions and shortcuts for boot logs, updates,
   and build checks.
 

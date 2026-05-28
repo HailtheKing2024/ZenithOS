@@ -3,10 +3,7 @@ set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 out_dir="${ZENITH_PACKAGE_OUT:-$repo_root/build/workstation/packages}"
-default_work_dir="$repo_root/build/workstation/package-work"
-if [[ "$repo_root" == /mnt/* ]]; then
-    default_work_dir="${ZENITH_PACKAGE_WORK:-$HOME/.cache/zenithos/package-work}"
-fi
+default_work_dir="/var/lib/zenith-build/package-work"
 work_dir="${ZENITH_PACKAGE_WORK:-$default_work_dir}"
 version="${ZENITH_VERSION:-0.1.0}"
 
@@ -94,6 +91,7 @@ install_app_package \
     os.zenith.Packages.desktop \
     "ZenithOS package manager" \
     "python3, python3-gi, gir1.2-gtk-4.0, gir1.2-adw-1, apt, flatpak"
+install -m 0755 "$repo_root/workstation/apps/bin/zpkg" "$(pkg_root zenith-packages)/usr/bin/zpkg"
 
 install_app_package \
     zenith-files \
@@ -119,6 +117,30 @@ install_app_package \
     "ZenithOS installer readiness application" \
     "python3, python3-gi, gir1.2-gtk-4.0, gir1.2-adw-1, util-linux, parted, gdisk, btrfs-progs, grub-common"
 
+install_app_package \
+    zenith-calculator \
+    zenith_calculator \
+    zenith-calculator \
+    os.zenith.Calculator.desktop \
+    "ZenithOS calculator" \
+    "python3, python3-gi, gir1.2-gtk-4.0, gir1.2-adw-1"
+
+install_app_package \
+    zenith-clock \
+    zenith_clock \
+    zenith-clock \
+    os.zenith.Clock.desktop \
+    "ZenithOS clock and timezone viewer" \
+    "python3, python3-gi, gir1.2-gtk-4.0, gir1.2-adw-1"
+
+install_app_package \
+    zenith-text-editor \
+    zenith_text_editor \
+    zenith-text-editor \
+    os.zenith.TextEditor.desktop \
+    "ZenithOS text editor" \
+    "python3, python3-gi, gir1.2-gtk-4.0, gir1.2-adw-1"
+
 shell_root="$(pkg_root zenith-shell-extension)"
 write_control \
     zenith-shell-extension \
@@ -132,7 +154,7 @@ defaults_root="$(pkg_root zenith-workstation-defaults)"
 write_control \
     zenith-workstation-defaults \
     "ZenithOS workstation defaults" \
-    "zenith-shell-extension, zenith-welcome, zenith-settings, zenith-terminal, zenith-packages, zenith-files, zenith-installer, gdm3, dconf-cli, systemd, sudo, plymouth, power-profiles-daemon"
+    "zenith-shell-extension, zenith-welcome, zenith-settings, zenith-terminal, zenith-packages, zenith-files, zenith-installer, zenith-calculator, zenith-clock, zenith-text-editor, sddm, dconf-cli, systemd, sudo, plymouth, power-profiles-daemon, flatpak"
 install -D -m 0644 "$repo_root/workstation/profiles/dev-vm.profile" "$defaults_root/usr/share/zenith/hardware-profiles/dev-vm.profile"
 install -D -m 0644 "$repo_root/workstation/profiles/generic-workstation.profile" "$defaults_root/usr/share/zenith/hardware-profiles/generic-workstation.profile"
 install -D -m 0644 "$repo_root/workstation/profiles/lenovo-v14-ada.profile" "$defaults_root/usr/share/zenith/hardware-profiles/lenovo-v14-ada.profile"
@@ -158,6 +180,11 @@ install -D -m 0644 "$repo_root/workstation/config/systemd/system/zenith-hardware
 install -D -m 0644 "$repo_root/workstation/config/systemd/system/zenith-boot-report.service" "$defaults_root/etc/systemd/system/zenith-boot-report.service"
 install -D -m 0644 "$repo_root/workstation/config/systemd/system/zenith-performance-defaults.service" "$defaults_root/etc/systemd/system/zenith-performance-defaults.service"
 install -D -m 0644 "$repo_root/workstation/config/systemd/system/zenith-plymouth-handoff.service" "$defaults_root/etc/systemd/system/zenith-plymouth-handoff.service"
+install -D -m 0644 "$repo_root/workstation/config/systemd/system/zenith-first-boot-apps.service" "$defaults_root/etc/systemd/system/zenith-first-boot-apps.service"
+install -D -m 0755 "$repo_root/workstation/scripts/first-boot-apps.sh" "$defaults_root/usr/lib/zenith/first-boot-apps.sh"
+install -D -m 0644 "$repo_root/workstation/config/sddm/sddm.conf" "$defaults_root/etc/sddm/sddm.conf"
+mkdir -p "$defaults_root/usr/share/sddm/themes"
+cp -R "$repo_root/workstation/themes/sddm/pixel-skyscrapers" "$defaults_root/usr/share/sddm/themes/pixel-skyscrapers"
 install -D -m 0755 "$repo_root/workstation/config/usr/lib/zenith/zenith-boot-report" "$defaults_root/usr/lib/zenith/zenith-boot-report"
 install -D -m 0755 "$repo_root/workstation/config/usr/lib/zenith/zenith-hardware-detect" "$defaults_root/usr/lib/zenith/zenith-hardware-detect"
 install -D -m 0755 "$repo_root/workstation/config/usr/lib/zenith/zenith-performance-defaults" "$defaults_root/usr/lib/zenith/zenith-performance-defaults"
@@ -187,9 +214,9 @@ fi
 if [ -f /usr/share/zenith/defaults/hosts ]; then
     install -m 0644 /usr/share/zenith/defaults/hosts /etc/hosts
 fi
-if [ -f /usr/share/zenith/defaults/gdm-daemon.conf ]; then
-    mkdir -p /etc/gdm3
-    install -m 0644 /usr/share/zenith/defaults/gdm-daemon.conf /etc/gdm3/daemon.conf
+if [ -f /usr/share/zenith/defaults/sddm.conf ]; then
+ mkdir -p /etc/sddm
+ install -m 0644 /usr/share/zenith/defaults/sddm.conf /etc/sddm/sddm.conf
 fi
 mkdir -p /etc/plymouth
 cat > /etc/plymouth/plymouthd.conf <<PLYMOUTH
@@ -234,6 +261,9 @@ for package in \
     zenith-files \
     zenith-welcome \
     zenith-installer \
+    zenith-calculator \
+    zenith-clock \
+    zenith-text-editor \
     zenith-shell-extension \
     zenith-workstation-defaults \
     zenith-builder; do

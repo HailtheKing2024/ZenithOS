@@ -17,6 +17,9 @@ REQUIRED_FILES = [
     "workstation/README.md",
     "workstation/architecture.md",
     "workstation/roadmap.md",
+    "workstation/release/CHANGELOG.md",
+    "workstation/release/KNOWN_ISSUES.md",
+    "workstation/release/RELEASE_NOTES.md",
     "workstation/distro/README.md",
     "workstation/distro/pipeline.md",
     "workstation/distro/gnome-source-plan.md",
@@ -93,6 +96,9 @@ REQUIRED_FILES = [
     "workstation/selfhost/sources.exclude",
     "workstation/selfhost/zenith-build.sh",
     "workstation/selfhost/zenith-build.desktop",
+    "tools/run_workstation_seed.ps1",
+    "tools/smoke_workstation_seed.ps1",
+    "tools/qemu_diagnostic_matrix.ps1",
     "docs/kernel-lab.md",
 ]
 

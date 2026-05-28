@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Zenith Calculator
+Comment=Perform basic calculations
+Exec=zenith-calculator
+Icon=accessories-calculator
+Terminal=false
+Categories=Utility;Calculator;

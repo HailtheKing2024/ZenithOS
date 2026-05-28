@@ -128,7 +128,7 @@ USER_ELFS := $(addprefix $(BUILD_DIR)/userland/,$(addsuffix .elf,$(USER_APPS)))
 USER_BINS := $(addprefix $(BUILD_DIR)/userland/,$(addsuffix .bin,$(USER_APPS)))
 USERLAND_INC := $(BUILD_DIR)/kernel/fs/initramfs_userland.inc
 
-.PHONY: all clean toolchain-check iso run kernel-lab kernel-lab-iso kernel-lab-run workstation-check workstation-runtime-check workstation-runtime-check-wsl workstation-packages workstation-packages-wsl workstation-repo workstation-repo-wsl workstation-verify-repo-wsl workstation-apt-check-wsl workstation-rootfs workstation-rootfs-wsl workstation-seed-iso workstation-seed-iso-wsl workstation-vm-persistence workstation-vm-persistence-wsl workstation-run-seed workstation-run-seed-persistent workstation-run-seed-splash workstation-run-seed-iso workstation-run-seed-fast workstation-run-seed-debug workstation-diagnose-qemu
+.PHONY: all clean toolchain-check iso run kernel-lab kernel-lab-iso kernel-lab-run workstation-check workstation-runtime-check workstation-runtime-check-wsl workstation-packages workstation-packages-wsl workstation-repo workstation-repo-wsl workstation-verify-repo-wsl workstation-apt-check-wsl workstation-rootfs workstation-rootfs-wsl workstation-seed-iso workstation-seed-iso-wsl workstation-vm-persistence workstation-vm-persistence-wsl workstation-smoke-seed workstation-smoke-seed-persistent workstation-run-seed workstation-run-seed-persistent workstation-run-seed-splash workstation-run-seed-iso workstation-run-seed-fast workstation-run-seed-debug workstation-diagnose-qemu
 .SECONDARY: $(USER_OBJECTS) $(USER_ELFS) $(USER_BINS)
 
 all: $(KERNEL)
@@ -222,7 +222,7 @@ endif
 
 workstation-seed-iso-wsl: workstation-check
 ifeq ($(OS),Windows_NT)
-	$$repo = (wsl -d Ubuntu -- wslpath -a '$(CURDIR)').Trim(); wsl -d Ubuntu -u root -- bash -lc "cd '$$repo' && bash workstation/iso/build-seed-iso.sh build/workstation/zenithos-seed.iso"
+	$$repo = (wsl -d Ubuntu -- wslpath -a '$(CURDIR)').Trim(); wsl -d Ubuntu -u root -- bash -lc "cd '$$repo' && export ZENITH_APT_SIGNING_KEY='builders@zenithos.local' && bash workstation/iso/build-seed-iso.sh build/workstation/zenithos-seed.iso"
 else
 	@echo 'workstation-seed-iso-wsl is only needed from Windows bootstrap hosts.'
 endif
@@ -239,6 +239,20 @@ ifeq ($(OS),Windows_NT)
 	$$repo = (wsl -d Ubuntu -- wslpath -a '$(CURDIR)').Trim(); wsl -d Ubuntu -- bash -lc "cd '$$repo' && bash workstation/iso/create-persistence-disk.sh build/workstation/zenithos-persistence.raw"
 else
 	@echo 'workstation-vm-persistence-wsl is only needed from Windows bootstrap hosts.'
+endif
+
+workstation-smoke-seed: workstation-check
+ifeq ($(OS),Windows_NT)
+	powershell -NoProfile -ExecutionPolicy Bypass -File tools/smoke_workstation_seed.ps1 -Seconds 90
+else
+	@echo 'workstation-smoke-seed is currently implemented for the Windows QEMU host.'
+endif
+
+workstation-smoke-seed-persistent: workstation-check
+ifeq ($(OS),Windows_NT)
+	powershell -NoProfile -ExecutionPolicy Bypass -File tools/smoke_workstation_seed.ps1 -Seconds 90 -Persistent
+else
+	@echo 'workstation-smoke-seed-persistent is currently implemented for the Windows QEMU host.'
 endif
 
 workstation-run-seed:

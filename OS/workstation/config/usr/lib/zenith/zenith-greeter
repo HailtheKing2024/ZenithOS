@@ -12,41 +12,44 @@ from gi.repository import Adw, Gdk, Gio, Gtk
 
 CSS = """
 .zenith-login-root {
-    background: #071017;
+    background: #02050a;
 }
 
 .zenith-login-panel {
-    background: rgba(7, 16, 23, 0.92);
-    border: 1px solid rgba(131, 245, 219, 0.30);
-    border-radius: 8px;
-    padding: 34px;
+    background: rgba(10, 15, 25, 0.7);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(0, 255, 200, 0.2);
+    border-radius: 16px;
+    padding: 40px;
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 255, 200, 0.1);
 }
 
 .zenith-login-title {
-    color: #f4f7f8;
-    font-size: 48px;
-    font-weight: 800;
-    letter-spacing: 0;
+    color: #ffffff;
+    font-size: 56px;
+    font-weight: 900;
+    letter-spacing: -1px;
+    text-shadow: 0 0 10px rgba(0, 255, 200, 0.5);
 }
 
 .zenith-login-subtitle {
-    color: #83f5db;
-    font-size: 15px;
-    font-weight: 700;
-    letter-spacing: 0;
+    color: #00ffcc;
+    font-size: 16px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    margin-bottom: 20px;
 }
 
 .zenith-login-user {
-    color: #f4f7f8;
-    font-size: 22px;
-    font-weight: 700;
-    letter-spacing: 0;
+    color: #e0e6ed;
+    font-size: 24px;
+    font-weight: 500;
 }
 
 .zenith-login-meta {
-    color: #b8c3cc;
-    font-size: 13px;
-    letter-spacing: 0;
+    color: #7a8c99;
+    font-size: 14px;
 }
 """
 
@@ -79,7 +82,8 @@ class GreeterWindow(Adw.ApplicationWindow):
         root = Gtk.Overlay()
         root.add_css_class("zenith-login-root")
 
-        background = Gtk.Picture.new_for_filename("/usr/share/backgrounds/zenith/zenith-default.svg")
+        # Using the Pixel-Skyscrapers background asset
+        background = Gtk.Picture.new_for_filename("/usr/share/backgrounds/zenith/city-night.png")
         background.set_can_shrink(False)
         background.set_content_fit(Gtk.ContentFit.COVER)
         root.set_child(background)

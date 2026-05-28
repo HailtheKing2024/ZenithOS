@@ -1,0 +1,132 @@
+PHASE_0_CAPABILITY_AUDIT
+
+SYSCALL_TABLE = [
+  {number: 0, name: ZENITH_SYSCALL_PING, signature: z_ping(void) -> uint64_t, purpose: syscall path liveness probe},
+  {number: 1, name: ZENITH_SYSCALL_IPC_SEND2, signature: z_syscall6(1, port, tag, word0, word1, 0, 0) -> uint64_t, purpose: send two-word kernel IPC test message},
+  {number: 2, name: ZENITH_SYSCALL_TEST_COMPLETE, signature: z_syscall6(2, result, 0, 0, 0, 0, 0) -> uint64_t, purpose: mark user self-test complete},
+  {number: 3, name: ZENITH_SYSCALL_SLEEP_TICKS, signature: z_sleep_ticks(ticks) -> uint64_t, purpose: block current task for scheduler ticks},
+  {number: 4, name: ZENITH_SYSCALL_MAP_PAGE, signature: z_map_page(address, writable) -> uint64_t, purpose: map one user page into current address space},
+  {number: 5, name: ZENITH_SYSCALL_FILE_READ, signature: z_syscall6(5, path, dest, max_size, 0, 0, 0) -> uint64_t, purpose: copy initramfs file contents to user buffer},
+  {number: 6, name: ZENITH_SYSCALL_EVENT_POLL, signature: z_event_poll(void) -> uint64_t, purpose: poll packed input event},
+  {number: 7, name: ZENITH_SYSCALL_DRAW_RECT, signature: z_draw_rect(x, y, width, height, color) -> uint64_t, purpose: draw framebuffer rectangle},
+  {number: 8, name: ZENITH_SYSCALL_DRAW_TEXT, signature: z_draw_text(x, y, text, color, scale) -> uint64_t, purpose: draw framebuffer text},
+  {number: 9, name: ZENITH_SYSCALL_CONSOLE_INIT, signature: z_console_init(void) -> uint64_t, purpose: initialize kernel console},
+  {number: 10, name: ZENITH_SYSCALL_CONSOLE_EVENT, signature: z_console_event(code) -> uint64_t, purpose: submit console key event},
+  {number: 11, name: ZENITH_SYSCALL_INIT_READY, signature: z_syscall6(11, result, 0, 0, 0, 0, 0) -> uint64_t, purpose: mark init process ready},
+  {number: 12, name: ZENITH_SYSCALL_PROC_SPAWN, signature: z_spawn(path, arg) -> uint64_t, purpose: spawn initramfs user program with single argument string},
+  {number: 13, name: ZENITH_SYSCALL_PROC_WAIT, signature: z_wait(pid) -> uint64_t, purpose: wait for child task exit},
+  {number: 14, name: ZENITH_SYSCALL_PROC_EXIT, signature: z_exit(status) -> uint64_t, purpose: terminate current process with status},
+  {number: 15, name: ZENITH_SYSCALL_PROC_EXEC, signature: z_syscall6(15, path, 0, 0, 0, 0, 0) -> uint64_t, purpose: replace current process image},
+  {number: 16, name: ZENITH_SYSCALL_CONSOLE_WRITE, signature: z_syscall6(16, text, 0, 0, 0, 0, 0) -> uint64_t, purpose: write one console line},
+  {number: 17, name: ZENITH_SYSCALL_CONSOLE_PROMPT, signature: z_console_prompt(void) -> uint64_t, purpose: render kernel console prompt},
+  {number: 18, name: ZENITH_SYSCALL_CONSOLE_ARG_READ, signature: z_console_arg_read(dest, max_size) -> uint64_t, purpose: copy console argument to user buffer},
+  {number: 19, name: ZENITH_SYSCALL_READ, signature: z_read(fd, buffer, size) -> uint64_t, purpose: read from FD; current valid source is stdin},
+  {number: 20, name: ZENITH_SYSCALL_WRITE, signature: z_write(fd, buffer, size) -> uint64_t, purpose: write to FD; current valid sinks are stdout/stderr},
+  {number: 21, name: ZENITH_SYSCALL_OPEN, signature: z_open(path) -> uint64_t, purpose: open pseudo-device path},
+  {number: 22, name: ZENITH_SYSCALL_CLOSE, signature: z_close(fd) -> uint64_t, purpose: close pseudo-device FD},
+  {number: 23, name: ZENITH_SYSCALL_CONSOLE_READ_LINE, signature: z_console_read_line(dest, max_size) -> uint64_t, purpose: copy current console input line},
+  {number: 24, name: ZENITH_SYSCALL_CONSOLE_CLEAR, signature: z_console_clear(void) -> uint64_t, purpose: clear kernel console},
+  {number: 25, name: ZENITH_SYSCALL_UI_BIND_SESSION, signature: z_ui_bind_session(void) -> uint64_t, purpose: bind current process as UI session target},
+  {number: 26, name: ZENITH_SYSCALL_UI_SEND, signature: z_ui_send(type, target, a, b, c, text) -> uint64_t, purpose: enqueue UI IPC message},
+  {number: 27, name: ZENITH_SYSCALL_UI_RECV, signature: z_ui_recv(message) -> uint64_t, purpose: receive queued UI IPC message for current process}
+]
+
+COMMAND_TABLE = [
+  {name: HELP, classification: native, handler_ptr: run_command:HELP, arity: 0, help_string: "display available commands"},
+  {name: SYSINFO, classification: native, handler_ptr: run_command:SYSINFO, arity: 0, help_string: "display current ZenithOS session summary"},
+  {name: ECHO, classification: native, handler_ptr: run_command:ECHO, arity: "0..1", help_string: "write provided text to terminal output"},
+  {name: CLEAR, classification: native, handler_ptr: run_command:CLEAR, arity: 0, help_string: "clear terminal lines and input"},
+  {name: SETTINGS, classification: bridge-only, handler_ptr: run_command:SETTINGS, arity: 0, help_string: "legacy UI command: show settings window"},
+  {name: OVERVIEW, classification: bridge-only, handler_ptr: run_command:OVERVIEW, arity: 0, help_string: "legacy UI command: show overview"},
+  {name: DESKTOP, classification: native, handler_ptr: run_command:DESKTOP, arity: 0, help_string: "display desktop IPC architecture note"},
+  {name: REBOOT, classification: native, handler_ptr: run_command:REBOOT, arity: 0, help_string: "placeholder; reboot syscall is not wired"}
+]
+
+CONSTRAINT_MATRIX = [
+  {constraint_id: C1, status: PASS, evidence: "build/userland/terminal.bin = 3713 bytes <= 32768"},
+  {constraint_id: C2, status: PASS, evidence: "userland/terminal.c includes zenith/user.h and stdbool.h only; user.h includes stdint.h"},
+  {constraint_id: C3, status: PASS, evidence: "z_spawn(path,arg) wrapper maps to syscall 12 with single arg pointer; terminal does not spawn"},
+  {constraint_id: C4, status: FAIL, evidence: "Z_UI_TEXT_CAP/UI_TEXT_CAP = 64 exists; PKG_INFO/PKG_SEARCH paged protocol is absent"},
+  {constraint_id: C5, status: PASS, evidence: "terminal performs no filesystem mutation; current open/read/write layer only exposes pseudo-device FDs"},
+  {constraint_id: C6, status: PASS, evidence: "audited terminal code is project-local simple control logic; no copied external implementation detected"},
+  {constraint_id: C7, status: PASS, evidence: "ZENITH_SYSCALL_COUNT = 28; no syscall numbers after 27 exist in current ABI"},
+  {constraint_id: C8, status: PASS, evidence: "terminal communicates through z_ui_send/z_ui_recv; no kernel subsystem is embedded into user terminal"},
+  {constraint_id: C9, status: FAIL, evidence: "terminal registers 760x472 UI window; no 1280x800 framebuffer contract is asserted in terminal source"},
+  {constraint_id: C10, status: PASS, evidence: "current process ABI uses per-process user image and syscall-mediated access; no shared memory path in terminal"},
+  {constraint_id: C11, status: FAIL, evidence: "Z_UI_CMD_BRIDGE_DATA is not implemented; current bridge-only commands use Z_UI_MSG_COMMAND with legacy command IDs"},
+  {constraint_id: C12, status: PASS, evidence: "bridge-only commands SETTINGS and OVERVIEW call z_ui_send only; terminal has zero z_open/z_read/z_close call sites"}
+]
+
+IPC_MESSAGE_TYPE_REGISTRY = [
+  {value: 0, user_name: Z_UI_MSG_NONE, kernel_name: UI_MSG_NONE, purpose: "invalid/no message"},
+  {value: 1, user_name: Z_UI_MSG_REGISTER, kernel_name: UI_MSG_REGISTER, purpose: "register UI role/window"},
+  {value: 2, user_name: Z_UI_MSG_SET_LINE, kernel_name: UI_MSG_SET_LINE, purpose: "set text line in UI terminal window"},
+  {value: 3, user_name: Z_UI_MSG_CLEAR, kernel_name: UI_MSG_CLEAR, purpose: "clear UI surface"},
+  {value: 4, user_name: Z_UI_MSG_INPUT_KEY, kernel_name: UI_MSG_INPUT_KEY, purpose: "deliver key event to app"},
+  {value: 5, user_name: Z_UI_MSG_INPUT_MOUSE, kernel_name: UI_MSG_INPUT_MOUSE, purpose: "deliver mouse event to app"},
+  {value: 6, user_name: Z_UI_MSG_COMMAND, kernel_name: UI_MSG_COMMAND, purpose: "send UI command"},
+  {value: 7, user_name: Z_UI_MSG_NOTIFY, kernel_name: UI_MSG_NOTIFY, purpose: "send notification text"},
+  {value: 8, user_name: Z_UI_MSG_CLOSE, kernel_name: UI_MSG_CLOSE, purpose: "request app close"}
+]
+
+Z_UI_CMD_BRIDGE_DATA_DEFINITION = {
+  status: "reserved by audit; not implemented in headers",
+  proposed_command_value: 5,
+  carrier_type: "Z_UI_MSG_COMMAND",
+  a: "Z_UI_CMD_BRIDGE_DATA",
+  b: "bridge stream id or page cursor",
+  c: "flags: bit0=request, bit1=response, bit2=truncated, bit3=paged",
+  text_layout: {
+    byte_0: "opcode: 0=data, 1=command, 2=pkg_first_page, 3=pkg_next_page, 4=error",
+    byte_1: "line_count for paged PKG response, otherwise 0",
+    byte_2: "page_index",
+    byte_3: "payload_len, max 56",
+    bytes_4_to_7: "reserved, zero",
+    bytes_8_to_63: "payload, max 56 bytes"
+  },
+  pkg_first_response: "text[1] carries total line_count; text[8..63] carries first line",
+  pkg_page_advance: "KEY_DOWN from terminal requests next page using same stream id",
+  invariant: "payload_len <= 56; total IPC text cap remains 64"
+}
+
+MEMORY_BUDGET_ANALYSIS = {
+  terminal_binary_bytes: 3713,
+  terminal_binary_cap: 32768,
+  terminal_binary_remaining: 29055,
+  terminal_static_lines_bytes: "TERM_LINES(10) * TERM_CAP(64) = 640",
+  terminal_static_input_bytes: 64,
+  terminal_static_counters_bytes: "line_count + input_len = 16",
+  terminal_static_total_bytes: 720,
+  redraw_stack_prompt_bytes: 64,
+  main_stack_message_bytes: "sizeof(struct z_ui_message) = 112",
+  kernel_ui_queue_bytes: "UI_QUEUE_LENGTH(64) * sizeof(struct ui_message)(112) = 7168"
+}
+
+INCLUDE_AUDIT = [
+  {file: "userland/terminal.c", include: "zenith/user.h", allowlist: PASS},
+  {file: "userland/terminal.c", include: "stdbool.h", allowlist: PASS}
+]
+
+FUNCTION_COMPLIANCE_PHASE_0 = [
+  {function: to_upper, includes: ["zenith/user.h", "stdbool.h"], external_calls: [], syscalls: [], command_classification: native, verdict: PASS},
+  {function: string_equals, includes: ["zenith/user.h", "stdbool.h"], external_calls: [], syscalls: [], command_classification: native, verdict: PASS},
+  {function: string_starts_with, includes: ["zenith/user.h", "stdbool.h"], external_calls: [], syscalls: [], command_classification: native, verdict: PASS},
+  {function: copy_text, includes: ["zenith/user.h", "stdbool.h"], external_calls: [], syscalls: [], command_classification: native, verdict: PASS},
+  {function: compose_prompt, includes: ["zenith/user.h", "stdbool.h"], external_calls: [], syscalls: [], command_classification: native, verdict: PASS},
+  {function: push_line, includes: ["zenith/user.h", "stdbool.h"], external_calls: ["copy_text"], syscalls: [], command_classification: native, verdict: PASS},
+  {function: redraw, includes: ["zenith/user.h", "stdbool.h"], external_calls: ["compose_prompt", "z_ui_send"], syscalls: [ZENITH_SYSCALL_UI_SEND], command_classification: native, verdict: PASS},
+  {function: clear_terminal, includes: ["zenith/user.h", "stdbool.h"], external_calls: [], syscalls: [], command_classification: native, verdict: PASS},
+  {function: run_command, includes: ["zenith/user.h", "stdbool.h"], external_calls: ["string_equals", "string_starts_with", "push_line", "clear_terminal", "z_ui_send"], syscalls: [ZENITH_SYSCALL_UI_SEND], command_classification: "native and bridge-only branches", verdict: PASS},
+  {function: handle_key, includes: ["zenith/user.h", "stdbool.h"], external_calls: ["to_upper", "run_command", "redraw"], syscalls: [], command_classification: native, verdict: PASS},
+  {function: main, includes: ["zenith/user.h", "stdbool.h"], external_calls: ["clear_terminal", "push_line", "z_ui_send", "redraw", "z_ui_recv", "handle_key", "z_exit", "z_sleep_ticks"], syscalls: [ZENITH_SYSCALL_UI_SEND, ZENITH_SYSCALL_UI_RECV, ZENITH_SYSCALL_PROC_EXIT, ZENITH_SYSCALL_SLEEP_TICKS], command_classification: native, verdict: PASS}
+]
+
+PHASE_0_VERIFY = {
+  VC_0a: "PASS - all syscall numbers 0..27 documented; ZENITH_SYSCALL_COUNT = 28",
+  VC_0b: "PASS - every current terminal command classified native or bridge-only",
+  VC_0c: "PASS - C1..C12 matrix has 12 entries with PASS/FAIL and evidence",
+  VC_0d: "PASS - Z_UI_CMD_BRIDGE_DATA frame format defined with 8-byte text header and 56-byte payload",
+  VC_0e: "PASS - binary size measured by llvm-objcopy output: 3713 bytes; include allowlist PASS"
+}
+
+SUMMARY = "Current terminal is a 3713-byte IPC-rendered command widget with 8 hard-coded commands. Missing production requirements: command table/tokenizer, Z_UI_CMD_BRIDGE_DATA implementation, paged PKG protocol, 1280x800 terminal contract, pipe/redirection/syscalls, and real package resolver."

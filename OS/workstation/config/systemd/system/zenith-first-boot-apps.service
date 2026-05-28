@@ -1,0 +1,15 @@
+[Unit]
+Description=ZenithOS First Boot Application Installer
+ConditionPathExists=!/var/lib/zenith/apps-installed.flag
+After=network-online.target flatpak.service
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/lib/zenith/first-boot-apps.sh
+RemainAfterExit=yes
+StandardOutput=journal+console
+StandardError=journal+console
+
+[Install]
+WantedBy=graphical.target

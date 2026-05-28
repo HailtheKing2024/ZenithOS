@@ -554,6 +554,15 @@ uint64_t scheduler_current_task_id(void)
     return current_task->id;
 }
 
+uint64_t scheduler_current_parent_id(void)
+{
+    if (current_task == NULL) {
+        return 0;
+    }
+
+    return current_task->parent_id;
+}
+
 const char *scheduler_current_task_name(void)
 {
     if (current_task == NULL) {

@@ -1,9 +1,11 @@
 PRETTY_NAME="ZenithOS Workstation"
 NAME="ZenithOS"
-VERSION_ID="0.1"
-VERSION="0.1 Workstation Preview"
+VERSION_ID="0.2-beta"
+VERSION="0.2 Beta 2 Preview"
+VERSION_CODENAME=beta2
+BUILD_ID=beta2
 ID=zenithos
 ID_LIKE=debian
-HOME_URL="https://example.invalid/zenithos"
-SUPPORT_URL="https://example.invalid/zenithos/support"
-BUG_REPORT_URL="https://example.invalid/zenithos/bugs"
+HOME_URL="https://github.com/HailtheKing2024/ZenithOS"
+SUPPORT_URL="https://github.com/HailtheKing2024/ZenithOS/issues"
+BUG_REPORT_URL="https://github.com/HailtheKing2024/ZenithOS/issues"
