@@ -6,9 +6,8 @@
 
 ## Changes Made
 
-### 1. GDM Configuration (`workstation/config/gdm/daemon.conf`)
-- **Before:** `AutomaticLoginEnable=true` with user `zenith`
-- **After:** `AutomaticLoginEnable=false` (manual login required)
+### 1. SDDM Configuration (`workstation/config/sddm/sddm.conf`)
+- **Status:** Integrated Pixel-Skyscrapers theme for SDDM
 - **Security:** Autologin disabled for production security
 
 ### 2. User Account Setup (`workstation/iso/build-rootfs.sh`)
@@ -18,10 +17,10 @@
 - **Shell:** /bin/bash
 - **Home:** /home/hailtheking
 
-### 3. Login Screen Configuration (`workstation/config/dconf/db/gdm.d/00-zenith-login`)
-- Banner message: **Disabled** (was showing "ZenithOS Workstation")
-- User list: **Visible** (disable-user-list=false)
-- Clean login interface for manual credential entry
+### 3. Login Screen Configuration (`workstation/themes/sddm/pixel-skyscrapers/`)
+- Theme: Animated Pixel-Skyscrapers theme
+- Custom UI elements: Clock uses PixelifySans-Bold font
+- Credentials: Login prompt uses custom theme coloring
 
 ### 4. Documentation Updates (`workstation/README.md`)
 - Updated login instructions with new credentials
@@ -35,15 +34,15 @@
 
 ## Files Modified
 
-1. `/mnt/c/Users/krish/ZenithOS/OS/workstation/config/gdm/daemon.conf`
+1. `/mnt/c/Users/krish/ZenithOS/OS/workstation/config/sddm/sddm.conf`
 2. `/mnt/c/Users/krish/ZenithOS/OS/workstation/iso/build-rootfs.sh`
-3. `/mnt/c/Users/krish/ZenithOS/OS/workstation/config/dconf/db/gdm.d/00-zenith-login`
+3. `/mnt/c/Users/krish/ZenithOS/OS/workstation/themes/sddm/pixel-skyscrapers`
 4. `/mnt/c/Users/krish/ZenithOS/OS/workstation/README.md`
 5. `/mnt/c/Users/krish/ZenithOS/OS/workstation/qa/runtime-check.sh`
 
 ## Login Instructions
 
-### At the GDM Login Screen:
+### At the SDDM Login Screen:
 1. Select **hailtheking** from the user list
 2. Enter password: **2976880801**
 3. Press Enter or click "Log In"
@@ -86,16 +85,15 @@ make workstation-run-seed-iso
 - ✅ Autologin disabled - manual authentication required
 - ✅ User has sudo privileges for administration
 - ✅ Password should be changed after first login
-- ✅ GDM banner removed - no system information displayed
+- ✅ SDDM theme loaded - custom Zenith login UI displayed
 - ✅ User list visible for easier login (single-user system)
 
-## Rollback (if needed)
-
-To restore autologin with zenith user:
+To configure autologin in SDDM:
 ```bash
-# In workstation/config/gdm/daemon.conf:
-AutomaticLoginEnable=true
-AutomaticLogin=zenith
+# In workstation/config/sddm/sddm.conf:
+[Autologin]
+User=hailtheking
+Session=plasma
 ```
 
 ## Next Steps

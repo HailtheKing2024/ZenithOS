@@ -12,11 +12,11 @@
 
 - Build Zenith-owned `.deb` packages for shell, apps, defaults, and builder.
 - Publish those packages into a local Zenith apt repository.
-- ZenithShell identity layer on GNOME internals.
-- Modern top bar, overview, app grid, favorites, and system menu direction.
-- Zenith theme tokens and default GNOME settings.
+- ZenithShell identity layer on KDE Plasma internals.
+- Modern bottom panel, kickoff menu, applet shortcuts, and system tray direction.
+- Zenith theme tokens and default KDE Plasma settings.
 - First-party app launchers and desktop entries.
-- Stock GNOME session retained as recovery.
+- Stock Plasma session retained as recovery.
 
 ## Phase 2: First-Party Apps
 
@@ -30,7 +30,7 @@
 ## Phase 3: System Integration
 
 - Wire Settings to NetworkManager, PipeWire, power-profiles-daemon, upower, and
-  GNOME schemas.
+  KDE/GTK schemas.
 - Wire Packages to apt, Flatpak, storage-budget warnings, and rollback prompts.
 - Wire Files to GIO/GVfs and xdg portals.
 - Add notifications, error states, loading states, and offline behavior.
@@ -47,7 +47,7 @@
 
 - Build live image.
 - Boot live image and rebuild rootfs from inside ZenithOS.
-- Promote source-built GNOME packages into the Zenith apt repository.
+- Promote source-built KDE/Plasma packages into the Zenith apt repository.
 - Add graphical installer.
 - Add Btrfs snapshot rollback.
 - Add first-boot user creation and update checks.

@@ -25,7 +25,7 @@ systemd, udev, logind, journald
 glibc, coreutils, apt, dpkg
 dbus, polkit, xdg portals
 NetworkManager, PipeWire, WirePlumber, upower
-Wayland, Mutter, GNOME Shell internals
+Wayland, KWin, KDE Plasma internals
 GTK4, libadwaita, VTE, GLib/GIO
 ZenithShell and first-party apps
 Zenith package repository
@@ -48,19 +48,19 @@ Self-hosted image builder
 - systemd service/session model.
 - apt/dpkg package installation.
 - Flatpak sandbox/runtime model.
-- Mutter/Wayland compositor internals.
+- KWin/Wayland compositor internals.
 - GTK/libadwaita app platform.
-- GNOME settings schemas where they define system behavior.
+- KDE Plasma configurations where they define system behavior.
 
 ## First Milestone
 
-Boot a rootfs to GDM on Wayland, install the ZenithShell extension, apply Zenith
-theme/defaults, launch Zenith Settings from the app grid, and run
+Boot a rootfs to SDDM on Wayland, apply Zenith
+theme/defaults, launch Zenith Settings from the kickoff launcher, and run
 `zenith-build check` inside the system.
 
 ## Later Milestones
 
-1. Replace more GNOME Shell surface area with ZenithShell code.
+1. Replace more KDE Plasma surface area with ZenithShell code.
 2. Add Zenith Packages as the apt/Flatpak front end.
 3. Add installer and recovery snapshot flow.
 4. Tune Lenovo V14-ADA hardware defaults.

@@ -1,0 +1,24 @@
+[KDE]
+ShowIconsOnPushButtons=true
+ShowIconsInMenus=true
+SingleClick=true
+LookAndFeelPackage=org.kde.breezedark.desktop
+
+[Colors:Window]
+BackgroundNormal=30,35,45
+ForegroundNormal=240,245,250
+
+[General]
+Name=ZenithOS Global
+theme=BreezeDark
+ColorScheme=BreezeDark
+
+[Markup]
+LinkColor=0,255,200
+
+[Theme]
+Theme=BreezeDark
+
+[Mouse]
+cursorTheme=Breeze
+cursorSize=48

@@ -141,20 +141,26 @@ install_app_package \
     "ZenithOS text editor" \
     "python3, python3-gi, gir1.2-gtk-4.0, gir1.2-adw-1"
 
-shell_root="$(pkg_root zenith-shell-extension)"
+shell_root="$(pkg_root zenith-plasma-config)"
 write_control \
-    zenith-shell-extension \
-    "ZenithShell GNOME Shell integration" \
-    "gnome-shell"
-mkdir -p "$shell_root/usr/share/gnome-shell/extensions/zenith-shell@zenithos.local"
-cp -R "$repo_root/workstation/shell/gnome-extension/." \
-    "$shell_root/usr/share/gnome-shell/extensions/zenith-shell@zenithos.local/"
+    zenith-plasma-config \
+    "ZenithShell KDE Plasma integration" \
+    "plasma-desktop, plasma-workspace, kwin-wayland, systemsettings, plasma-nm, plasma-pa"
+mkdir -p "$shell_root/etc/xdg"
+mkdir -p "$shell_root/etc/skel/.config"
+mkdir -p "$shell_root/usr/share/zenith"
+cp "$repo_root/workstation/shell/plasma-config/kdeglobals" "$shell_root/etc/xdg/kdeglobals"
+cp "$repo_root/workstation/shell/plasma-config/kwinrc" "$shell_root/etc/xdg/kwinrc"
+cp "$repo_root/workstation/shell/plasma-config/kcminputrc" "$shell_root/etc/xdg/kcminputrc"
+cp "$repo_root/workstation/shell/plasma-config/plasma-org.kde.plasma.desktop-appletsrc" \
+    "$shell_root/etc/skel/.config/plasma-org.kde.plasma.desktop-appletsrc"
+cp "$repo_root/workstation/shell/plasma-config/metadata.desktop" "$shell_root/usr/share/zenith/metadata.desktop"
 
 defaults_root="$(pkg_root zenith-workstation-defaults)"
 write_control \
     zenith-workstation-defaults \
     "ZenithOS workstation defaults" \
-    "zenith-shell-extension, zenith-welcome, zenith-settings, zenith-terminal, zenith-packages, zenith-files, zenith-installer, zenith-calculator, zenith-clock, zenith-text-editor, sddm, dconf-cli, systemd, sudo, plymouth, power-profiles-daemon, flatpak"
+    "zenith-plasma-config, zenith-welcome, zenith-settings, zenith-terminal, zenith-packages, zenith-files, zenith-installer, zenith-calculator, zenith-clock, zenith-text-editor, sddm, dconf-cli, systemd, sudo, plymouth, power-profiles-daemon, flatpak"
 install -D -m 0644 "$repo_root/workstation/profiles/dev-vm.profile" "$defaults_root/usr/share/zenith/hardware-profiles/dev-vm.profile"
 install -D -m 0644 "$repo_root/workstation/profiles/generic-workstation.profile" "$defaults_root/usr/share/zenith/hardware-profiles/generic-workstation.profile"
 install -D -m 0644 "$repo_root/workstation/profiles/lenovo-v14-ada.profile" "$defaults_root/usr/share/zenith/hardware-profiles/lenovo-v14-ada.profile"
@@ -166,9 +172,7 @@ install -D -m 0644 "$repo_root/workstation/config/hosts" "$defaults_root/usr/sha
 install -D -m 0644 "$repo_root/workstation/assets/backgrounds/zenith-default.svg" "$defaults_root/usr/share/backgrounds/zenith/zenith-default.svg"
 install -D -m 0644 "$repo_root/workstation/config/plymouth/zenith/zenith.plymouth" "$defaults_root/usr/share/plymouth/themes/zenith/zenith.plymouth"
 install -D -m 0644 "$repo_root/workstation/config/plymouth/zenith/zenith.script" "$defaults_root/usr/share/plymouth/themes/zenith/zenith.script"
-install -D -m 0644 "$repo_root/workstation/config/gdm/daemon.conf" "$defaults_root/usr/share/zenith/defaults/gdm-daemon.conf"
-install -D -m 0644 "$repo_root/workstation/config/dconf/profile/gdm" "$defaults_root/etc/dconf/profile/gdm"
-install -D -m 0644 "$repo_root/workstation/config/dconf/db/gdm.d/00-zenith-login" "$defaults_root/etc/dconf/db/gdm.d/00-zenith-login"
+
 install -D -m 0644 "$repo_root/workstation/config/network/interfaces" "$defaults_root/etc/network/interfaces"
 install -D -m 0644 "$repo_root/workstation/config/NetworkManager/conf.d/zenith-fast-boot.conf" "$defaults_root/etc/NetworkManager/conf.d/zenith-fast-boot.conf"
 install -D -m 0644 "$repo_root/workstation/config/dconf/db/local.d/00-zenith" "$defaults_root/etc/dconf/db/local.d/00-zenith"
@@ -264,7 +268,7 @@ for package in \
     zenith-calculator \
     zenith-clock \
     zenith-text-editor \
-    zenith-shell-extension \
+    zenith-plasma-config \
     zenith-workstation-defaults \
     zenith-builder; do
     build_package "$package"

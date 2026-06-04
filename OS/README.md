@@ -3,7 +3,7 @@
 ZenithOS is now split into two tracks:
 
 1. **ZenithOS Workstation** is the product target: a custom Linux distribution
-   using Linux kernel, systemd, apt/dpkg, Flatpak, Wayland, Mutter/GNOME
+   using Linux kernel, systemd, apt/dpkg, Flatpak, Wayland, KWin/KDE Plasma
    internals, GTK, and libadwaita. The visible desktop, settings, terminal,
    package UI, theme, defaults, and installer are Zenith-owned.
 2. **ZenithOS Kernel Lab** preserves the existing from-scratch Limine kernel.
@@ -11,7 +11,7 @@ ZenithOS is now split into two tracks:
    framebuffer drawing, and early userspace, but it is no longer the fastest
    path to the real desktop OS.
 
-The guiding product rule is simple: use proven Linux/GNOME interfaces for the
+The guiding product rule is simple: use proven Linux/KDE Plasma interfaces for the
 internals, then build a clean modern Zenith desktop on top.
 
 The build rule is also explicit: ZenithOS should become self-hosting. The first
@@ -37,7 +37,7 @@ glibc, coreutils, apt, dpkg
 dbus, polkit, xdg portals
 PipeWire, WirePlumber
 NetworkManager, iwd
-Wayland, Mutter, GNOME Shell internals
+Wayland, KWin, KDE Plasma internals
 GTK4, libadwaita, VTE, GLib/GIO
 Flatpak
 ZenithShell
@@ -46,7 +46,7 @@ Zenith Settings, Terminal, Files, Packages, Installer
 
 This is not intended to feel like a rebranded base distro. Debian-compatible
 packages are the substrate so that apt, drivers, system services, security
-updates, and GNOME libraries work correctly. Zenith owns the user experience.
+updates, and KDE/Qt libraries work correctly. Zenith owns the user experience.
 
 ## Repository Layout
 
@@ -56,9 +56,9 @@ workstation/             Product OS track
   config/                System defaults layered into the image
   distro/                Package build, apt repo, and compose pipeline
   iso/                   Rootfs and image build scripts
-  packages/              apt, Flatpak, GNOME-internals package policy
+  packages/              apt, Flatpak, KDE-internals package policy
   selfhost/              In-ISO builder command and source staging rules
-  shell/                 ZenithShell design and GNOME integration
+  shell/                 ZenithShell design and KDE Plasma integration
   storage/               30GB budget and enforcement policy
   themes/                Zenith visual tokens and CSS
 
@@ -146,7 +146,7 @@ Kernel Lab compatibility.
 
 ## Current Milestone
 
-- Product architecture pivoted to Linux/GNOME internals.
+- Product architecture pivoted to Linux/KDE Plasma internals.
 - Self-hosted rootfs and live ISO build architecture added through
   `zenith-build`.
 - QEMU seed boot stabilized by using a direct boot path for the default runner.
@@ -163,10 +163,10 @@ Kernel Lab compatibility.
 - Beta 2 release hygiene adds changelog, known issues, release notes, ISO
   SHA256 generation, and `/etc/os-release` version stamping.
 - Kernel Lab preserved without deleting the prototype.
-- Package, Flatpak, GNOME-internals, and storage policies live under
+- Package, Flatpak, KDE-internals, and storage policies live under
   `workstation/`.
 - ZenithShell shell direction and first-party app scaffolds are being built as
-  native GNOME/GTK integration layers.
+  native KDE/GTK integration layers.
 - Installed footprint target remains under 30GB.
 
 ## Non-Negotiables
@@ -174,6 +174,6 @@ Kernel Lab compatibility.
 - apt/dpkg is the system package manager.
 - Flatpak is supported for apps.
 - dnf is not part of ZenithOS Workstation.
-- The desktop should be clean, modern, and GNOME-quality without copying GNOME
+- The desktop should be clean, modern, and KDE Plasma-quality without copying KDE/GNOME
   source code.
 - Lenovo V14-ADA support is a first hardware target, not the only future target.

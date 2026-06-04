@@ -1,15 +1,15 @@
 # ZenithOS Workstation
 
-ZenithOS Workstation is the real desktop OS track. It uses Linux and GNOME
+ZenithOS Workstation is the real desktop OS track. It uses Linux and KDE Plasma
 interfaces internally, while Zenith owns the shell, apps, theme, defaults, and
 installer.
 
 ## Design Goal
 
-Build a clean modern desktop with the reliability of the Linux/GNOME platform:
+Build a clean modern desktop with the reliability of the Linux/KDE Plasma platform:
 
 - Wayland-first session.
-- Mutter/GNOME Shell internals for compositor and session behavior.
+- KWin/KDE Plasma internals for compositor and session behavior.
 - GTK4/libadwaita for first-party apps.
 - apt/dpkg for system packages.
 - Flatpak for app distribution.
@@ -20,23 +20,23 @@ Build a clean modern desktop with the reliability of the Linux/GNOME platform:
 
 ```text
 apps/       Zenith first-party app scaffolds and product specs
-config/     Image defaults installed into /etc, /usr, and dconf
+config/     Image defaults installed into /etc, /usr, and configuration files
 iso/        Rootfs/image build scripts
   packages/   Package and Flatpak manifests
   selfhost/   In-ISO builder command and source staging
-  shell/      ZenithShell design and GNOME integration
+  shell/      ZenithShell design and KDE Plasma integration
 storage/    30GB budget and enforcement policy
 themes/     Visual tokens and CSS
 ```
 
 ## Build Shape
 
-The first build milestone is a root filesystem that can boot to GDM and load a
+The first build milestone is a root filesystem that can boot to SDDM and load a
 Zenith session customization. A polished installer and final ISO packaging come
 after the rootfs is reproducible.
 
 ```text
-manifests -> rootfs -> configured GNOME session -> live image -> installer
+manifests -> rootfs -> configured KDE Plasma session -> live image -> installer
 ```
 
 Run local validation:
@@ -82,7 +82,7 @@ The disk is `build/workstation/zenithos-persistence.raw`, defaults to a sparse
 `/persistence.conf` with `/ union`. It is for the dev VM only; final hardware
 installs should use the installer and a real partition layout.
 
-The live image requires manual login. At the GDM login screen, enter:
+The live image requires manual login. At the SDDM login screen, enter:
 
 ```text
 user: hailtheking

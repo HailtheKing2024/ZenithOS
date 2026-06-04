@@ -2,71 +2,51 @@
 
 ## Purpose
 
-ZenithShell provides a modern GNOME-like desktop surface using GNOME internals.
-It should feel clean, fast, and coherent without becoming a theme-only fork.
+ZenithShell provides a modern, fast, and clean desktop surface using KDE Plasma internals. It is designed to feel cohesive, visually premium, and highly responsive under virtualized hardware profiles.
 
 ## Feature Baseline
 
-### Top Bar
+### Panel (Bottom)
 
-- left: Activities.
-- center: ZenithOS identity in early builds, clock once shell services are wired.
-- right: network, audio, battery, power, and session menu.
-- no app taskbar.
+- left: Kickoff Application Launcher (standard menu widget).
+- center: Icons-Only Task Manager pinning the default first-party applications.
+- right: System Tray (network/Wi-Fi, audio/PipeWire, battery/power) and Digital Clock.
+- theme: Breeze Dark default.
 
-### Activities Overview
+### Application Menu (Kickoff)
 
-- search field at the top.
-- open windows in the center.
-- workspace strip where Mutter exposes it.
-- dash for pinned apps.
-- app grid button.
+Default first-party apps pinned to favorites:
 
-### App Grid
-
-Default first-party apps:
-
-- Zenith Settings
+- Zenith Welcome
 - Zenith Terminal
+- Zenith Settings
 - Zenith Files
 - Zenith Packages
 - Zenith Builder
 
-Installer is intentionally excluded from the daily app grid until the desktop
-feature set is usable.
-
-### System Menu
+### System Tray
 
 Expose:
-
-- Wi-Fi
-- audio output
-- brightness
-- power mode
-- battery
-- lock
-- restart/shutdown
+- Wi-Fi (via plasma-nm / NetworkManager integration)
+- Audio output & input volume (via plasma-pa / WirePlumber integration)
+- Battery charging state and system power profile policy
 
 ## Interaction
 
-- Super opens overview.
-- Type-to-search works from the overview.
-- Escape exits overview.
-- Click app tile to launch.
-- Drag windows between workspaces.
-- Settings and Packages use polkit for privileged actions.
+- Super key opens the Kickoff menu.
+- Type-to-search is supported inside Kickoff.
+- Click app icons on the Panel or Kickoff to launch.
+- Settings and Packages use polkit-kde-agent-1 for authorization prompts.
 
 ## Visual Direction
 
-- dark and light mode from day one
-- 8px base radius for normal controls
-- restrained elevation
-- no decorative blobs or oversized marketing layouts
-- dense enough for real work, but not cramped
+- dark mode by default (Breeze Dark basis)
+- 8px border radius for normal windows and widgets
+- high visibility Breeze pointer (size 48) for development VM environments
+- restrained window animations to minimize virtual display lag
 
 ## Implementation Strategy
 
-Milestone 1 uses a GNOME Shell extension to apply Zenith identity and defaults.
-Milestone 2 adds a real Zenith quick-settings surface and overview tuning.
-Milestone 3 replaces more visible shell surface while keeping Mutter and GNOME
-session internals.
+- **Milestone 1**: Custom desktop layout configurations (`plasma-org.kde.plasma.desktop-appletsrc`), `kdeglobals`, `kwinrc`, and `kcminputrc` packaged in `zenith-plasma-config`.
+- **Milestone 2**: Custom Look-and-Feel theme integration and custom wallpaper packaging.
+- **Milestone 3**: Zenith shell widgets and custom panel layout scripts.

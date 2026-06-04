@@ -6,7 +6,7 @@ rule:user-data-reserve | 8.75GB-minimum-free | deny-transaction | zenith-pkg
 rule:apt-archives | 1536MB-max | clean-superseded-and-deny-growth | zenith-pkg
 rule:apt-lists | 256MB-max | refresh-and-prune-old-lists | zenith-pkg
 rule:flatpak-system | 4GB-max | prune-unused-runtimes-or-deny | zenith-pkg
-rule:flatpak-gnome-runtime | 1-active-branch | remove-unused-branch-after-update | zenith-pkg
+rule:flatpak-kde-runtime | 1-active-branch | remove-unused-branch-after-update | zenith-pkg
 rule:logs | 512MB-max | rotate-and-vacuum | zenith-diagnostics
 rule:crashdumps | 256MB-max | keep-newest-first | zenith-diagnostics
 rule:rollback | 1-snapshot | replace-old-known-good | zenith-pkg

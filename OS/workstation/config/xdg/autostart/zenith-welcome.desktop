@@ -2,6 +2,6 @@
 Type=Application
 Name=Zenith Welcome
 Exec=/usr/lib/zenith/zenith-welcome-once
-OnlyShowIn=GNOME;
+OnlyShowIn=KDE;
 NoDisplay=true
-X-GNOME-Autostart-enabled=true
+X-KDE-Autostart-enabled=true

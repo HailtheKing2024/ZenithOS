@@ -1,6 +1,34 @@
 #!/bin/sh
 set -u
 
+# Ensure skeleton configs are copied to the live user home if missing
+if [ -d /etc/skel/.config ] && [ -n "${HOME:-}" ]; then
+    mkdir -p "$HOME/.config"
+    if [ ! -f "$HOME/.config/plasma-org.kde.plasma.desktop-appletsrc" ] && [ -f /etc/skel/.config/plasma-org.kde.plasma.desktop-appletsrc ]; then
+        cp /etc/skel/.config/plasma-org.kde.plasma.desktop-appletsrc "$HOME/.config/" || true
+    fi
+fi
+
+# 1. Apply KDE Plasma desktop environment overrides
+if command -v kwriteconfig6 >/dev/null 2>&1; then
+    # Dark Mode defaults
+    kwriteconfig6 --file kdeglobals --group Colors --key theme "BreezeDark" || true
+    kwriteconfig6 --file kdeglobals --group General --key ColorScheme "BreezeDark" || true
+    
+    # Cursor preferences
+    kwriteconfig6 --file kcminputrc --group Mouse --key cursorTheme "Breeze" || true
+    kwriteconfig6 --file kcminputrc --group Mouse --key cursorSize 48 || true
+    
+    # Touchpad preferences
+    kwriteconfig6 --file ktouchpadrc --group Touchpad --key tapToClick true || true
+    kwriteconfig6 --file ktouchpadrc --group Touchpad --key naturalScroll true || true
+    
+    # VM performance tuning: disable heavier window effects
+    kwriteconfig6 --file kwinrc --group Plugins --key contrastEnabled false || true
+    kwriteconfig6 --file kwinrc --group Plugins --key blurEnabled false || true
+fi
+
+# 2. Maintain GTK settings for our first-party GTK/libadwaita apps under Plasma
 if command -v gsettings >/dev/null 2>&1; then
     gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark' || true
     gsettings set org.gnome.desktop.interface clock-show-weekday true || true
@@ -12,16 +40,7 @@ if command -v gsettings >/dev/null 2>&1; then
     gsettings set org.gnome.desktop.background picture-options 'zoom' || true
     gsettings set org.gnome.desktop.screensaver picture-uri 'file:///usr/share/backgrounds/zenith/zenith-default.svg' || true
     gsettings set org.gnome.desktop.peripherals.touchpad tap-to-click true || true
-    gsettings set org.gnome.desktop.peripherals.touchpad natural-scroll true || true
-    gsettings set org.gnome.mutter dynamic-workspaces true || true
-    gsettings set org.gnome.mutter edge-tiling true || true
-    gsettings set org.gnome.shell disable-user-extensions false || true
-    gsettings set org.gnome.shell enabled-extensions "['zenith-shell@zenithos.local']" || true
-    gsettings set org.gnome.shell favorite-apps "['os.zenith.Welcome.desktop', 'os.zenith.Terminal.desktop', 'os.zenith.Settings.desktop', 'os.zenith.Files.desktop', 'os.zenith.Packages.desktop', 'os.zenith.Installer.desktop', 'zenith-build.desktop']" || true
-fi
-
-if command -v gnome-extensions >/dev/null 2>&1; then
-    gnome-extensions enable zenith-shell@zenithos.local || true
+    gsettings set org.gnome.desktop.peripherals.natural-scroll true || true
 fi
 
 exit 0

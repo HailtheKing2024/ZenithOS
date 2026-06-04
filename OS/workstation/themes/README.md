@@ -1,6 +1,6 @@
 # Zenith Theme
 
-The first theme layer is a small set of CSS tokens and GNOME defaults. It is
+The first theme layer is a small set of CSS tokens and KDE defaults. It is
 not a full GTK theme fork. GTK/libadwaita should remain the baseline so apps
 stay compatible and maintainable.
 

@@ -1,13 +1,13 @@
 {
   "project": "ZenithOS Workstation",
   "target_hardware": "Lenovo V14-ADA first, generic x86_64 laptops later",
-  "architecture": "custom Linux distribution with GNOME internals and Zenith-owned UX",
+  "architecture": "custom Linux distribution with KDE Plasma internals and Zenith-owned UX",
   "win_condition": "Boot a Linux-based ZenithOS image composed from Zenith apt packages into a clean modern Wayland desktop with apt, Flatpak, first-party Zenith apps, self-hosted image-building tools, and a projected installed footprint under 30GB.",
   "product_tracks": {
     "workstation": {
       "role": "main product",
       "status": "active",
-      "description": "Linux kernel, systemd, apt/dpkg, Flatpak, Mutter/GNOME internals, GTK/libadwaita, and ZenithShell."
+      "description": "Linux kernel, systemd, apt/dpkg, Flatpak, KWin/KDE Plasma internals, GTK/libadwaita, and ZenithShell."
     },
     "kernel_lab": {
       "role": "research prototype",
@@ -18,11 +18,11 @@
   "decisions": {
     "kernel": {
       "choice": "Linux kernel",
-      "reason": "Real GNOME internals, hardware support, firmware, graphics, power management, and drivers require Linux interfaces."
+      "reason": "Real desktop internals, hardware support, firmware, graphics, power management, and drivers require Linux interfaces."
     },
     "init_system": {
       "choice": "systemd",
-      "reason": "GNOME sessions, logind, journald, udev, device policy, and desktop services expect systemd semantics."
+      "reason": "KDE Plasma sessions, logind, journald, udev, device policy, and desktop services expect systemd semantics."
     },
     "package_manager": {
       "choice": "apt plus dpkg",
@@ -33,16 +33,16 @@
       "reason": "Flatpak provides modern app distribution and sandboxing without replacing apt for the system."
     },
     "display_server": {
-      "choice": "Wayland with Mutter/GNOME Shell internals",
-      "reason": "This gives GNOME-quality compositor/session behavior while allowing a custom Zenith shell surface."
+      "choice": "Wayland with KWin/KDE Plasma internals",
+      "reason": "This gives premium compositor/session behavior while allowing a custom Zenith panel layout."
     },
     "toolkit": {
       "choice": "GTK4 plus libadwaita",
-      "reason": "First-party apps should match the modern GNOME platform and remain maintainable."
+      "reason": "First-party apps are built using GTK4/libadwaita for consistency and runs natively under KDE Plasma."
     },
     "audio": {
       "choice": "PipeWire plus WirePlumber",
-      "reason": "Modern GNOME audio, screen capture, Bluetooth audio, and portals depend on this stack."
+      "reason": "Modern desktop audio, screen capture, Bluetooth audio, and portals depend on this stack."
     },
     "network": {
       "choice": "NetworkManager plus iwd-capable Wi-Fi path",
@@ -80,10 +80,10 @@
     {"id": "udev_hardware_discovery", "priority": "P0", "status": "planned", "depends_on": ["systemd_userspace", "linux_kernel_firmware"]},
     {"id": "journald_logging", "priority": "P1", "status": "planned", "depends_on": ["systemd_userspace"]},
     {"id": "dbus_polkit_portals", "priority": "P0", "status": "planned", "depends_on": ["systemd_userspace"]},
-    {"id": "wayland_mutter_stack", "priority": "P0", "status": "planned", "depends_on": ["dbus_polkit_portals", "udev_hardware_discovery"]},
-    {"id": "gnome_shell_internals", "priority": "P0", "status": "planned", "depends_on": ["wayland_mutter_stack"]},
+    {"id": "wayland_kwin_stack", "priority": "P0", "status": "planned", "depends_on": ["dbus_polkit_portals", "udev_hardware_discovery"]},
+    {"id": "kde_plasma_internals", "priority": "P0", "status": "planned", "depends_on": ["wayland_kwin_stack"]},
     {"id": "gtk_libadwaita_runtime", "priority": "P0", "status": "planned", "depends_on": ["dbus_polkit_portals"]},
-    {"id": "zenith_shell", "priority": "P0", "status": "started", "depends_on": ["gnome_shell_internals", "gtk_libadwaita_runtime", "zenith_apt_repository"]},
+    {"id": "zenith_shell", "priority": "P0", "status": "started", "depends_on": ["kde_plasma_internals", "gtk_libadwaita_runtime", "zenith_apt_repository"]},
     {"id": "zenith_theme_tokens", "priority": "P1", "status": "started", "depends_on": ["gtk_libadwaita_runtime"]},
     {"id": "pipewire_audio", "priority": "P1", "status": "planned", "depends_on": ["dbus_polkit_portals"]},
     {"id": "network_manager", "priority": "P1", "status": "planned", "depends_on": ["udev_hardware_discovery", "dbus_polkit_portals"]},
@@ -92,7 +92,7 @@
     {"id": "zenith_terminal", "priority": "P1", "status": "started", "depends_on": ["gtk_libadwaita_runtime", "zenith_apt_repository"]},
     {"id": "zenith_files", "priority": "P1", "status": "started", "depends_on": ["gtk_libadwaita_runtime", "zenith_apt_repository"]},
     {"id": "zenith_packages", "priority": "P1", "status": "started", "depends_on": ["apt_dpkg_substrate", "flatpak_runtime", "dbus_polkit_portals", "zenith_apt_repository"]},
-    {"id": "source_built_gnome_platform", "priority": "P1", "status": "planned", "depends_on": ["zenith_package_builder", "wayland_mutter_stack"]},
+    {"id": "source_built_gnome_platform", "priority": "P1", "status": "planned", "depends_on": ["zenith_package_builder", "wayland_kwin_stack"]},
     {"id": "self_hosted_builder", "priority": "P0", "status": "started", "depends_on": ["apt_dpkg_substrate", "storage_budget_enforcement"]},
     {"id": "installer_and_recovery", "priority": "P2", "status": "planned", "depends_on": ["bootloader_image", "apt_dpkg_substrate"]},
     {"id": "storage_budget_enforcement", "priority": "P0", "status": "started", "depends_on": ["apt_dpkg_substrate", "flatpak_runtime", "journald_logging"]}
@@ -100,7 +100,7 @@
   "verification_gate": {
     "dependency_graph": "must remain acyclic",
     "storage": "projected installed footprint must stay under 30GB",
-    "boot_test": "image boots to GDM or ZenithShell session on Wayland",
+    "boot_test": "image boots to SDDM or ZenithShell session on Wayland",
     "package_test": "apt update, apt install dry-run, and Flatpak remote verification pass inside ZenithOS",
     "self_host_test": "boot the ISO, run zenith-build check, then build a new rootfs from /usr/src/zenithos",
     "kernel_lab": "old make run path remains available as kernel-lab-run"

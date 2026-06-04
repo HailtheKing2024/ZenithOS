@@ -204,7 +204,7 @@ class SettingsWindow(Adw.ApplicationWindow):
             page.add(group)
 
             services = Adw.PreferencesGroup(title="Services")
-            services.add(Adw.ActionRow(title="GDM", subtitle=service_status("gdm3.service")))
+            services.add(Adw.ActionRow(title="SDDM", subtitle=service_status("sddm.service")))
             services.add(Adw.ActionRow(title="NetworkManager", subtitle=service_status("NetworkManager.service")))
             services.add(Adw.ActionRow(title="PipeWire", subtitle=service_status("pipewire.service")))
             services.add(Adw.ActionRow(title="Polkit", subtitle=service_status("polkit.service")))
@@ -212,45 +212,70 @@ class SettingsWindow(Adw.ApplicationWindow):
 
         elif category == "Appearance":
             group = Adw.PreferencesGroup(title="Desktop")
-            group.add(Adw.ActionRow(title="Shell", subtitle="ZenithShell extension on GNOME internals"))
+            group.add(Adw.ActionRow(title="Shell", subtitle="Zenith panel layout on KDE Plasma internals"))
             group.add(Adw.ActionRow(title="Wallpaper", subtitle="/usr/share/backgrounds/zenith/zenith-default.svg"))
-            group.add(Adw.ActionRow(title="Cursor", subtitle="Adwaita, size 48 for VM visibility"))
-            group.add(Adw.ActionRow(title="Theme", subtitle="Adwaita dark defaults with Zenith wallpaper and shell chrome"))
+            group.add(Adw.ActionRow(title="Cursor", subtitle="Breeze, size 48 for VM visibility"))
+            group.add(Adw.ActionRow(title="Theme", subtitle="Breeze Dark defaults with Zenith wallpaper and custom layout"))
             group.add(self._switch_row(
                 "Animations",
                 "Toggle compositor animations for responsiveness testing",
                 gsettings_bool("org.gnome.desktop.interface", "enable-animations"),
-                ["gsettings", "set", "org.gnome.desktop.interface", "enable-animations", "true"],
-                ["gsettings", "set", "org.gnome.desktop.interface", "enable-animations", "false"],
+                [
+                    ["gsettings", "set", "org.gnome.desktop.interface", "enable-animations", "true"],
+                    ["kwriteconfig6", "--file", "kwinrc", "--group", "Plugins", "--key", "contrastEnabled", "true"],
+                    ["kwriteconfig6", "--file", "kwinrc", "--group", "Plugins", "--key", "blurEnabled", "true"]
+                ],
+                [
+                    ["gsettings", "set", "org.gnome.desktop.interface", "enable-animations", "false"],
+                    ["kwriteconfig6", "--file", "kwinrc", "--group", "Plugins", "--key", "contrastEnabled", "false"],
+                    ["kwriteconfig6", "--file", "kwinrc", "--group", "Plugins", "--key", "blurEnabled", "false"]
+                ],
             ))
             page.add(group)
 
             actions = Adw.PreferencesGroup(title="Actions")
-            actions.add(self._button_row("Color scheme", "Switch between dark and light Adwaita modes", [
-                ("Dark", ["gsettings", "set", "org.gnome.desktop.interface", "color-scheme", "prefer-dark"]),
-                ("Light", ["gsettings", "set", "org.gnome.desktop.interface", "color-scheme", "prefer-light"]),
+            actions.add(self._button_row("Color scheme", "Switch between dark and light Breeze modes", [
+                ("Dark", [
+                    ["gsettings", "set", "org.gnome.desktop.interface", "color-scheme", "prefer-dark"],
+                    ["kwriteconfig6", "--file", "kdeglobals", "--group", "General", "--key", "ColorScheme", "BreezeDark"],
+                    ["kwriteconfig6", "--file", "kdeglobals", "--group", "Colors", "--key", "theme", "BreezeDark"]
+                ]),
+                ("Light", [
+                    ["gsettings", "set", "org.gnome.desktop.interface", "color-scheme", "prefer-light"],
+                    ["kwriteconfig6", "--file", "kdeglobals", "--group", "General", "--key", "ColorScheme", "BreezeLight"],
+                    ["kwriteconfig6", "--file", "kdeglobals", "--group", "Colors", "--key", "theme", "BreezeLight"]
+                ]),
             ]))
             actions.add(self._button_row("Cursor size", "Adjust pointer visibility", [
-                ("32", ["gsettings", "set", "org.gnome.desktop.interface", "cursor-size", "32"]),
-                ("48", ["gsettings", "set", "org.gnome.desktop.interface", "cursor-size", "48"]),
-                ("64", ["gsettings", "set", "org.gnome.desktop.interface", "cursor-size", "64"]),
+                ("32", [
+                    ["gsettings", "set", "org.gnome.desktop.interface", "cursor-size", "32"],
+                    ["kwriteconfig6", "--file", "kcminputrc", "--group", "Mouse", "--key", "cursorSize", "32"]
+                ]),
+                ("48", [
+                    ["gsettings", "set", "org.gnome.desktop.interface", "cursor-size", "48"],
+                    ["kwriteconfig6", "--file", "kcminputrc", "--group", "Mouse", "--key", "cursorSize", "48"]
+                ]),
+                ("64", [
+                    ["gsettings", "set", "org.gnome.desktop.interface", "cursor-size", "64"],
+                    ["kwriteconfig6", "--file", "kcminputrc", "--group", "Mouse", "--key", "cursorSize", "64"]
+                ]),
             ]))
-            actions.add(self._launch_row("Open GNOME Appearance", "Open the upstream appearance panel", ["gnome-control-center", "appearance"]))
-            actions.add(self._terminal_row("Reset Zenith session defaults", "Reapply background, favorites, and shell extension", "/usr/lib/zenith/zenith-session-setup"))
+            actions.add(self._launch_row("Open KDE Settings", "Open the upstream system settings panel", ["systemsettings"]))
+            actions.add(self._terminal_row("Reset Zenith session defaults", "Reapply background, favorites, and Plasma config", "/usr/lib/zenith/zenith-session-setup"))
             page.add(actions)
 
         elif category == "Display":
             group = Adw.PreferencesGroup(title="Display")
             group.add(Adw.ActionRow(title="Session type", subtitle=os.environ.get("XDG_SESSION_TYPE", "unknown")))
-            group.add(Adw.ActionRow(title="Display server", subtitle="Wayland through GNOME Shell/Mutter"))
+            group.add(Adw.ActionRow(title="Display server", subtitle="Wayland through KDE Plasma/KWin"))
             group.add(Adw.ActionRow(title="VM cursor", subtitle="USB tablet input plus Adwaita cursor size 48"))
             group.add(Adw.ActionRow(title="Graphics", subtitle=first_line(command_output(["sh", "-c", "lspci 2>/dev/null | grep -Ei 'vga|display|3d' | head -1"]))))
             page.add(group)
 
             actions = Adw.PreferencesGroup(title="Actions")
-            actions.add(self._launch_row("Open display panel", "Resolution, scaling, rotation, and monitor layout", ["gnome-control-center", "display"]))
-            actions.add(self._launch_row("Open mouse and touchpad", "Pointer speed, touchpad, and click behavior", ["gnome-control-center", "mouse"]))
-            actions.add(self._terminal_row("Display diagnostics", "List active session, graphics devices, and compositor flags", "echo XDG_SESSION_TYPE=$XDG_SESSION_TYPE; echo; lspci 2>/dev/null | grep -Ei 'vga|display|3d' || true; echo; gsettings get org.gnome.mutter experimental-features; exec bash"))
+            actions.add(self._launch_row("Open display panel", "Resolution, scaling, rotation, and monitor layout", ["systemsettings", "kcm_kscreen"]))
+            actions.add(self._launch_row("Open mouse and touchpad", "Pointer speed, touchpad, and click behavior", ["systemsettings", "kcm_touchpad"]))
+            actions.add(self._terminal_row("Display diagnostics", "List active session, graphics devices, and compositor logs", "echo XDG_SESSION_TYPE=$XDG_SESSION_TYPE; echo; lspci 2>/dev/null | grep -Ei 'vga|display|3d' || true; exec bash"))
             page.add(actions)
 
         elif category == "Sound":
@@ -267,7 +292,7 @@ class SettingsWindow(Adw.ApplicationWindow):
                 ("Mute", ["wpctl", "set-mute", "@DEFAULT_AUDIO_SINK@", "toggle"]),
                 ("Up", ["wpctl", "set-volume", "@DEFAULT_AUDIO_SINK@", "5%+"]),
             ]))
-            actions.add(self._launch_row("Open sound panel", "Input, output, and volume controls", ["gnome-control-center", "sound"]))
+            actions.add(self._launch_row("Open sound panel", "Input, output, and volume controls", ["systemsettings", "kcm_pulseaudio"]))
             actions.add(self._terminal_row("List audio devices", "Run wpctl status in Terminal", "wpctl status; exec bash"))
             page.add(actions)
 
@@ -314,7 +339,7 @@ class SettingsWindow(Adw.ApplicationWindow):
                 ("Off", ["nmcli", "radio", "wifi", "off"]),
                 ("Rescan", ["nmcli", "device", "wifi", "rescan"]),
             ]))
-            actions.add(self._launch_row("Open network panel", "Wi-Fi, wired, VPN, and proxy settings", ["gnome-control-center", "network"]))
+            actions.add(self._launch_row("Open network panel", "Wi-Fi, wired, VPN, and proxy settings", ["systemsettings", "kcm_networkmanagement"]))
             actions.add(self._terminal_row("Wi-Fi networks", "List visible Wi-Fi networks", "nmcli device wifi list; exec bash"))
             actions.add(self._terminal_row("Network diagnostics", "Show devices, addresses, and routes", "nmcli device status; echo; ip -brief address; echo; ip route; exec bash"))
             page.add(actions)
@@ -346,7 +371,7 @@ class SettingsWindow(Adw.ApplicationWindow):
                 ("Start", ["orca"]),
                 ("Stop", ["pkill", "-f", "orca"]),
             ]))
-            actions.add(self._launch_row("Open accessibility panel", "GNOME accessibility controls", ["gnome-control-center", "universal-access"]))
+            actions.add(self._launch_row("Open accessibility panel", "KDE accessibility controls", ["systemsettings", "kcm_accessibility"]))
             page.add(actions)
 
         elif category == "Build":
@@ -374,7 +399,7 @@ class SettingsWindow(Adw.ApplicationWindow):
 
             actions = Adw.PreferencesGroup(title="Actions")
             actions.add(self._terminal_row("Open boot journal", "Show current boot logs", "journalctl -b --no-pager | tail -260; exec bash"))
-            actions.add(self._terminal_row("Open display logs", "Show GDM and Zenith handoff logs", "journalctl -b -u gdm3.service -u display-manager.service -u zenith-plymouth-handoff.service --no-pager; exec bash"))
+            actions.add(self._terminal_row("Open display logs", "Show SDDM and Zenith handoff logs", "journalctl -b -u sddm.service -u display-manager.service -u zenith-plymouth-handoff.service --no-pager; exec bash"))
             actions.add(self._terminal_row("Hardware summary", "Show profile, CPU, memory, graphics, block devices, and USB devices", "cat /run/zenith/hardware-profile.env 2>/dev/null; echo; uname -a; echo; lscpu | head -30; echo; free -h; echo; lspci 2>/dev/null | grep -Ei 'vga|display|network|audio' || true; echo; lsblk; exec bash"))
             actions.add(self._terminal_row("Persistence status", "Check whether live-boot persistence is active", "findmnt -no SOURCE,TARGET /; echo; grep -R . /run/live/persistence 2>/dev/null || true; echo; lsblk -o NAME,LABEL,SIZE,FSTYPE,MOUNTPOINTS; exec bash"))
             page.add(actions)
@@ -409,8 +434,12 @@ class SettingsWindow(Adw.ApplicationWindow):
     def _switch_changed(self, _switch, state, command_on, command_off):
         command = command_on if state else command_off
         try:
-            subprocess.Popen(command)
-        except OSError:
+            if command and isinstance(command[0], list):
+                for cmd in command:
+                    subprocess.Popen(cmd)
+            else:
+                subprocess.Popen(command)
+        except (OSError, IndexError):
             pass
         return False
 
@@ -419,8 +448,12 @@ class SettingsWindow(Adw.ApplicationWindow):
 
     def _launch(self, _button, command):
         try:
-            subprocess.Popen(command)
-        except OSError:
+            if command and isinstance(command[0], list):
+                for cmd in command:
+                    subprocess.Popen(cmd)
+            else:
+                subprocess.Popen(command)
+        except (OSError, IndexError):
             pass
 
 

@@ -76,16 +76,66 @@ else
     echo "✅ Spotify already installed"
 fi
 
+# Optional: Install Telegram (lightweight messaging)
+echo "✈️ Installing Telegram..."
+if ! flatpak list --app | grep -q org.telegram.desktop; then
+    flatpak install -y flathub org.telegram.desktop
+    echo "✅ Telegram installed"
+else
+    echo "✅ Telegram already installed"
+fi
+
+# Optional: Install OBS Studio (for streaming/recording)
+echo "🎥 Installing OBS Studio..."
+if ! flatpak list --app | grep -q com.obsproject.Studio; then
+    flatpak install -y flathub com.obsproject.Studio
+    echo "✅ OBS Studio installed"
+else
+    echo "✅ OBS Studio already installed"
+fi
+
+# Optional: Install VLC (media player)
+echo "📺 Installing VLC..."
+if ! flatpak list --app | grep -q org.videolan.VLC; then
+    flatpak install -y flathub org.videolan.VLC
+    echo "✅ VLC installed"
+else
+    echo "✅ VLC already installed"
+fi
+
+# Optional: Install GitKraken (Git GUI)
+echo "🌳 Installing GitKraken..."
+if ! flatpak list --app | grep -q com.axosoft.GitKraken; then
+    flatpak install -y flathub com.axosoft.GitKraken
+    echo "✅ GitKraken installed"
+else
+    echo "✅ GitKraken already installed"
+fi
+
+# Optional: Install Postman (API development)
+echo "🔧 Installing Postman..."
+if ! flatpak list --app | grep -q com.getpostman.Postman; then
+    flatpak install -y flathub com.getpostman.Postman
+    echo "✅ Postman installed"
+else
+    echo "✅ Postman already installed"
+fi
+
 echo ""
 echo "============================================="
 echo "✨ Application installation complete!"
 echo ""
 echo "Installed applications:"
-echo "  - Visual Studio Code (IDE)"
-echo "  - Google Chrome (Browser)"
-echo "  - Firefox (Browser)"
-echo "  - Discord (Communication)"
-echo "  - Spotify (Music)"
+echo "  📝 Visual Studio Code (IDE)"
+echo "  🌐 Google Chrome (Browser)"
+echo "  🦊 Firefox (Browser)"
+echo "  💬 Discord (Communication)"
+echo "  ✈️  Telegram (Messaging)"
+echo "  🎵 Spotify (Music)"
+echo "  🎥 OBS Studio (Streaming)"
+echo "  📺 VLC (Media Player)"
+echo "  🌳 GitKraken (Git GUI)"
+echo "  🔧 Postman (API Dev)"
 echo ""
 echo "You can also install more apps with:"
 echo "  flatpak search <app-name>"

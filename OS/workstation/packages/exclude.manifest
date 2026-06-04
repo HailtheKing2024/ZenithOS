@@ -7,8 +7,8 @@ exclude:pacman | host package manager is apt; avoid unsupported solver state | e
 exclude:snapd | Flatpak is the supported sandboxed app runtime | explicit-admin-only
 exclude:legacy-vga-stack | project direction is modern GOP/compositor-first graphics | never-default
 exclude:xorg-server | workstation target is compositor-native; X compatibility must be optional | compatibility-layer-only
-exclude:unmodified-gnome-session-defaults | ZenithShell owns defaults even when GNOME internals are installed | never-default
-exclude:alternate-compositor-stacks | Mutter/Wayland is the selected compositor path for v1 | profile-only
+exclude:unmodified-plasma-session-defaults | ZenithShell owns defaults even when KDE internals are installed | never-default
+exclude:alternate-compositor-stacks | KWin/Wayland is the selected compositor path for v1 | profile-only
 exclude:duplicate-web-engines | one default browser engine package family in base image | storage-review-required
 exclude:multiple-office-suites | office suite install is user choice, not base image | user-choice
 exclude:large-games | outside workstation default scope | user-choice

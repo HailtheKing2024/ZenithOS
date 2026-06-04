@@ -1,0 +1,5 @@
+[Desktop Entry]
+Name=ZenithOS KDE Plasma Customization
+Comment=ZenithOS default panel layout, shortcuts, and global styles for KDE Plasma
+Type=Service
+X-KDE-ServiceTypes=Plasma/Theme

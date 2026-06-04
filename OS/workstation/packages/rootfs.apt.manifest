@@ -41,12 +41,14 @@ qml6-module-qtquick
 qml6-module-qtmultimedia
 accountsservice
 gnome-keyring
-gnome-session
-gnome-shell
-gnome-settings-daemon
-gnome-control-center
+plasma-desktop
+plasma-workspace
+kwin-wayland
+systemsettings
+plasma-nm
+plasma-pa
+kde-cli-tools
 libpam-gnome-keyring
-mutter
 upower
 power-profiles-daemon
 
@@ -60,7 +62,7 @@ wireplumber
 flatpak
 ostree
 xdg-desktop-portal
-xdg-desktop-portal-gnome
+xdg-desktop-portal-kde
 xdg-desktop-portal-gtk
 
 fontconfig

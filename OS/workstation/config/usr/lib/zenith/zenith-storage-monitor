@@ -1,0 +1,57 @@
+#!/bin/bash
+# ZenithOS Storage Quota Monitor
+# Warns user when approaching 30GB storage limit
+
+set -e
+
+QUOTA_GB=30
+QUOTA_BYTES=$((QUOTA_GB * 1024 * 1024 * 1024))
+WARN_THRESHOLD=85  # Warn at 85% usage
+CRIT_THRESHOLD=95  # Critical at 95% usage
+
+# Find root partition
+ROOT_PART=$(findmnt -n -o SOURCE / 2>/dev/null || echo "/dev/mapper/main")
+
+# Get current usage
+USED_BYTES=$(df -B1 / | tail -1 | awk '{print $3}')
+TOTAL_BYTES=$(df -B1 / | tail -1 | awk '{print $2}')
+USAGE_PERCENT=$((USED_BYTES * 100 / TOTAL_BYTES))
+
+echo "💾 ZenithOS Storage Monitor"
+echo "==========================="
+echo "Partition: $ROOT_PART"
+echo "Used: $(du -sh / 2>/dev/null | cut -f1) / $(df -h / | tail -1 | awk '{print $2}')"
+echo "Quota: ${QUOTA_GB}GB"
+echo "Usage: ${USAGE_PERCENT}%"
+echo ""
+
+if [ $USAGE_PERCENT -ge $CRIT_THRESHOLD ]; then
+    echo "🚨 CRITICAL: Storage usage at ${USAGE_PERCENT}%!"
+    echo ""
+    echo "Immediate action required:"
+    echo "  1. Empty trash: rm -rf ~/.local/share/Trash/*"
+    echo "  2. Clear caches: sudo apt clean && flatpak uninstall --unused"
+    echo "  3. Check large files: du -ah ~ | sort -rh | head -20"
+    echo ""
+    exit 2
+elif [ $USAGE_PERCENT -ge $WARN_THRESHOLD ]; then
+    echo "⚠️  WARNING: Storage usage at ${USAGE_PERCENT}%"
+    echo ""
+    echo "Consider cleaning up:"
+    echo "  • Old downloads: ~/Downloads"
+    echo "  • Application caches: ~/.cache"
+    echo "  • Unused Flatpak apps: flatpak uninstall --unused"
+    echo "  • Old kernels: sudo apt autoremove --purge"
+    echo ""
+    exit 1
+else
+    echo "✅ Storage usage healthy"
+    echo ""
+    echo "Tips to stay within quota:"
+    echo "  • Use cloud storage for large files"
+    echo "  • Regularly empty trash"
+    echo "  • Remove unused applications"
+    echo "  • Clear browser caches periodically"
+    echo ""
+    exit 0
+fi

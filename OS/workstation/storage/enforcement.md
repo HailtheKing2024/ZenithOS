@@ -27,7 +27,7 @@ The workstation image must remain usable on a 30GB target disk. Package tools sh
 
 3. Flatpak runtime control
    - System Flatpak storage is capped at 4GB.
-   - Only one GNOME runtime branch is retained by default.
+   - Only one KDE/Qt runtime branch is retained by default.
    - Unused runtimes are pruned after successful updates.
    - User-installed Flatpak apps count against user data, not the base OS budget.
 

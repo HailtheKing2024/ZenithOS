@@ -1,0 +1,12 @@
+[Plugins]
+contrastEnabled=false
+blurEnabled=false
+slidingpopupsEnabled=false
+scaleEnabled=false
+
+[Effect-windowaperture]
+BorderWidth=0
+
+[Windows]
+DelayFocusInterval=100
+FocusPolicy=FocusFollowsMouse

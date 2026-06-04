@@ -24,7 +24,7 @@
 
 **ZenithOS** is a custom OS optimized for the **Lenovo V14-ADA**.
 
--   **End Goal:** A workstation environment resembling **Fedora Workstation** (GNOME-like aesthetics, high-performance multitasking).
+-   **End Goal:** A workstation environment resembling **Fedora KDE Workstation** (KDE Plasma aesthetics, high-performance multitasking).
 
 -   **Architecture:** **Hybrid Kernel.**
 
@@ -63,7 +63,7 @@ Rohan orchestrates the following specialists to manage the complexity of a works
 4\. Operating Rules & Common Sense
 ----------------------------------
 
-1.  **Strict Zero Plagiarism:** No direct copy-pasting from Linux, BSD, or GNOME. Study the logic, then write the ZenithOS implementation from scratch.
+1.  **Strict Zero Plagiarism:** No direct copy-pasting from Linux, BSD, GNOME, or KDE. Study the logic, then write the ZenithOS implementation from scratch.
 
 2.  **Hybrid Performance:** Use synchronous messaging for IPC to minimize the performance overhead typical of microkernels.
 
@@ -90,7 +90,7 @@ Rohan orchestrates the following specialists to manage the complexity of a works
 
 -   **Wayland Protocols:** `https://wayland.freedesktop.org/` (For compositor architecture).
 
--   **GNOME HIG:** Human Interface Guidelines for aesthetic benchmarking.
+-   **KDE HIG:** Human Interface Guidelines for aesthetic benchmarking.
 
 -   **Mesa 3D:** Study for AMD GPU driver implementation logic.
 

@@ -40,9 +40,11 @@ REQUIRED_FILES = [
     "workstation/profiles/generic-workstation.profile",
     "workstation/profiles/lenovo-v14-ada.profile",
     "workstation/shell/shell-spec.md",
-    "workstation/shell/gnome-extension/metadata.json",
-    "workstation/shell/gnome-extension/extension.js",
-    "workstation/shell/gnome-extension/stylesheet.css",
+    "workstation/shell/plasma-config/metadata.desktop",
+    "workstation/shell/plasma-config/plasma-org.kde.plasma.desktop-appletsrc",
+    "workstation/shell/plasma-config/kdeglobals",
+    "workstation/shell/plasma-config/kwinrc",
+    "workstation/shell/plasma-config/kcminputrc",
     "workstation/apps/zenith-settings/pyproject.toml",
     "workstation/apps/zenith-settings/src/zenith_settings/main.py",
     "workstation/apps/zenith-terminal/pyproject.toml",
@@ -71,7 +73,7 @@ REQUIRED_FILES = [
     "workstation/config/os-release",
     "workstation/config/issue",
     "workstation/config/motd",
-    "workstation/config/gdm/custom.conf",
+    "workstation/config/sddm/sddm.conf",
     "workstation/config/network/interfaces",
     "workstation/config/plymouth/zenith/zenith.plymouth",
     "workstation/config/plymouth/zenith/zenith.script",
@@ -184,8 +186,8 @@ def check_package_policy():
         "zstd",
         "polkitd",
         "pkexec",
-        "gnome-shell",
-        "mutter",
+        "plasma-desktop",
+        "kwin-wayland",
         "flatpak",
         "pipewire",
         "live-boot",
@@ -213,13 +215,13 @@ def check_package_policy():
         fail("rootfs apt manifest includes forbidden package managers: " + ", ".join(present))
 
     excludes = "\n".join(uncommented_lines("workstation/packages/exclude.manifest"))
-    if "exclude:full-gnome-shell" in excludes or "exclude:full-mutter" in excludes:
-        fail("exclude manifest blocks GNOME internals needed by the chosen architecture")
+    if "exclude:full-plasma-desktop" in excludes or "exclude:full-kwin-wayland" in excludes:
+        fail("exclude manifest blocks KDE Plasma internals needed by the chosen architecture")
 
     zenith_packages = set(uncommented_lines("workstation/distro/package-set.manifest"))
     expected = {
         "zenith-workstation-defaults",
-        "zenith-shell-extension",
+        "zenith-plasma-config",
         "zenith-settings",
         "zenith-terminal",
         "zenith-packages",

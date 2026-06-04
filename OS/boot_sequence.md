@@ -1,6 +1,6 @@
 # ZenithOS Workstation Boot Sequence
 
-This is the product boot path for the Linux/GNOME-internals ZenithOS
+This is the product boot path for the Linux/KDE Plasma-internals ZenithOS
 Workstation. The old Limine custom-kernel path is preserved separately as
 Kernel Lab.
 
@@ -30,14 +30,14 @@ depending on recovery mode, then transfers control to systemd.
 ## 5. systemd
 
 systemd starts udev, journald, dbus, logind, polkit, NetworkManager, PipeWire,
-WirePlumber, GDM, and Zenith-specific services. Unit ordering must keep shell
+WirePlumber, SDDM, and Zenith-specific services. Unit ordering must keep shell
 startup blocked until the session bus, logind, and display manager are ready.
 
 ## 6. Display Manager
 
-GDM starts a Wayland session. The first release can use GNOME Shell internals
-with a Zenith Shell extension and Zenith defaults. Later releases can replace
-more shell surface area while keeping Mutter, Wayland, portals, and GTK.
+SDDM starts a Wayland session. The first release can use KDE Plasma internals
+with Zenith configurations and Zenith defaults. Later releases can replace
+more shell surface area while keeping KWin, Wayland, portals, and Qt/GTK.
 
 ## 7. ZenithShell
 
@@ -76,7 +76,7 @@ should be built from a running ZenithOS session.
 The Workstation boot cycle is valid when a built image reaches:
 
 ```text
-UEFI -> bootloader -> Linux -> initramfs -> systemd -> GDM -> Wayland -> ZenithShell -> app launcher -> zenith-build check
+UEFI -> bootloader -> Linux -> initramfs -> systemd -> SDDM -> Wayland -> ZenithShell -> app launcher -> zenith-build check
 ```
 
 The installed footprint must remain under 30GB and `apt` must be the system
