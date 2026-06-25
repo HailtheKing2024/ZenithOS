@@ -5,3 +5,8 @@ build/
 *.d
 __pycache__/
 *.pyc
+
+# Theme assets at OS root are leftover downloads — the canonical copies
+# live in workstation/themes/sddm/pixel-skyscrapers/ and are tracked there.
+/bg.mp4
+/PixelifySans-Bold.ttf
