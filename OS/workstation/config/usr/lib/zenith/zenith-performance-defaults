@@ -4,9 +4,21 @@
 
 set -e
 
+state_dir="/var/lib/zenith"
+profile_env="/run/zenith/hardware-profile.env"
+
+mkdir -p "$state_dir" /etc/NetworkManager/conf.d /etc/sysctl.d
+
+if [ -r "$profile_env" ]; then
+    # shellcheck disable=SC1090
+    . "$profile_env"
+fi
+
+profile_name="${ZENITH_PROFILE_NAME:-Unknown workstation profile}"
+
 echo "🚀 ZenithOS Performance Optimizer"
 echo "=================================="
-echo "Target: Lenovo V14-ADA (AMD Athlon/Ryzen Mobile, 4-8GB RAM)"
+echo "Target: $profile_name"
 echo ""
 
 # 1. Set CPU Governor to performance when on AC power
@@ -93,7 +105,7 @@ fi
 echo "🌐 Optimizing network configuration..."
 if [ -f /etc/NetworkManager/NetworkManager.conf ]; then
     # Add WiFi power saving disable for better performance
-    cat >> /etc/NetworkManager/conf.d/zenith-performance.conf <<EOF
+    cat > /etc/NetworkManager/conf.d/zenith-performance.conf <<EOF
 [connection]
 wifi.powersave = 2
 EOF
@@ -102,7 +114,7 @@ fi
 
 # 8. Set kernel parameters for better desktop responsiveness
 echo "⚙️  Applying kernel parameter optimizations..."
-cat >> /etc/sysctl.d/99-zenith-performance.conf <<EOF
+cat > /etc/sysctl.d/99-zenith-performance.conf <<EOF
 # ZenithOS Performance Optimizations
 # Reduce latency for interactive applications
 kernel.perf_event_paranoid=2
@@ -171,5 +183,5 @@ echo ""
 echo "Note: Some changes require reboot to take full effect."
 
 # Mark optimization as complete
-touch /var/lib/zenith/performance-optimized.flag
+touch "$state_dir/performance-optimized.flag"
 echo "🎉 ZenithOS ready for peak performance!"

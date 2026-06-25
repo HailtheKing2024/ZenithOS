@@ -2,8 +2,10 @@
 
 This directory contains the Linux rootfs/image build entry points.
 
-The first script builds a root filesystem. The second script assembles a live
-ISO from that rootfs.
+`build-seed-iso.sh` is the current seed entry point: it builds or refreshes the
+rootfs, publishes the Zenith apt repo, and assembles the live ISO. The lower
+level scripts remain available when rootfs and ISO composition need to be run
+separately.
 
 ## Requirements
 
@@ -19,6 +21,12 @@ Run on a Linux host or WSL distro with:
 - network access to configured package repositories
 
 ## Rootfs
+
+```sh
+./workstation/iso/build-seed-iso.sh build/workstation/zenithos-seed.iso
+```
+
+Lower-level flow:
 
 ```sh
 ./workstation/iso/build-rootfs.sh

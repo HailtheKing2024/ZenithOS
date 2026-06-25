@@ -9,9 +9,30 @@ out=/run/zenithos-boot-report.log
     echo "hostname: $(hostname)"
     echo
     echo "-- system state --"
+    echo "cmdline: $(cat /proc/cmdline 2>/dev/null)"
     systemctl is-system-running || true
     systemctl get-default || true
-    systemctl is-active display-manager.service gdm3.service || true
+    systemctl is-active display-manager.service sddm.service || true
+    echo
+    echo "-- install boot proof --"
+    findmnt / || true
+    findmnt /boot/efi || true
+    if [ -f /etc/fstab ]; then
+        echo "/etc/fstab:"
+        sed -n '1,40p' /etc/fstab || true
+    else
+        echo "missing /etc/fstab"
+    fi
+    if [ -f /boot/efi/EFI/BOOT/BOOTX64.EFI ]; then
+        echo "removable EFI fallback present: /boot/efi/EFI/BOOT/BOOTX64.EFI"
+    else
+        echo "removable EFI fallback missing: /boot/efi/EFI/BOOT/BOOTX64.EFI"
+    fi
+    if [ -d /run/live ]; then
+        echo "live runtime present: /run/live"
+    else
+        echo "live runtime absent: /run/live"
+    fi
     echo
     echo "-- boot timing --"
     systemd-analyze time || true
@@ -21,10 +42,36 @@ out=/run/zenithos-boot-report.log
     systemd-analyze critical-chain graphical.target || true
     echo
     echo "-- display services --"
-    systemctl --no-pager --plain status display-manager.service gdm3.service zenith-plymouth-handoff.service || true
+    systemctl --no-pager --plain status display-manager.service sddm.service zenith-plymouth-handoff.service || true
+    echo
+    echo "-- sddm theme --"
+    if [ -f /etc/sddm.conf ]; then
+        echo "/etc/sddm.conf:"
+        sed -n '/^\[Theme\]/,/^\[/p' /etc/sddm.conf || true
+    else
+        echo "missing /etc/sddm.conf"
+    fi
+    if [ -f /etc/sddm/sddm.conf ]; then
+        echo "/etc/sddm/sddm.conf:"
+        sed -n '/^\[Theme\]/,/^\[/p' /etc/sddm/sddm.conf || true
+    else
+        echo "missing /etc/sddm/sddm.conf"
+    fi
+    for path in \
+        /usr/share/sddm/themes/pixel-skyscrapers/Main.qml \
+        /usr/share/sddm/themes/pixel-skyscrapers/BackgroundVideo.qml \
+        /usr/share/sddm/themes/pixel-skyscrapers/bg.mp4 \
+        /usr/share/sddm/themes/pixel-skyscrapers/theme.conf \
+        /usr/share/sddm/themes/pixel-skyscrapers/font/PixelifySans-Bold.ttf; do
+        if [ -e "$path" ]; then
+            echo "theme asset present: $path"
+        else
+            echo "theme asset missing: $path"
+        fi
+    done
     echo
     echo "-- display journal --"
-    journalctl -b --no-pager -u display-manager.service -u gdm3.service -u zenith-plymouth-handoff.service -n 80 || true
+    journalctl -b --no-pager -u display-manager.service -u sddm.service -u zenith-plymouth-handoff.service -n 80 || true
 } > "$out" 2>&1
 
 if [ -c /dev/ttyS0 ]; then

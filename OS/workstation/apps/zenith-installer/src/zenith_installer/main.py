@@ -1,5 +1,6 @@
 import json
 import os
+import shlex
 import shutil
 import subprocess
 
@@ -9,6 +10,14 @@ gi.require_version("Gtk", "4.0")
 gi.require_version("Adw", "1")
 
 from gi.repository import Adw, Gio, Gtk
+
+
+MIN_INSTALL_BYTES = 30 * 1024 * 1024 * 1024
+LIVE_MOUNTPOINTS = (
+    "/run/live/medium",
+    "/run/live/persistence",
+    "/run/live/rootfs",
+)
 
 
 def command_available(command):
@@ -57,7 +66,13 @@ def lsblk_devices():
     if not command_available("lsblk"):
         return []
     result = subprocess.run(
-        ["lsblk", "--bytes", "--json", "--output", "NAME,PATH,SIZE,TYPE,MODEL,MOUNTPOINTS,FSTYPE,TRAN,RM,RO"],
+        [
+            "lsblk",
+            "--bytes",
+            "--json",
+            "--output",
+            "NAME,PATH,PKNAME,SIZE,TYPE,MODEL,MOUNTPOINTS,FSTYPE,TRAN,RM,RO,HOTPLUG,LABEL,UUID,SERIAL",
+        ],
         check=False,
         stdout=subprocess.PIPE,
         stderr=subprocess.DEVNULL,
@@ -75,37 +90,97 @@ def device_path(device):
     return device.get("path") or f"/dev/{device.get('name', '?')}"
 
 
-def format_size(size):
+def flatten_block_tree(device):
+    yield device
+    for child in device.get("children") or []:
+        yield from flatten_block_tree(child)
+
+
+def boolish(value):
+    if isinstance(value, bool):
+        return value
+    if isinstance(value, int):
+        return value != 0
+    if value is None:
+        return False
+    return str(value).strip().lower() in {"1", "true", "yes", "on"}
+
+
+def parse_size_bytes(value):
     try:
-        size = int(size)
+        return int(value)
     except (TypeError, ValueError):
+        return None
+
+
+def child_mountpoints(device):
+    mountpoints = []
+    for item in flatten_block_tree(device):
+        mountpoints.extend(point for point in item.get("mountpoints") or [] if point)
+    return mountpoints
+
+
+def live_media_sources():
+    sources = []
+    for mountpoint in LIVE_MOUNTPOINTS:
+        source = command_output(["findmnt", "-rn", "-o", "SOURCE", mountpoint], timeout=2)
+        if source:
+            sources.append(first_line(source, ""))
+    return sources
+
+
+def live_media_disks(devices):
+    sources = live_media_sources()
+    disks = set()
+    for device in devices:
+        disk_path = device_path(device)
+        node_paths = [device_path(item) for item in flatten_block_tree(device)]
+        for source in sources:
+            if any(source == path or source.startswith(path) for path in node_paths):
+                disks.add(disk_path)
+    return disks
+
+
+def format_size(size):
+    size = parse_size_bytes(size)
+    if size is None:
         return "unknown size"
     gib = size / 1024 / 1024 / 1024
     return f"{gib:.1f} GiB"
 
 
-def disk_issues(device):
+def disk_issues(device, devices=None):
     reasons = []
-    size = int(device.get("size") or 0)
-    mountpoints = [item for item in device.get("mountpoints") or [] if item]
-    if size < 30 * 1024 * 1024 * 1024:
-        reasons.append("below 30GB target")
-    if device.get("ro"):
-        reasons.append("read-only")
-    if device.get("rm"):
-        reasons.append("removable")
-    if mountpoints:
-        reasons.append("mounted")
+    devices = devices or [device]
+    nodes = list(flatten_block_tree(device))
+    size = parse_size_bytes(device.get("size"))
+    mountpoints = child_mountpoints(device)
     path = device_path(device)
-    if path in ["/dev/sr0", "/dev/fd0"] or path.startswith("/dev/loop"):
+    if device.get("type") != "disk":
+        reasons.append("not a whole disk")
+    if size is None:
+        reasons.append("unknown size")
+    elif size < MIN_INSTALL_BYTES:
+        reasons.append("below 30GB target")
+    if any(boolish(item.get("ro")) for item in nodes):
+        reasons.append("read-only")
+    if any(boolish(item.get("rm")) or boolish(item.get("hotplug")) for item in nodes):
+        reasons.append("removable or hotplug")
+    if any((item.get("tran") or "").lower() == "usb" for item in nodes):
+        reasons.append("USB target locked")
+    if mountpoints:
+        reasons.append("mounted child")
+    if path in live_media_disks(devices):
+        reasons.append("current live media")
+    if path in ["/dev/sr0", "/dev/fd0"] or path.startswith(("/dev/loop", "/dev/ram", "/dev/zram")):
         reasons.append("not an install target")
     return reasons
 
 
-def disk_validation(device):
-    reasons = disk_issues(device)
+def disk_validation(device, devices=None):
+    reasons = disk_issues(device, devices)
     if not reasons:
-        return "Candidate: passes non-destructive readiness checks"
+        return "Candidate: passes guarded install checks"
     return "Locked: " + ", ".join(reasons)
 
 
@@ -116,37 +191,13 @@ def partition_path(disk, number):
 
 
 def install_plan_for_disk(disk):
-    efi = partition_path(disk, 1)
-    root = partition_path(disk, 2)
     return "\n".join([
-        "# ZenithOS installer dry-run plan",
-        "# Destructive commands are intentionally printed only.",
-        f"TARGET={disk}",
-        f"EFI_PARTITION={efi}",
-        f"ROOT_PARTITION={root}",
+        "# ZenithOS installer dry-run",
+        "# This prints the backend plan; it does not write to disk.",
+        f"sudo zenith-install-to-disk --target {shlex.quote(disk)} --dry-run",
         "",
-        "parted \"$TARGET\" --script mklabel gpt",
-        "parted \"$TARGET\" --script mkpart ESP fat32 1MiB 513MiB",
-        "parted \"$TARGET\" --script set 1 esp on",
-        "parted \"$TARGET\" --script mkpart zenith-root btrfs 513MiB 100%",
-        "mkfs.vfat -F32 \"$EFI_PARTITION\"",
-        "mkfs.btrfs -f -L ZenithOS \"$ROOT_PARTITION\"",
-        "mount \"$ROOT_PARTITION\" /mnt",
-        "btrfs subvolume create /mnt/@",
-        "btrfs subvolume create /mnt/@home",
-        "btrfs subvolume create /mnt/@var",
-        "btrfs subvolume create /mnt/@snapshots",
-        "umount /mnt",
-        "mount -o subvol=@,compress=zstd,noatime \"$ROOT_PARTITION\" /mnt",
-        "mkdir -p /mnt/{boot/efi,home,var,.snapshots}",
-        "mount \"$EFI_PARTITION\" /mnt/boot/efi",
-        "mount -o subvol=@home,compress=zstd,noatime \"$ROOT_PARTITION\" /mnt/home",
-        "mount -o subvol=@var,compress=zstd,noatime \"$ROOT_PARTITION\" /mnt/var",
-        "mount -o subvol=@snapshots,compress=zstd,noatime \"$ROOT_PARTITION\" /mnt/.snapshots",
-        "rsync -aAXH --exclude=/dev/* --exclude=/proc/* --exclude=/sys/* --exclude=/run/* --exclude=/tmp/* --exclude=/mnt/* / /mnt/",
-        "grub-install --target=x86_64-efi --efi-directory=/mnt/boot/efi --bootloader-id=ZenithOS --recheck",
-        "chroot /mnt update-initramfs -u",
-        "chroot /mnt update-grub",
+        "# Real install is separate and requires the backend confirmation token:",
+        f"# sudo zenith-install-to-disk --target {shlex.quote(disk)}",
     ])
 
 
@@ -156,14 +207,15 @@ class InstallerWindow(Adw.ApplicationWindow):
         self.set_default_size(900, 640)
         self.devices = lsblk_devices()
         self.selected_disk = None
+        self.disk_explicitly_selected = False
         for device in self.devices:
-            if not disk_issues(device):
+            if not disk_issues(device, self.devices):
                 self.selected_disk = device_path(device)
                 break
 
         toolbar = Adw.ToolbarView()
         header = Adw.HeaderBar()
-        header.set_title_widget(Adw.WindowTitle(title="Installer", subtitle="Preview mode"))
+        header.set_title_widget(Adw.WindowTitle(title="Installer", subtitle="Guarded install mode"))
         toolbar.add_top_bar(header)
         toolbar.set_content(self._build_content())
         self.set_content(toolbar)
@@ -175,7 +227,7 @@ class InstallerWindow(Adw.ApplicationWindow):
         scroller.set_child(page)
 
         gate = Adw.PreferencesGroup(title="Install Mode")
-        gate.add(Adw.ActionRow(title="Current State", subtitle="Preview only: no partitioning or disk writes are enabled"))
+        gate.add(Adw.ActionRow(title="Current State", subtitle="Real install requires explicit disk selection and typed erase confirmation"))
         gate.add(Adw.ActionRow(title="Firmware", subtitle="UEFI detected" if os.path.exists("/sys/firmware/efi") else "Legacy boot or VM direct kernel path"))
         gate.add(Adw.ActionRow(title="Hardware profile", subtitle=read_profile()))
         gate.add(Adw.ActionRow(title="Live persistence", subtitle=live_persistence_status()))
@@ -190,7 +242,20 @@ class InstallerWindow(Adw.ApplicationWindow):
         page.add(layout)
 
         tools = Adw.PreferencesGroup(title="Required Tools")
-        for command in ["parted", "sgdisk", "mkfs.btrfs", "grub-install", "efibootmgr", "rsync", "update-initramfs"]:
+        for command in [
+            "zenith-install-to-disk",
+            "parted",
+            "mkfs.vfat",
+            "mkfs.btrfs",
+            "btrfs",
+            "rsync",
+            "grub-install",
+            "update-initramfs",
+            "update-grub",
+            "chroot",
+            "mount",
+            "umount",
+        ]:
             tools.add(Adw.ActionRow(
                 title=command,
                 subtitle="Available" if command_available(command) else "Missing",
@@ -206,11 +271,11 @@ class InstallerWindow(Adw.ApplicationWindow):
                 format_size(device.get("size")),
                 device.get("model", ""),
                 device.get("tran", ""),
-                disk_validation(device),
+                disk_validation(device, self.devices),
             ] if part)
             row = Adw.ActionRow(title=title, subtitle=subtitle)
             button = Gtk.Button(label="Select")
-            button.set_sensitive(not disk_issues(device))
+            button.set_sensitive(not disk_issues(device, self.devices))
             button.connect("clicked", self._select_disk, title)
             row.add_suffix(button)
             row.set_activatable_widget(button)
@@ -219,7 +284,11 @@ class InstallerWindow(Adw.ApplicationWindow):
 
         selected = Adw.PreferencesGroup(title="Selected Target")
         if self.selected_disk:
-            selected.add(Adw.ActionRow(title=self.selected_disk, subtitle="Ready for dry-run plan generation; destructive install remains locked"))
+            if self.disk_explicitly_selected:
+                subtitle = "Ready for guarded install; backend will require the erase token"
+            else:
+                subtitle = "Auto-detected for dry-run only; click Select before real install"
+            selected.add(Adw.ActionRow(title=self.selected_disk, subtitle=subtitle))
         else:
             selected.add(Adw.ActionRow(title="No disk selected", subtitle="No detected disk currently passes the non-destructive install target checks"))
         page.add(selected)
@@ -235,13 +304,16 @@ class InstallerWindow(Adw.ApplicationWindow):
             "Print the selected disk's EFI and Btrfs install plan without running it",
             self._dry_run_command(),
         ))
+        can_install = self.disk_explicitly_selected and self._selected_eligible_disk() is not None
         row = Adw.ActionRow(
-            title="Install to disk",
-            subtitle="Locked until typed confirmation and final rollback policy are implemented",
+            title="Erase disk and install ZenithOS",
+            subtitle="Opens a root installer that requires the backend erase token before writing",
         )
-        button = Gtk.Button(label="Requires typed confirmation")
-        button.set_sensitive(False)
+        button = Gtk.Button(label="Install...")
+        button.set_sensitive(can_install)
+        button.connect("clicked", self._launch_install)
         row.add_suffix(button)
+        row.set_activatable_widget(button)
         actions.add(row)
         page.add(actions)
 
@@ -249,6 +321,7 @@ class InstallerWindow(Adw.ApplicationWindow):
 
     def _select_disk(self, _button, disk):
         self.selected_disk = disk
+        self.disk_explicitly_selected = True
         self.set_content(None)
         toolbar = Adw.ToolbarView()
         header = Adw.HeaderBar()
@@ -257,11 +330,29 @@ class InstallerWindow(Adw.ApplicationWindow):
         toolbar.set_content(self._build_content())
         self.set_content(toolbar)
 
+    def _selected_eligible_disk(self):
+        if not self.selected_disk:
+            return None
+        devices = lsblk_devices()
+        for device in devices:
+            if device_path(device) == self.selected_disk and not disk_issues(device, devices):
+                return self.selected_disk
+        return None
+
     def _dry_run_command(self):
-        disk = self.selected_disk or "NO_VALID_TARGET"
-        plan = install_plan_for_disk(disk)
-        escaped = plan.replace("'", "'\"'\"'")
-        return f"printf '%s\\n' '{escaped}'; exec bash"
+        disk = self._selected_eligible_disk()
+        if not disk:
+            return "printf '%s\\n' 'No eligible install target selected.'; exec bash"
+        return f"sudo zenith-install-to-disk --target {shlex.quote(disk)} --dry-run; exec bash"
+
+    def _install_command(self):
+        disk = self._selected_eligible_disk()
+        if not disk:
+            return "printf '%s\\n' 'Selected install target is no longer eligible.'; exec bash"
+        return f"sudo zenith-install-to-disk --target {shlex.quote(disk)}; exec bash"
+
+    def _launch_install(self, button):
+        self._launch(button, ["zenith-terminal", "--command", self._install_command()])
 
     def _terminal_row(self, title, subtitle, command):
         row = Adw.ActionRow(title=title, subtitle=subtitle)

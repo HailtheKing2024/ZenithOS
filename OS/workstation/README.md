@@ -31,12 +31,12 @@ themes/     Visual tokens and CSS
 
 ## Build Shape
 
-The first build milestone is a root filesystem that can boot to SDDM and load a
-Zenith session customization. A polished installer and final ISO packaging come
-after the rootfs is reproducible.
+The current build milestone is a root filesystem that can boot to SDDM, load a
+Zenith session customization, and install itself to a blank disk through a
+guarded root backend.
 
 ```text
-manifests -> rootfs -> configured KDE Plasma session -> live image -> installer
+manifests -> rootfs -> configured KDE Plasma session -> live image -> guarded installer -> installed disk
 ```
 
 Run local validation:
@@ -81,6 +81,36 @@ The disk is `build/workstation/zenithos-persistence.raw`, defaults to a sparse
 12GB ext4 filesystem labeled `persistence`, and contains live-boot's
 `/persistence.conf` with `/ union`. It is for the dev VM only; final hardware
 installs should use the installer and a real partition layout.
+
+For a blank install-target VM disk, create a separate qcow2 image and boot the
+live installer with that disk attached:
+
+```powershell
+mingw32-make workstation-vm-install-disk
+mingw32-make workstation-run-seed-install-target
+```
+
+Inside the live system, open Zenith Installer or run:
+
+```sh
+sudo zenith-install-to-disk --target /dev/DISK --dry-run
+sudo zenith-install-to-disk --target /dev/DISK
+```
+
+The backend requires the displayed `ZENITH-ERASE-<disk>` token before any disk
+write. After the install finishes, close the live VM and boot only the installed
+disk:
+
+```powershell
+mingw32-make workstation-run-installed-disk
+```
+
+For automated VM proof against the qcow2 install target:
+
+```powershell
+mingw32-make workstation-autoinstall-disk
+mingw32-make workstation-smoke-installed-disk
+```
 
 The live image requires manual login. At the SDDM login screen, enter:
 
@@ -132,9 +162,9 @@ Diagnostics.
   updates, and cache cleanup actions.
 - Zenith Files with places, search, hidden-file toggle, metadata, parent
   navigation, file opening, and terminal-here.
-- Zenith Installer readiness dashboard with non-destructive disk validation,
-  selected target tracking, disk-specific dry-run plan generation, bootloader
-  plan, and install-report actions.
+- Zenith Installer dashboard with guarded disk validation, explicit target
+  selection, backend dry-run, typed erase-token install, EFI plus Btrfs layout,
+  and GRUB removable fallback installation.
 - Zenith Terminal with command sessions and shortcuts for boot logs, updates,
   and build checks.
 

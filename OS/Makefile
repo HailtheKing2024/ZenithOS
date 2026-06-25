@@ -9,11 +9,12 @@ RUN_OVMF_VARS := $(BUILD_DIR)/edk2-vars.fd
 WORKSTATION_ROOTFS := $(BUILD_DIR)/workstation/rootfs
 WORKSTATION_SEED_ISO := $(BUILD_DIR)/workstation/zenithos-seed.iso
 WORKSTATION_PERSISTENCE_DISK := $(BUILD_DIR)/workstation/zenithos-persistence.raw
+WORKSTATION_INSTALL_DISK := $(BUILD_DIR)/workstation/zenithos-install-target.qcow2
 WORKSTATION_LIVE_KERNEL := $(BUILD_DIR)/workstation/iso-stage/live/vmlinuz
 WORKSTATION_LIVE_INITRD := $(BUILD_DIR)/workstation/iso-stage/live/initrd.img
-WORKSTATION_LIVE_ARGS := boot=live username=zenith hostname=zenithos locales=en_US.UTF-8 keyboard-layouts=us console=tty0 console=ttyS0,115200n8 systemd.show_status=1 loglevel=4 plymouth.enable=0 zenith.boot_report=1 zenith.profile=dev-vm
-WORKSTATION_SPLASH_ARGS := boot=live username=zenith hostname=zenithos locales=en_US.UTF-8 keyboard-layouts=us quiet splash loglevel=3 systemd.show_status=0 plymouth.ignore-serial-consoles zenith.profile=dev-vm
-WORKSTATION_DEBUG_ARGS := boot=live username=zenith hostname=zenithos locales=en_US.UTF-8 keyboard-layouts=us console=tty0 console=ttyS0,115200n8 systemd.show_status=1 loglevel=4 zenith.boot_report=1 zenith.profile=dev-vm
+WORKSTATION_LIVE_ARGS := boot=live username=zenith hostname=zenithos locales=en_US.UTF-8 keyboard-layouts=us live-config.noautologin live-config.nox11autologin console=tty0 console=ttyS0,115200n8 systemd.show_status=1 loglevel=4 plymouth.enable=0 zenith.boot_report=1 zenith.profile=dev-vm
+WORKSTATION_SPLASH_ARGS := boot=live username=zenith hostname=zenithos locales=en_US.UTF-8 keyboard-layouts=us live-config.noautologin live-config.nox11autologin quiet splash loglevel=3 systemd.show_status=0 plymouth.ignore-serial-consoles zenith.profile=dev-vm
+WORKSTATION_DEBUG_ARGS := boot=live username=zenith hostname=zenithos locales=en_US.UTF-8 keyboard-layouts=us live-config.noautologin live-config.nox11autologin console=tty0 console=ttyS0,115200n8 systemd.show_status=1 loglevel=4 zenith.boot_report=1 zenith.profile=dev-vm
 
 ifeq ($(OS),Windows_NT)
 WIN_USERPROFILE := $(subst \,/,$(USERPROFILE))
@@ -128,7 +129,7 @@ USER_ELFS := $(addprefix $(BUILD_DIR)/userland/,$(addsuffix .elf,$(USER_APPS)))
 USER_BINS := $(addprefix $(BUILD_DIR)/userland/,$(addsuffix .bin,$(USER_APPS)))
 USERLAND_INC := $(BUILD_DIR)/kernel/fs/initramfs_userland.inc
 
-.PHONY: all clean toolchain-check iso run kernel-lab kernel-lab-iso kernel-lab-run workstation-check workstation-runtime-check workstation-runtime-check-wsl workstation-packages workstation-packages-wsl workstation-repo workstation-repo-wsl workstation-verify-repo-wsl workstation-apt-check-wsl workstation-rootfs workstation-rootfs-wsl workstation-seed-iso workstation-seed-iso-wsl workstation-vm-persistence workstation-vm-persistence-wsl workstation-smoke-seed workstation-smoke-seed-persistent workstation-run-seed workstation-run-seed-persistent workstation-run-seed-splash workstation-run-seed-iso workstation-run-seed-fast workstation-run-seed-debug workstation-diagnose-qemu
+.PHONY: all clean toolchain-check iso run kernel-lab kernel-lab-iso kernel-lab-run workstation-check workstation-runtime-check workstation-runtime-check-wsl workstation-packages workstation-packages-wsl workstation-repo workstation-repo-wsl workstation-verify-repo-wsl workstation-apt-check-wsl workstation-rootfs workstation-rootfs-wsl workstation-seed-iso workstation-seed-iso-wsl workstation-vm-persistence workstation-vm-persistence-wsl workstation-vm-install-disk workstation-autoinstall-disk workstation-autoinstall-manual-login-disk workstation-smoke-seed workstation-smoke-seed-persistent workstation-smoke-installed-disk workstation-smoke-installed-manual-login workstation-run-seed workstation-run-seed-persistent workstation-run-seed-splash workstation-run-seed-iso workstation-run-seed-install-target workstation-run-installed-disk workstation-run-seed-fast workstation-run-seed-debug workstation-diagnose-qemu
 .SECONDARY: $(USER_OBJECTS) $(USER_ELFS) $(USER_BINS)
 
 all: $(KERNEL)
@@ -165,7 +166,7 @@ endif
 
 workstation-packages-wsl: workstation-check
 ifeq ($(OS),Windows_NT)
-	$$repo = (wsl -d Ubuntu -- wslpath -a '$(CURDIR)').Trim(); wsl -d Ubuntu -- bash -lc "cd '$$repo' && bash workstation/distro/build-zenith-packages.sh"
+	$$repo = (wsl -d Ubuntu -- wslpath -a '$(CURDIR)').Trim(); wsl -d Ubuntu -- bash -lc "cd '$$repo' && export ZENITH_PACKAGE_WORK='/tmp/zenithos-package-work' && bash workstation/distro/build-zenith-packages.sh"
 else
 	@echo 'workstation-packages-wsl is only needed from Windows bootstrap hosts.'
 endif
@@ -180,7 +181,7 @@ endif
 
 workstation-repo-wsl: workstation-check
 ifeq ($(OS),Windows_NT)
-	$$repo = (wsl -d Ubuntu -- wslpath -a '$(CURDIR)').Trim(); wsl -d Ubuntu -- bash -lc "cd '$$repo' && bash workstation/distro/build-zenith-packages.sh && bash workstation/distro/publish-apt-repo.sh"
+	$$repo = (wsl -d Ubuntu -- wslpath -a '$(CURDIR)').Trim(); wsl -d Ubuntu -- bash -lc "cd '$$repo' && export ZENITH_PACKAGE_WORK='/tmp/zenithos-package-work' ZENITH_APT_SIGNING_KEY='86DB09CA6DAE6823' && bash workstation/distro/build-zenith-packages.sh && bash workstation/distro/publish-apt-repo.sh"
 else
 	@echo 'workstation-repo-wsl is only needed from Windows bootstrap hosts.'
 endif
@@ -241,6 +242,14 @@ else
 	@echo 'workstation-vm-persistence-wsl is only needed from Windows bootstrap hosts.'
 endif
 
+workstation-vm-install-disk: workstation-check
+ifeq ($(OS),Windows_NT)
+	powershell -NoProfile -ExecutionPolicy Bypass -File tools/create_workstation_install_disk.ps1
+else
+	@mkdir -p "$(BUILD_DIR)/workstation"
+	qemu-img create -f qcow2 "$(WORKSTATION_INSTALL_DISK)" 40G
+endif
+
 workstation-smoke-seed: workstation-check
 ifeq ($(OS),Windows_NT)
 	powershell -NoProfile -ExecutionPolicy Bypass -File tools/smoke_workstation_seed.ps1 -Seconds 90
@@ -253,6 +262,20 @@ ifeq ($(OS),Windows_NT)
 	powershell -NoProfile -ExecutionPolicy Bypass -File tools/smoke_workstation_seed.ps1 -Seconds 90 -Persistent
 else
 	@echo 'workstation-smoke-seed-persistent is currently implemented for the Windows QEMU host.'
+endif
+
+workstation-smoke-installed-disk: workstation-check
+ifeq ($(OS),Windows_NT)
+	powershell -NoProfile -ExecutionPolicy Bypass -File tools/smoke_workstation_seed.ps1 -Seconds 240 -InstalledDisk
+else
+	@echo 'workstation-smoke-installed-disk is currently implemented for the Windows QEMU host.'
+endif
+
+workstation-smoke-installed-manual-login: workstation-check
+ifeq ($(OS),Windows_NT)
+	powershell -NoProfile -ExecutionPolicy Bypass -File tools/smoke_workstation_seed.ps1 -Seconds 260 -ManualLogin
+else
+	@echo 'workstation-smoke-installed-manual-login is currently implemented for the Windows QEMU host.'
 endif
 
 workstation-run-seed:
@@ -344,6 +367,58 @@ else
 		-cdrom $(WORKSTATION_SEED_ISO) -boot d -display gtk,gl=off \
 		-serial file:$(BUILD_DIR)/workstation/seed-serial.log -monitor none \
 		2> "$(BUILD_DIR)/workstation/qemu-stderr.log"
+endif
+
+workstation-run-seed-install-target:
+ifeq ($(OS),Windows_NT)
+	powershell -NoProfile -ExecutionPolicy Bypass -File tools/run_workstation_seed.ps1 -Mode install-target
+else
+	@test -f "$(WORKSTATION_SEED_ISO)" || { echo "missing $(WORKSTATION_SEED_ISO); build it with make workstation-seed-iso first"; exit 1; }
+	@test -f "$(WORKSTATION_INSTALL_DISK)" || { echo "missing $(WORKSTATION_INSTALL_DISK); build it with make workstation-vm-install-disk first"; exit 1; }
+	qemu-system-x86_64 -machine q35 -m 4096M -cpu max -smp 2 \
+		-accel tcg,thread=multi \
+		-vga virtio \
+		-device virtio-rng-pci \
+		-device qemu-xhci -device usb-tablet \
+		-drive if=pflash,format=raw,readonly=on,file="$(OVMF_CODE)" \
+		-drive if=pflash,format=raw,file="$(OVMF_VARS)" \
+		-drive file="$(WORKSTATION_INSTALL_DISK)",if=virtio,format=qcow2,cache=writeback \
+		-cdrom "$(WORKSTATION_SEED_ISO)" \
+		-boot d \
+		-display gtk,gl=off \
+		-serial file:$(BUILD_DIR)/workstation/seed-install-target-serial.log -monitor none
+endif
+
+workstation-autoinstall-disk:
+ifeq ($(OS),Windows_NT)
+	powershell -NoProfile -ExecutionPolicy Bypass -File tools/run_workstation_seed.ps1 -Mode autoinstall -Wait
+else
+	@echo 'workstation-autoinstall-disk is currently implemented for the Windows QEMU host.'
+endif
+
+workstation-autoinstall-manual-login-disk:
+ifeq ($(OS),Windows_NT)
+	powershell -NoProfile -ExecutionPolicy Bypass -File tools/run_workstation_seed.ps1 -Mode autoinstall-manual-login -Wait
+else
+	@echo 'workstation-autoinstall-manual-login-disk is currently implemented for the Windows QEMU host.'
+endif
+
+workstation-run-installed-disk:
+ifeq ($(OS),Windows_NT)
+	powershell -NoProfile -ExecutionPolicy Bypass -File tools/run_workstation_seed.ps1 -Mode installed
+else
+	@test -f "$(WORKSTATION_INSTALL_DISK)" || { echo "missing $(WORKSTATION_INSTALL_DISK); install ZenithOS to it first"; exit 1; }
+	qemu-system-x86_64 -machine q35 -m 4096M -cpu max -smp 2 \
+		-accel tcg,thread=multi \
+		-vga virtio \
+		-device virtio-rng-pci \
+		-device qemu-xhci -device usb-tablet \
+		-drive if=pflash,format=raw,readonly=on,file="$(OVMF_CODE)" \
+		-drive if=pflash,format=raw,file="$(OVMF_VARS)" \
+		-drive file="$(WORKSTATION_INSTALL_DISK)",if=virtio,format=qcow2,cache=writeback \
+		-boot order=c,strict=on \
+		-display gtk,gl=off \
+		-serial file:$(BUILD_DIR)/workstation/installed-disk-serial.log -monitor none
 endif
 
 workstation-run-seed-fast:

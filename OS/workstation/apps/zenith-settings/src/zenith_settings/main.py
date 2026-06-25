@@ -213,7 +213,7 @@ class SettingsWindow(Adw.ApplicationWindow):
         elif category == "Appearance":
             group = Adw.PreferencesGroup(title="Desktop")
             group.add(Adw.ActionRow(title="Shell", subtitle="Zenith panel layout on KDE Plasma internals"))
-            group.add(Adw.ActionRow(title="Wallpaper", subtitle="/usr/share/backgrounds/zenith/zenith-default.svg"))
+            group.add(Adw.ActionRow(title="Wallpaper", subtitle="/usr/share/backgrounds/zenith/zenith-login-wallpaper.png"))
             group.add(Adw.ActionRow(title="Cursor", subtitle="Breeze, size 48 for VM visibility"))
             group.add(Adw.ActionRow(title="Theme", subtitle="Breeze Dark defaults with Zenith wallpaper and custom layout"))
             group.add(self._switch_row(

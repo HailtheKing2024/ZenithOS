@@ -67,6 +67,7 @@ require_command dpkg-deb
 
 rm -rf "$work_dir"
 mkdir -p "$out_dir" "$work_dir"
+rm -f "$out_dir"/*.deb
 
 install_app_package \
     zenith-settings \
@@ -114,8 +115,10 @@ install_app_package \
     zenith_installer \
     zenith-installer \
     os.zenith.Installer.desktop \
-    "ZenithOS installer readiness application" \
-    "python3, python3-gi, gir1.2-gtk-4.0, gir1.2-adw-1, util-linux, parted, gdisk, btrfs-progs, grub-common"
+    "ZenithOS guarded disk installer" \
+    "python3, python3-gi, gir1.2-gtk-4.0, gir1.2-adw-1, sudo, util-linux, parted, gdisk, btrfs-progs, dosfstools, rsync, grub-common, grub2-common, grub-efi-amd64, grub-efi-amd64-bin, efibootmgr, initramfs-tools"
+install -D -m 0755 "$repo_root/workstation/apps/zenith-installer/bin/zenith-install-to-disk" \
+    "$(pkg_root zenith-installer)/usr/bin/zenith-install-to-disk"
 
 install_app_package \
     zenith-calculator \
@@ -154,6 +157,8 @@ cp "$repo_root/workstation/shell/plasma-config/kwinrc" "$shell_root/etc/xdg/kwin
 cp "$repo_root/workstation/shell/plasma-config/kcminputrc" "$shell_root/etc/xdg/kcminputrc"
 cp "$repo_root/workstation/shell/plasma-config/plasma-org.kde.plasma.desktop-appletsrc" \
     "$shell_root/etc/skel/.config/plasma-org.kde.plasma.desktop-appletsrc"
+install -D -m 0644 "$repo_root/workstation/shell/plasma-config/zenith-panel-setup.js" \
+    "$shell_root/usr/share/zenith/plasma/zenith-panel-setup.js"
 cp "$repo_root/workstation/shell/plasma-config/metadata.desktop" "$shell_root/usr/share/zenith/metadata.desktop"
 
 defaults_root="$(pkg_root zenith-workstation-defaults)"
@@ -170,6 +175,7 @@ install -D -m 0644 "$repo_root/workstation/config/motd" "$defaults_root/usr/shar
 install -D -m 0644 "$repo_root/workstation/config/hostname" "$defaults_root/usr/share/zenith/defaults/hostname"
 install -D -m 0644 "$repo_root/workstation/config/hosts" "$defaults_root/usr/share/zenith/defaults/hosts"
 install -D -m 0644 "$repo_root/workstation/assets/backgrounds/zenith-default.svg" "$defaults_root/usr/share/backgrounds/zenith/zenith-default.svg"
+install -D -m 0644 "$repo_root/workstation/assets/backgrounds/zenith-login-wallpaper.png" "$defaults_root/usr/share/backgrounds/zenith/zenith-login-wallpaper.png"
 install -D -m 0644 "$repo_root/workstation/config/plymouth/zenith/zenith.plymouth" "$defaults_root/usr/share/plymouth/themes/zenith/zenith.plymouth"
 install -D -m 0644 "$repo_root/workstation/config/plymouth/zenith/zenith.script" "$defaults_root/usr/share/plymouth/themes/zenith/zenith.script"
 
@@ -185,6 +191,9 @@ install -D -m 0644 "$repo_root/workstation/config/systemd/system/zenith-boot-rep
 install -D -m 0644 "$repo_root/workstation/config/systemd/system/zenith-performance-defaults.service" "$defaults_root/etc/systemd/system/zenith-performance-defaults.service"
 install -D -m 0644 "$repo_root/workstation/config/systemd/system/zenith-plymouth-handoff.service" "$defaults_root/etc/systemd/system/zenith-plymouth-handoff.service"
 install -D -m 0644 "$repo_root/workstation/config/systemd/system/zenith-first-boot-apps.service" "$defaults_root/etc/systemd/system/zenith-first-boot-apps.service"
+install -D -m 0644 "$repo_root/workstation/config/systemd/system/zenith-autoinstall.service" "$defaults_root/etc/systemd/system/zenith-autoinstall.service"
+install -D -m 0644 "$repo_root/workstation/config/systemd/system/zenith-desktop-smoke-login.service" "$defaults_root/etc/systemd/system/zenith-desktop-smoke-login.service"
+install -D -m 0644 "$repo_root/workstation/config/systemd/system/zenith-session-report-watch.service" "$defaults_root/etc/systemd/system/zenith-session-report-watch.service"
 install -D -m 0755 "$repo_root/workstation/scripts/first-boot-apps.sh" "$defaults_root/usr/lib/zenith/first-boot-apps.sh"
 install -D -m 0644 "$repo_root/workstation/config/sddm/sddm.conf" "$defaults_root/etc/sddm/sddm.conf"
 mkdir -p "$defaults_root/usr/share/sddm/themes"
@@ -194,10 +203,17 @@ install -D -m 0755 "$repo_root/workstation/config/usr/lib/zenith/zenith-hardware
 install -D -m 0755 "$repo_root/workstation/config/usr/lib/zenith/zenith-performance-defaults" "$defaults_root/usr/lib/zenith/zenith-performance-defaults"
 install -D -m 0755 "$repo_root/workstation/config/usr/lib/zenith/zenith-greeter" "$defaults_root/usr/lib/zenith/zenith-greeter"
 install -D -m 0755 "$repo_root/workstation/config/usr/lib/zenith/zenith-session-setup" "$defaults_root/usr/lib/zenith/zenith-session-setup"
+install -D -m 0755 "$repo_root/workstation/config/usr/lib/zenith/zenith-autoinstall" "$defaults_root/usr/lib/zenith/zenith-autoinstall"
+install -D -m 0755 "$repo_root/workstation/config/usr/lib/zenith/zenith-desktop-smoke-login" "$defaults_root/usr/lib/zenith/zenith-desktop-smoke-login"
+install -D -m 0755 "$repo_root/workstation/config/usr/lib/zenith/zenith-session-report" "$defaults_root/usr/lib/zenith/zenith-session-report"
+install -D -m 0755 "$repo_root/workstation/config/usr/lib/zenith/zenith-session-report-watch" "$defaults_root/usr/lib/zenith/zenith-session-report-watch"
 install -D -m 0755 "$repo_root/workstation/config/usr/lib/zenith/zenith-welcome-once" "$defaults_root/usr/lib/zenith/zenith-welcome-once"
 install -D -m 0644 "$repo_root/workstation/config/xdg/autostart/zenith-greeter.desktop" "$defaults_root/etc/xdg/autostart/zenith-greeter.desktop"
 install -D -m 0644 "$repo_root/workstation/config/xdg/autostart/zenith-session-setup.desktop" "$defaults_root/etc/xdg/autostart/zenith-session-setup.desktop"
+install -D -m 0644 "$repo_root/workstation/config/xdg/autostart/zenith-session-report.desktop" "$defaults_root/etc/xdg/autostart/zenith-session-report.desktop"
 install -D -m 0644 "$repo_root/workstation/config/xdg/autostart/zenith-welcome.desktop" "$defaults_root/etc/xdg/autostart/zenith-welcome.desktop"
+install -D -m 0644 "$repo_root/workstation/config/sddm/sddm.conf" "$defaults_root/usr/share/zenith/defaults/sddm.conf"
+install -D -m 0644 "$repo_root/workstation/config/sddm/sddm.conf" "$defaults_root/etc/sddm.conf"
 cat > "$defaults_root/DEBIAN/postinst" <<'EOF'
 #!/bin/sh
 set -e
@@ -219,8 +235,9 @@ if [ -f /usr/share/zenith/defaults/hosts ]; then
     install -m 0644 /usr/share/zenith/defaults/hosts /etc/hosts
 fi
 if [ -f /usr/share/zenith/defaults/sddm.conf ]; then
- mkdir -p /etc/sddm
- install -m 0644 /usr/share/zenith/defaults/sddm.conf /etc/sddm/sddm.conf
+    install -m 0644 /usr/share/zenith/defaults/sddm.conf /etc/sddm.conf
+    mkdir -p /etc/sddm
+    install -m 0644 /usr/share/zenith/defaults/sddm.conf /etc/sddm/sddm.conf
 fi
 mkdir -p /etc/plymouth
 cat > /etc/plymouth/plymouthd.conf <<PLYMOUTH

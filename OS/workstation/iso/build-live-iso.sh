@@ -62,7 +62,7 @@ set timeout=0
 set timeout_style=hidden
 set default=0
 
-set live_args="boot=live username=zenith hostname=zenithos locales=en_US.UTF-8 keyboard-layouts=us"
+set live_args="boot=live username=zenith hostname=zenithos locales=en_US.UTF-8 keyboard-layouts=us live-config.noautologin live-config.nox11autologin"
 set serial_args="$live_args console=tty0 console=ttyS0,115200n8"
 set debug_args="$serial_args systemd.show_status=1 loglevel=7 zenith.boot_report=1"
 

@@ -5,6 +5,7 @@ repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 package_dir="${ZENITH_PACKAGE_OUT:-$repo_root/build/workstation/packages}"
 repo_dir="${ZENITH_APT_REPO:-$repo_root/build/workstation/apt-repo}"
 signing_key="${ZENITH_APT_SIGNING_KEY:-}"
+manifest="$repo_root/workstation/distro/package-set.manifest"
 
 require_command() {
     if ! command -v "$1" >/dev/null 2>&1; then
@@ -30,14 +31,30 @@ if ! gpg --batch --list-secret-keys "$signing_key" >/dev/null 2>&1; then
     exit 1
 fi
 
-if ! compgen -G "$package_dir/*.deb" >/dev/null; then
-    echo "no packages found in $package_dir" >&2
-    exit 1
-fi
+shopt -s nullglob
 
 rm -rf "$repo_dir"
 mkdir -p "$repo_dir"
-cp "$package_dir/"*.deb "$repo_dir/"
+
+missing=0
+while IFS= read -r package; do
+    debs=("$package_dir/${package}_"*.deb)
+    if [ "${#debs[@]}" -eq 0 ]; then
+        echo "missing built package for manifest entry: $package" >&2
+        missing=1
+        continue
+    fi
+    cp "${debs[@]}" "$repo_dir/"
+done < <(sed -e 's/#.*$//' -e '/^[[:space:]]*$/d' "$manifest")
+
+if [ "$missing" -ne 0 ]; then
+    exit 1
+fi
+
+if ! compgen -G "$repo_dir/*.deb" >/dev/null; then
+    echo "no manifest packages were published to $repo_dir" >&2
+    exit 1
+fi
 
 (
     cd "$repo_dir"

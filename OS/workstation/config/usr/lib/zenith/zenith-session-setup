@@ -1,11 +1,15 @@
 #!/bin/sh
 set -u
 
-# Ensure skeleton configs are copied to the live user home if missing
+# Ensure skeleton configs are copied to the live user home if missing.
 if [ -d /etc/skel/.config ] && [ -n "${HOME:-}" ]; then
     mkdir -p "$HOME/.config"
     if [ ! -f "$HOME/.config/plasma-org.kde.plasma.desktop-appletsrc" ] && [ -f /etc/skel/.config/plasma-org.kde.plasma.desktop-appletsrc ]; then
         cp /etc/skel/.config/plasma-org.kde.plasma.desktop-appletsrc "$HOME/.config/" || true
+    fi
+    plasma_layout="$HOME/.config/plasma-org.kde.plasma.desktop-appletsrc"
+    if [ -f "$plasma_layout" ] && grep -q "plugin=org.kde.plasma.panel" "$plasma_layout"; then
+        sed -i 's/plugin=org\.kde\.plasma\.panel/plugin=org.kde.panel/g' "$plasma_layout" || true
     fi
 fi
 
@@ -28,6 +32,35 @@ if command -v kwriteconfig6 >/dev/null 2>&1; then
     kwriteconfig6 --file kwinrc --group Plugins --key blurEnabled false || true
 fi
 
+# 1b. Repair the Plasma panel in running sessions. Plasma can start with an
+# existing partial applet config, which leaves the wallpaper visible but no
+# taskbar. The DBus script creates the actual panel in plasmashell.
+panel_script=/usr/share/zenith/plasma/zenith-panel-setup.js
+wallpaper=/usr/share/backgrounds/zenith/zenith-login-wallpaper.png
+panel_version=4
+if [ -r "$panel_script" ] && command -v qdbus6 >/dev/null 2>&1; then
+    current_panel_version=""
+    if command -v kreadconfig6 >/dev/null 2>&1; then
+        current_panel_version="$(kreadconfig6 --file zenith-session.conf --group Plasma --key PanelVersion 2>/dev/null || true)"
+    fi
+    if [ "$current_panel_version" != "$panel_version" ]; then
+        panel_source="$(cat "$panel_script")"
+        for attempt in 1 2 3 4 5; do
+            if qdbus6 org.kde.plasmashell /PlasmaShell org.kde.PlasmaShell.evaluateScript "$panel_source" >/dev/null 2>&1; then
+                if command -v kwriteconfig6 >/dev/null 2>&1; then
+                    kwriteconfig6 --file zenith-session.conf --group Plasma --key PanelVersion "$panel_version" || true
+                fi
+                break
+            fi
+            sleep 1
+        done
+    fi
+fi
+
+if [ -r "$wallpaper" ] && command -v plasma-apply-wallpaperimage >/dev/null 2>&1; then
+    plasma-apply-wallpaperimage "$wallpaper" >/dev/null 2>&1 || true
+fi
+
 # 2. Maintain GTK settings for our first-party GTK/libadwaita apps under Plasma
 if command -v gsettings >/dev/null 2>&1; then
     gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark' || true
@@ -35,10 +68,10 @@ if command -v gsettings >/dev/null 2>&1; then
     gsettings set org.gnome.desktop.interface cursor-theme 'Adwaita' || true
     gsettings set org.gnome.desktop.interface cursor-size 48 || true
     gsettings set org.gnome.desktop.interface enable-animations false || true
-    gsettings set org.gnome.desktop.background picture-uri 'file:///usr/share/backgrounds/zenith/zenith-default.svg' || true
-    gsettings set org.gnome.desktop.background picture-uri-dark 'file:///usr/share/backgrounds/zenith/zenith-default.svg' || true
+    gsettings set org.gnome.desktop.background picture-uri 'file:///usr/share/backgrounds/zenith/zenith-login-wallpaper.png' || true
+    gsettings set org.gnome.desktop.background picture-uri-dark 'file:///usr/share/backgrounds/zenith/zenith-login-wallpaper.png' || true
     gsettings set org.gnome.desktop.background picture-options 'zoom' || true
-    gsettings set org.gnome.desktop.screensaver picture-uri 'file:///usr/share/backgrounds/zenith/zenith-default.svg' || true
+    gsettings set org.gnome.desktop.screensaver picture-uri 'file:///usr/share/backgrounds/zenith/zenith-login-wallpaper.png' || true
     gsettings set org.gnome.desktop.peripherals.touchpad tap-to-click true || true
     gsettings set org.gnome.desktop.peripherals.natural-scroll true || true
 fi

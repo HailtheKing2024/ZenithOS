@@ -97,7 +97,7 @@ class WelcomeWindow(Adw.ApplicationWindow):
 
         desktop = Adw.PreferencesGroup(title="Desktop Readiness")
         desktop.add(Adw.ActionRow(title="ZenithShell extension", subtitle=file_status("/usr/share/gnome-shell/extensions/zenith-shell@zenithos.local/extension.js")))
-        desktop.add(Adw.ActionRow(title="Zenith wallpaper", subtitle=file_status("/usr/share/backgrounds/zenith/zenith-default.svg")))
+        desktop.add(Adw.ActionRow(title="Zenith wallpaper", subtitle=file_status("/usr/share/backgrounds/zenith/zenith-login-wallpaper.png")))
         desktop.add(Adw.ActionRow(title="GDM autologin", subtitle=file_status("/etc/gdm3/custom.conf")))
         desktop.add(Adw.ActionRow(title="Visible cursor default", subtitle="Adwaita cursor size 48"))
         page.add(desktop)

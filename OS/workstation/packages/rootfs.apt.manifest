@@ -100,8 +100,12 @@ xorriso
 isolinux
 syslinux-common
 grub-common
+grub2-common
 grub-pc-bin
+grub-efi-amd64
 grub-efi-amd64-bin
+efibootmgr
+initramfs-tools
 mtools
 dosfstools
 parted

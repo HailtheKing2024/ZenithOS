@@ -6,4 +6,7 @@ zenith-packages
 zenith-files
 zenith-welcome
 zenith-installer
+zenith-calculator
+zenith-clock
+zenith-text-editor
 zenith-builder

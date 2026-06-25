@@ -1,7 +1,7 @@
 [Desktop Entry]
 Type=Application
 Name=Zenith Installer
-Comment=Preview install readiness
+Comment=Install ZenithOS to a blank disk
 Exec=zenith-installer
 Icon=drive-harddisk
 Terminal=false

@@ -1,8 +1,52 @@
 #!/bin/bash
 # ZenithOS First Boot - Install Popular Applications
-# This script runs on first boot to install VS Code, Chrome, and other popular apps via Flatpak
+# This script runs on first boot to install popular apps via Flatpak.
 
 set -e
+
+state_dir="/var/lib/zenith"
+installed_flag="$state_dir/apps-installed.flag"
+deferred_flag="$state_dir/apps-install-deferred.flag"
+status_file="$state_dir/apps-install-status.env"
+
+write_status() {
+    local state="$1"
+    local reason="${2:-}"
+    mkdir -p "$state_dir"
+    {
+        printf 'STATE=%s\n' "$state"
+        printf 'REASON=%s\n' "$reason"
+        printf 'UPDATED_UTC=%s\n' "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+    } > "$status_file"
+}
+
+defer_apps() {
+    local reason="$1"
+    mkdir -p "$state_dir"
+    printf '%s\n' "$reason" > "$deferred_flag"
+    write_status "deferred" "$reason"
+    echo "Application installation deferred: $reason"
+    echo "The service will try again on a later boot."
+    exit 0
+}
+
+install_app() {
+    local label="$1"
+    local app_id="$2"
+
+    echo "Installing $label..."
+    if flatpak list --app --columns=application | grep -qx "$app_id"; then
+        echo "$label already installed"
+        return
+    fi
+
+    if flatpak install -y flathub "$app_id"; then
+        echo "$label installed"
+        return
+    fi
+
+    defer_apps "could not install $label from Flathub"
+}
 
 echo "🚀 ZenithOS First Boot Application Installer"
 echo "============================================="
@@ -14,112 +58,43 @@ if [ "$EUID" -ne 0 ]; then
     exit 1
 fi
 
+mkdir -p "$state_dir"
+write_status "running" "first boot application setup is running"
+
 # Check if Flatpak is available
 if ! command -v flatpak &> /dev/null; then
-    echo "❌ Flatpak is not installed. Installing..."
-    apt update
-    apt install -y flatpak
+    echo "Flatpak is not installed. Installing..."
+    if ! apt-get update || ! apt-get install -y flatpak; then
+        defer_apps "flatpak is unavailable and could not be installed"
+    fi
+fi
+
+if ! getent hosts flathub.org >/dev/null 2>&1; then
+    defer_apps "DNS cannot resolve flathub.org"
 fi
 
 # Add Flathub repository if not already added
-if ! flatpak remotes | grep -q flathub; then
-    echo "📦 Adding Flathub repository..."
-    flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+if ! flatpak remotes --columns=name | grep -qx flathub; then
+    echo "Adding Flathub repository..."
+    if ! flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo; then
+        defer_apps "Flathub is unreachable"
+    fi
 fi
 
 echo ""
 echo "Installing popular applications..."
 echo ""
 
-# Install VS Code
-echo "📝 Installing Visual Studio Code..."
-if ! flatpak list --app | grep -q com.visualstudio.code; then
-    flatpak install -y flathub com.visualstudio.code
-    echo "✅ VS Code installed"
-else
-    echo "✅ VS Code already installed"
-fi
-
-# Install Google Chrome
-echo "🌐 Installing Google Chrome..."
-if ! flatpak list --app | grep -q com.google.Chrome; then
-    flatpak install -y flathub com.google.Chrome
-    echo "✅ Chrome installed"
-else
-    echo "✅ Chrome already installed"
-fi
-
-# Optional: Install Firefox (some users prefer it)
-echo "🦊 Installing Firefox..."
-if ! flatpak list --app | grep -q org.mozilla.firefox; then
-    flatpak install -y flathub org.mozilla.firefox
-    echo "✅ Firefox installed"
-else
-    echo "✅ Firefox already installed"
-fi
-
-# Optional: Install Discord (for communication)
-echo "💬 Installing Discord..."
-if ! flatpak list --app | grep -q com.discordapp.Discord; then
-    flatpak install -y flathub com.discordapp.Discord
-    echo "✅ Discord installed"
-else
-    echo "✅ Discord already installed"
-fi
-
-# Optional: Install Spotify (for music)
-echo "🎵 Installing Spotify..."
-if ! flatpak list --app | grep -q com.spotify.Client; then
-    flatpak install -y flathub com.spotify.Client
-    echo "✅ Spotify installed"
-else
-    echo "✅ Spotify already installed"
-fi
-
-# Optional: Install Telegram (lightweight messaging)
-echo "✈️ Installing Telegram..."
-if ! flatpak list --app | grep -q org.telegram.desktop; then
-    flatpak install -y flathub org.telegram.desktop
-    echo "✅ Telegram installed"
-else
-    echo "✅ Telegram already installed"
-fi
-
-# Optional: Install OBS Studio (for streaming/recording)
-echo "🎥 Installing OBS Studio..."
-if ! flatpak list --app | grep -q com.obsproject.Studio; then
-    flatpak install -y flathub com.obsproject.Studio
-    echo "✅ OBS Studio installed"
-else
-    echo "✅ OBS Studio already installed"
-fi
-
-# Optional: Install VLC (media player)
-echo "📺 Installing VLC..."
-if ! flatpak list --app | grep -q org.videolan.VLC; then
-    flatpak install -y flathub org.videolan.VLC
-    echo "✅ VLC installed"
-else
-    echo "✅ VLC already installed"
-fi
-
-# Optional: Install GitKraken (Git GUI)
-echo "🌳 Installing GitKraken..."
-if ! flatpak list --app | grep -q com.axosoft.GitKraken; then
-    flatpak install -y flathub com.axosoft.GitKraken
-    echo "✅ GitKraken installed"
-else
-    echo "✅ GitKraken already installed"
-fi
-
-# Optional: Install Postman (API development)
-echo "🔧 Installing Postman..."
-if ! flatpak list --app | grep -q com.getpostman.Postman; then
-    flatpak install -y flathub com.getpostman.Postman
-    echo "✅ Postman installed"
-else
-    echo "✅ Postman already installed"
-fi
+install_app "Visual Studio Code" "com.visualstudio.code"
+install_app "Google Chrome" "com.google.Chrome"
+install_app "Firefox" "org.mozilla.firefox"
+install_app "Discord" "com.discordapp.Discord"
+install_app "Spotify" "com.spotify.Client"
+install_app "Telegram" "org.telegram.desktop"
+install_app "OBS Studio" "com.obsproject.Studio"
+install_app "VLC" "org.videolan.VLC"
+install_app "GitKraken" "com.axosoft.GitKraken"
+install_app "Postman" "com.getpostman.Postman"
 
 echo ""
 echo "============================================="
@@ -144,6 +119,7 @@ echo ""
 echo "Or browse https://flathub.org"
 echo ""
 
-# Mark first boot as complete
-touch /var/lib/zenith/apps-installed.flag
+rm -f "$deferred_flag"
+write_status "complete" "first boot application setup complete"
+touch "$installed_flag"
 echo "🎉 First boot application setup complete!"

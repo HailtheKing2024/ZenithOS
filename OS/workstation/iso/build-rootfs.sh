@@ -97,6 +97,9 @@ sudo chroot "$output" systemctl enable zenith-boot-report.service >/dev/null
 sudo chroot "$output" systemctl enable zenith-performance-defaults.service >/dev/null
 sudo chroot "$output" systemctl enable zenith-plymouth-handoff.service >/dev/null
 sudo chroot "$output" systemctl enable zenith-first-boot-apps.service >/dev/null
+sudo chroot "$output" systemctl enable zenith-autoinstall.service >/dev/null
+sudo chroot "$output" systemctl enable zenith-desktop-smoke-login.service >/dev/null
+sudo chroot "$output" systemctl enable zenith-session-report-watch.service >/dev/null
 for unit in \
     apt-daily.timer \
     apt-daily-upgrade.timer \

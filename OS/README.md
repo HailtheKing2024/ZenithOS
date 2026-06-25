@@ -135,6 +135,37 @@ mingw32-make workstation-vm-persistence-wsl
 mingw32-make workstation-run-seed-persistent
 ```
 
+Create a blank install target disk and boot the live installer VM:
+
+```powershell
+mingw32-make workstation-vm-install-disk
+mingw32-make workstation-run-seed-install-target
+```
+
+Inside the live system, run `zenith-installer` or use the backend directly:
+
+```sh
+sudo zenith-install-to-disk --target /dev/DISK --dry-run
+sudo zenith-install-to-disk --target /dev/DISK
+```
+
+The real install path partitions the selected disk, creates a 512MiB EFI
+system partition, creates a Btrfs root with `@`, `@home`, `@var`, and
+`@snapshots`, copies the live system, writes `/etc/fstab`, installs GRUB's
+removable EFI fallback, and requires the shown `ZENITH-ERASE-<disk>` token
+before writing. After installation, boot only the installed disk:
+
+```powershell
+mingw32-make workstation-run-installed-disk
+```
+
+For automated VM proof against the qcow2 install target:
+
+```powershell
+mingw32-make workstation-autoinstall-disk
+mingw32-make workstation-smoke-installed-disk
+```
+
 Run the old Kernel Lab prototype:
 
 ```sh
@@ -158,8 +189,9 @@ Kernel Lab compatibility.
   desktop controls instead of only placeholder surfaces.
 - ZenithShell now includes a fuller launcher overview, dock, running-window
   switcher, hardware-profile chip, and system controls.
-- Zenith Installer now performs non-destructive install readiness checks and
-  shows the planned EFI plus Btrfs layout.
+- Zenith Installer now has a guarded root backend for blank-disk installs with
+  dry-run, explicit selection, Btrfs subvolumes, fstab generation, and GRUB EFI
+  fallback installation.
 - Beta 2 release hygiene adds changelog, known issues, release notes, ISO
   SHA256 generation, and `/etc/os-release` version stamping.
 - Kernel Lab preserved without deleting the prototype.

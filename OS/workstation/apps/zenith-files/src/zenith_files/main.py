@@ -9,12 +9,19 @@ gi.require_version("Adw", "1")
 
 from gi.repository import Adw, Gio, Gtk
 
+try:
+    from zenith_files.operations import copy_path, mounted_volumes, move_path, trash_path
+except ImportError:
+    from operations import copy_path, mounted_volumes, move_path, trash_path
+
 
 class FilesWindow(Adw.ApplicationWindow):
     def __init__(self, app):
         super().__init__(application=app, title="Zenith Files")
         self.set_default_size(1040, 700)
         self.current_path = os.path.expanduser("~")
+        self.selected_path = None
+        self.clipboard_action = None
         self.show_hidden = False
 
         toolbar = Adw.ToolbarView()
@@ -25,6 +32,10 @@ class FilesWindow(Adw.ApplicationWindow):
             ("Up", self._go_up),
             ("Refresh", self._refresh_file_list),
             ("Hidden", self._toggle_hidden),
+            ("Copy", self._copy_selected),
+            ("Move", self._move_selected),
+            ("Paste", self._paste_clipboard),
+            ("Trash", self._trash_selected),
             ("Terminal", self._open_terminal_here),
         ]:
             button = Gtk.Button(label=label)
@@ -61,6 +72,14 @@ class FilesWindow(Adw.ApplicationWindow):
             button.connect("clicked", self._on_place_clicked, path)
             box.append(button)
 
+        for label, path, source, fs_type in mounted_volumes():
+            button = Gtk.Button(label=f"{label} ({fs_type})")
+            button.add_css_class("flat")
+            button.set_tooltip_text(f"{source} mounted at {path}")
+            button.set_halign(Gtk.Align.FILL)
+            button.connect("clicked", self._on_place_clicked, path)
+            box.append(button)
+
         return box
 
     def _build_file_list(self):
@@ -77,11 +96,18 @@ class FilesWindow(Adw.ApplicationWindow):
 
         self.list_box = Gtk.ListBox()
         self.list_box.add_css_class("boxed-list")
+        self.list_box.set_selection_mode(Gtk.SelectionMode.SINGLE)
+        self.list_box.connect("row-selected", self._on_row_selected)
         self.list_box.connect("row-activated", self._on_row_activated)
         scroller = Gtk.ScrolledWindow()
         scroller.set_child(self.list_box)
         scroller.set_vexpand(True)
         box.append(scroller)
+
+        self.status_label = Gtk.Label(label="Select an item to copy, move, or trash it.")
+        self.status_label.set_halign(Gtk.Align.START)
+        self.status_label.set_wrap(True)
+        box.append(self.status_label)
 
         self._refresh_file_list()
         return box
@@ -97,6 +123,11 @@ class FilesWindow(Adw.ApplicationWindow):
             self._refresh_file_list()
         elif path:
             self._open_file(path)
+
+    def _on_row_selected(self, _list_box, row):
+        self.selected_path = getattr(row, "path", None) if row else None
+        if self.selected_path:
+            self._set_status(f"Selected {self.selected_path}")
 
     def _on_search_changed(self, _entry):
         self._refresh_file_list()
@@ -124,10 +155,55 @@ class FilesWindow(Adw.ApplicationWindow):
         except OSError:
             pass
 
+    def _copy_selected(self, _button):
+        if not self.selected_path:
+            self._set_status("Select an item to copy first.")
+            return
+        self.clipboard_action = ("copy", self.selected_path)
+        self._set_status(f"Copy ready: {os.path.basename(self.selected_path)}")
+
+    def _move_selected(self, _button):
+        if not self.selected_path:
+            self._set_status("Select an item to move first.")
+            return
+        self.clipboard_action = ("move", self.selected_path)
+        self._set_status(f"Move Here ready: {os.path.basename(self.selected_path)}")
+
+    def _paste_clipboard(self, _button):
+        if not self.clipboard_action:
+            self._set_status("Copy or move an item before using Paste.")
+            return
+        action, source = self.clipboard_action
+        try:
+            if action == "copy":
+                destination = copy_path(source, self.current_path)
+            else:
+                destination = move_path(source, self.current_path)
+                self.clipboard_action = None
+        except (OSError, ValueError) as exc:
+            self._set_status(f"{action.capitalize()} failed: {exc}")
+            return
+        self._set_status(f"{action.capitalize()} complete: {destination}")
+        self._refresh_file_list()
+
+    def _trash_selected(self, _button):
+        if not self.selected_path:
+            self._set_status("Select an item to trash first.")
+            return
+        try:
+            trashed = trash_path(self.selected_path)
+        except OSError as exc:
+            self._set_status(f"Trash failed: {exc}")
+            return
+        self.selected_path = None
+        self._set_status(f"Moved to Trash: {trashed}")
+        self._refresh_file_list()
+
     def _refresh_file_list(self, *_args):
         while (child := self.list_box.get_first_child()) is not None:
             self.list_box.remove(child)
 
+        self.selected_path = None
         self.title_widget.set_subtitle(self.current_path)
         query = self.search_entry.get_text().casefold().strip() if hasattr(self, "search_entry") else ""
 
@@ -152,6 +228,7 @@ class FilesWindow(Adw.ApplicationWindow):
             subtitle="Hidden files shown" if self.show_hidden else "Hidden files hidden",
         )
         summary.set_activatable(False)
+        summary.set_selectable(False)
         self.list_box.append(summary)
 
         for name in visible[:300]:
@@ -194,6 +271,10 @@ class FilesWindow(Adw.ApplicationWindow):
 
     def _shell_quote(self, value):
         return "'" + value.replace("'", "'\"'\"'") + "'"
+
+    def _set_status(self, message):
+        if hasattr(self, "status_label"):
+            self.status_label.set_text(message)
 
 
 class FilesApp(Adw.Application):
