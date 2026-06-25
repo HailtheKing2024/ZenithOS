@@ -1,0 +1,58 @@
+#!/bin/sh
+# ZenithOS Hardware Probe — Lenovo V14-ADA
+# Run this on first boot of ZenithOS on the V14-ADA to collect hardware report.
+# Usage: sudo bash /usr/lib/zenith/zenith-hardware-probe > /tmp/zenith-hw-probe-$(date +%s).log 2>&1
+set -u
+
+REPORT=/tmp/zenith-hw-probe-$(date +%s).log
+touch "$REPORT"
+
+log() { echo "[$(date '+%Y-%m-%d %H:%M:%S')] $*" | tee -a "$REPORT"; }
+
+log "=== ZenithOS Hardware Probe ==="
+log "Hostname: $(hostname 2>/dev/null || echo unknown)"
+log "Date: $(date -u)"
+log ""
+
+# CPU
+log "--- CPU ---"
+if [ -r /proc/cpuinfo ]; then
+    model=$(grep "model name" /proc/cpuinfo | head -1 | cut -d: -f2 | sed 's/^[[:space:]]*//')
+    cores=$(grep -c "processor" /proc/cpuinfo)
+    log "CPU: $model"
+    log "Cores: $cores"
+fi
+
+# Memory
+log "--- Memory ---"
+if command -v free >/dev/null 2>&1; then
+    log "$(free -h | grep -E 'Mem|Swap')"
+else
+    log "free not available"
+fi
+
+# Display / GPU
+log "--- Display / GPU ---"
+ls -la /dev/dri/ 2>/dev/null | while read line; do log "  $line"; done
+if [ -r /sys/class/drm/card0-*/status ]; then
+    for path in /sys/class/drm/card0-*/status; do
+        status=$(cat "$path" 2>/dev/null || echo unknown)
+        log "$(basename "$path"): $status"
+    done
+fi
+command -v xrandr >/dev/null 2>&1 && xrandr 2>/dev/null | head -20 | while read line; do log "  $line"; done
+
+# Wi-Fi
+log "--- Wi-Fi ---"
+if command -v nmcli >/dev/null 2>&1; then
+    log "$(nmcli device show | grep -E 'GENERAL.DEVICE|GENERAL.TYPE=wifi')"
+    log "Wi-Fi status: $(nmcli -t -f ACTIVE,SSID dev wifi 2>/dev/null | grep -c '^yes' || echo 0) active connections"
+else
+    log "nmcli not available"
+fi
+ip link show 2>/dev/null | grep -i "wlan\|wireless" | while read line; do log "  $line"; done
+
+# Touchpad
+log "--- Touchpad ---"
+find /dev/input -maxdepth 1 -name "event*" 2>/dev/null | while read ev; do
+    name="$(cat /sys/class/input/$(basename $(readlink - flavours
