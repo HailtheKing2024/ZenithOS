@@ -1,0 +1,13 @@
+[Unit]
+Description=ZenithOS desktop smoke SDDM autologin gate
+After=local-fs.target
+Before=display-manager.service sddm.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/lib/zenith/zenith-desktop-smoke-login
+StandardOutput=journal+console
+StandardError=journal+console
+
+[Install]
+WantedBy=graphical.target

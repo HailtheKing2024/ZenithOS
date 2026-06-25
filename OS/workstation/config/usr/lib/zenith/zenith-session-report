@@ -1,0 +1,176 @@
+#!/bin/sh
+set -u
+
+user="$(id -un 2>/dev/null || echo unknown)"
+home="${HOME:-/home/$user}"
+cache_dir="${XDG_CACHE_HOME:-$home/.cache}"
+report="$cache_dir/zenith-session-report.log"
+layout="$home/.config/plasma-org.kde.plasma.desktop-appletsrc"
+session_cfg="$home/.config/zenith-session.conf"
+wallpaper_name="zenith-login-wallpaper.png"
+panel_version_expected=4
+
+mkdir -p "$cache_dir"
+
+is_running() {
+    name="$1"
+    if command -v pgrep >/dev/null 2>&1; then
+        pgrep -x "$name" >/dev/null 2>&1 && return 0
+        pgrep -f "$name" >/dev/null 2>&1 && return 0
+        return 1
+    fi
+    ps -eo comm= 2>/dev/null | grep -Fx "$name" >/dev/null 2>&1
+}
+
+kwin_running() {
+    is_running kwin_wayland || is_running kwin_x11 || is_running kwin
+}
+
+panel_version() {
+    if command -v kreadconfig6 >/dev/null 2>&1; then
+        value="$(kreadconfig6 --file zenith-session.conf --group Plasma --key PanelVersion 2>/dev/null || true)"
+        if [ -n "$value" ]; then
+            printf '%s\n' "$value"
+            return
+        fi
+    fi
+    if [ -f "$session_cfg" ]; then
+        awk -F= '
+            $0 == "[Plasma]" { inside = 1; next }
+            inside && /^\[/ { inside = 0 }
+            inside && $1 == "PanelVersion" { print $2; exit }
+        ' "$session_cfg"
+        return
+    fi
+    printf 'missing\n'
+}
+
+has_text() {
+    file="$1"
+    text="$2"
+    [ -f "$file" ] && grep -q -- "$text" "$file"
+}
+
+desktop_entries_state() {
+    for entry in /usr/share/applications/os.zenith.*.desktop; do
+        [ -f "$entry" ] || continue
+        printf 'present\n'
+        return
+    done
+    printf 'missing\n'
+}
+
+first_party_commands_state() {
+    found_entry=0
+    missing_command=0
+    for entry in /usr/share/applications/os.zenith.*.desktop; do
+        [ -f "$entry" ] || continue
+        found_entry=1
+        exec_line="$(sed -n 's/^Exec=//p' "$entry" | head -n 1)"
+        [ -n "$exec_line" ] || {
+            missing_command=1
+            continue
+        }
+        set -- $exec_line
+        cmd="${1:-}"
+        case "$cmd" in
+            env)
+                shift
+                while [ "$#" -gt 0 ]; do
+                    case "$1" in
+                        *=*) shift ;;
+                        *) cmd="$1"; break ;;
+                    esac
+                done
+                ;;
+        esac
+        cmd="${cmd%% *}"
+        cmd="${cmd%%\%*}"
+        [ -n "$cmd" ] && command -v "$cmd" >/dev/null 2>&1 || missing_command=1
+    done
+    if [ "$found_entry" -eq 0 ]; then
+        printf 'missing\n'
+    elif [ "$missing_command" -eq 0 ]; then
+        printf 'present\n'
+    else
+        printf 'missing\n'
+    fi
+}
+
+collect() {
+    if is_running plasmashell; then
+        plasmashell_state=running
+    else
+        plasmashell_state=missing
+    fi
+
+    if kwin_running; then
+        kwin_state=running
+    else
+        kwin_state=missing
+    fi
+
+    panel_version_state="$(panel_version)"
+
+    if has_text "$layout" "plugin=org.kde.panel"; then
+        panel_package_state=present
+    else
+        panel_package_state=missing
+    fi
+
+    if has_text "$layout" "org.kde.plasma.icontasks"; then
+        icontasks_state=present
+    else
+        icontasks_state=missing
+    fi
+
+    if has_text "$layout" "$wallpaper_name"; then
+        wallpaper_state=present
+    else
+        wallpaper_state=missing
+    fi
+
+    desktop_entries_state_value="$(desktop_entries_state)"
+    first_party_commands_state_value="$(first_party_commands_state)"
+
+    result=FAIL
+    if [ "$plasmashell_state" = running ] &&
+        [ "$kwin_state" = running ] &&
+        [ "$panel_version_state" = "$panel_version_expected" ] &&
+        [ "$panel_package_state" = present ] &&
+        [ "$icontasks_state" = present ] &&
+        [ "$wallpaper_state" = present ] &&
+        [ "$desktop_entries_state_value" = present ] &&
+        [ "$first_party_commands_state_value" = present ]; then
+        result=PASS
+    fi
+}
+
+elapsed=0
+collect
+while [ "$result" != PASS ] && [ "$elapsed" -lt 90 ]; do
+    sleep 3
+    elapsed=$((elapsed + 3))
+    collect
+done
+
+tmp="$report.tmp"
+{
+    echo "=== ZenithOS session report ==="
+    echo "user: $user"
+    echo "desktop: ${XDG_CURRENT_DESKTOP:-unknown}"
+    echo "session_type: ${XDG_SESSION_TYPE:-unknown}"
+    echo "plasmashell: $plasmashell_state"
+    echo "kwin: $kwin_state"
+    echo "panel_version: $panel_version_state"
+    echo "panel_package: $panel_package_state"
+    echo "icontasks: $icontasks_state"
+    echo "wallpaper: $wallpaper_state"
+    echo "first_party_desktop_entries: $desktop_entries_state_value"
+    echo "first_party_commands: $first_party_commands_state_value"
+    echo "elapsed_seconds: $elapsed"
+    echo "result: $result"
+} > "$tmp"
+mv "$tmp" "$report"
+
+exit 0

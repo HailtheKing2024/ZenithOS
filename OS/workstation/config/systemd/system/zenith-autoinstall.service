@@ -1,0 +1,14 @@
+[Unit]
+Description=ZenithOS automated blank-disk installer
+ConditionKernelCommandLine=zenith.autoinstall_target
+After=local-fs.target systemd-udev-settle.service
+Before=display-manager.service graphical.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/lib/zenith/zenith-autoinstall
+StandardOutput=journal+console
+StandardError=journal+console
+
+[Install]
+WantedBy=multi-user.target

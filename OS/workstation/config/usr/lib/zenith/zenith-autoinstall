@@ -1,0 +1,78 @@
+#!/bin/sh
+set -eu
+
+PATH="/usr/sbin:/usr/bin:/sbin:/bin:$PATH"
+log=/run/zenith-autoinstall.log
+target=""
+poweroff_after=0
+desktop_smoke=0
+manual_login_smoke=0
+
+for arg in $(cat /proc/cmdline 2>/dev/null); do
+    case "$arg" in
+        zenith.autoinstall_target=*)
+            target="${arg#zenith.autoinstall_target=}"
+            ;;
+        zenith.autoinstall_poweroff=1)
+            poweroff_after=1
+            ;;
+        zenith.autoinstall_desktop_smoke=1)
+            desktop_smoke=1
+            ;;
+        zenith.autoinstall_manual_login_smoke=1)
+            manual_login_smoke=1
+            ;;
+    esac
+done
+
+emit() {
+    printf '%s\n' "$*" | tee -a "$log"
+    if [ -c /dev/ttyS0 ]; then
+        printf '%s\n' "$*" > /dev/ttyS0
+    fi
+}
+
+{
+    echo "=== ZenithOS autoinstall ==="
+    date -u
+    echo "cmdline: $(cat /proc/cmdline 2>/dev/null)"
+    echo "target: ${target:-missing}"
+} > "$log"
+
+if [ -z "$target" ]; then
+    emit "zenith-autoinstall: missing zenith.autoinstall_target"
+    exit 1
+fi
+
+case "$target" in
+    /dev/*) ;;
+    *)
+        emit "zenith-autoinstall: refusing non-device target: $target"
+        exit 1
+        ;;
+esac
+
+if [ ! -b "$target" ]; then
+    emit "zenith-autoinstall: target is not a block device: $target"
+    exit 1
+fi
+
+token="ZENITH-ERASE-$(basename "$target")"
+emit "zenith-autoinstall: starting guarded install to $target"
+set -- --target "$target" --confirm-erase "$token" --serial-console
+if [ "$desktop_smoke" -eq 1 ]; then
+    set -- "$@" --desktop-smoke
+fi
+if [ "$manual_login_smoke" -eq 1 ]; then
+    set -- "$@" --manual-login-smoke
+fi
+zenith-install-to-disk "$@" 2>&1 | tee -a "$log"
+
+emit "zenith-autoinstall: install finished"
+
+if [ "$poweroff_after" -eq 1 ]; then
+    emit "zenith-autoinstall: powering off"
+    systemctl poweroff --no-block || poweroff -f
+fi
+
+exit 0

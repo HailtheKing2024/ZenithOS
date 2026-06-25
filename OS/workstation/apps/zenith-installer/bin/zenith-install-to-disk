@@ -1,0 +1,368 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+PATH="/usr/sbin:/usr/bin:/sbin:/bin:$PATH"
+
+min_size_bytes=$((30 * 1024 * 1024 * 1024))
+target=""
+dry_run=0
+allow_small=0
+allow_removable=0
+serial_console=0
+desktop_smoke=0
+manual_login_smoke=0
+confirm_erase=""
+mount_root="${ZENITH_INSTALL_MOUNT:-/mnt/zenith-install-target}"
+
+usage() {
+    cat <<'EOF'
+Usage: zenith-install-to-disk --target /dev/DISK [options]
+
+Installs the running ZenithOS live system onto an empty disk.
+
+Options:
+  --target /dev/DISK            Whole disk to erase and install to.
+  --dry-run                     Print the install plan without writing.
+  --confirm-erase TOKEN         Non-interactive erase confirmation token.
+  --allow-small                 Permit targets smaller than 30 GiB.
+  --allow-removable             Permit removable targets.
+  --serial-console              Add ttyS0 boot logging for VM smoke tests.
+  --desktop-smoke               Enable smoke-only installed desktop autologin.
+  --manual-login-smoke          Enable smoke-only manual-login session report.
+  -h, --help                    Show this help.
+
+Confirmation token format:
+  ZENITH-ERASE-<disk basename>
+EOF
+}
+
+die() {
+    echo "zenith-install: $*" >&2
+    exit 1
+}
+
+log() {
+    echo "zenith-install: $*"
+}
+
+while [ "$#" -gt 0 ]; do
+    case "$1" in
+        --target)
+            [ "$#" -ge 2 ] || die "--target requires a value"
+            target="$2"
+            shift 2
+            ;;
+        --dry-run)
+            dry_run=1
+            shift
+            ;;
+        --confirm-erase)
+            [ "$#" -ge 2 ] || die "--confirm-erase requires a value"
+            confirm_erase="$2"
+            shift 2
+            ;;
+        --allow-small)
+            allow_small=1
+            shift
+            ;;
+        --allow-removable)
+            allow_removable=1
+            shift
+            ;;
+        --serial-console)
+            serial_console=1
+            shift
+            ;;
+        --desktop-smoke)
+            desktop_smoke=1
+            shift
+            ;;
+        --manual-login-smoke)
+            manual_login_smoke=1
+            shift
+            ;;
+        -h|--help)
+            usage
+            exit 0
+            ;;
+        *)
+            die "unknown argument: $1"
+            ;;
+    esac
+done
+
+[ -n "$target" ] || die "--target is required"
+
+case "$target" in
+    /dev/*) ;;
+    *) die "target must be a /dev disk path" ;;
+esac
+
+case "$target" in
+    /dev/sr*|/dev/fd*|/dev/loop*) die "target is not an installable whole disk: $target" ;;
+esac
+
+require_command() {
+    command -v "$1" >/dev/null 2>&1 || die "missing required command: $1"
+}
+
+partition_path() {
+    local disk="$1"
+    local number="$2"
+    case "$disk" in
+        /dev/nvme*|/dev/mmcblk*|/dev/loop*) printf '%sp%s\n' "$disk" "$number" ;;
+        *) printf '%s%s\n' "$disk" "$number" ;;
+    esac
+}
+
+mounted_paths_for_target() {
+    lsblk -nr -o MOUNTPOINT "$target" 2>/dev/null | sed '/^[[:space:]]*$/d'
+}
+
+target_type() {
+    lsblk -dn -o TYPE "$target" 2>/dev/null | tr -d '[:space:]'
+}
+
+target_size() {
+    blockdev --getsize64 "$target" 2>/dev/null || echo 0
+}
+
+target_flag() {
+    local column="$1"
+    lsblk -dn -o "$column" "$target" 2>/dev/null | tr -d '[:space:]'
+}
+
+wait_for_partition() {
+    local path="$1"
+    local attempt
+    for attempt in $(seq 1 30); do
+        [ -b "$path" ] && return 0
+        sleep 1
+    done
+    die "partition did not appear: $path"
+}
+
+for command in \
+    blockdev \
+    btrfs \
+    blkid \
+    chroot \
+    findmnt \
+    grub-install \
+    lsblk \
+    mkfs.btrfs \
+    mkfs.vfat \
+    mount \
+    partprobe \
+    parted \
+    rsync \
+    udevadm \
+    update-grub \
+    update-initramfs \
+    wipefs; do
+    require_command "$command"
+done
+
+[ -b "$target" ] || die "target does not exist or is not a block device: $target"
+[ "$(target_type)" = "disk" ] || die "target is not a whole disk: $target"
+[ "$(target_flag RO)" != "1" ] || die "target is read-only: $target"
+if [ "$(target_flag RM)" = "1" ] && [ "$allow_removable" -ne 1 ]; then
+    die "target is removable; pass --allow-removable only if this is intentional"
+fi
+
+size_bytes="$(target_size)"
+if [ "$allow_small" -ne 1 ] && [ "$size_bytes" -lt "$min_size_bytes" ]; then
+    die "target is smaller than 30 GiB: $target"
+fi
+
+mounted="$(mounted_paths_for_target || true)"
+if [ -n "$mounted" ]; then
+    echo "$mounted" >&2
+    die "target or one of its partitions is mounted"
+fi
+
+efi_partition="$(partition_path "$target" 1)"
+root_partition="$(partition_path "$target" 2)"
+token="ZENITH-ERASE-$(basename "$target")"
+
+print_plan() {
+    cat <<EOF
+ZenithOS install plan
+Target disk: $target
+EFI partition: $efi_partition
+Root partition: $root_partition
+Mount point: $mount_root
+Minimum size: 30 GiB
+Confirmation token: $token
+
+Commands:
+  wipefs -a "$target"
+  parted "$target" --script mklabel gpt
+  parted "$target" --script mkpart ESP fat32 1MiB 513MiB
+  parted "$target" --script set 1 esp on
+  parted "$target" --script mkpart zenith-root btrfs 513MiB 100%
+  partprobe "$target"
+  mkfs.vfat -F32 -n ZENITH_EFI "$efi_partition"
+  mkfs.btrfs -f -L ZenithOS "$root_partition"
+  create Btrfs subvolumes: @, @home, @var, @snapshots
+  rsync live root into @ with live/volatile paths excluded
+  generate /etc/fstab from UUIDs
+  bind mount /dev, /proc, /sys, and /run into target
+  chroot "$mount_root" update-initramfs -u -k all
+  chroot "$mount_root" grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=ZenithOS --removable --no-nvram --recheck
+  chroot "$mount_root" update-grub
+EOF
+}
+
+if [ "$dry_run" -eq 1 ]; then
+    print_plan
+    exit 0
+fi
+
+[ "$(id -u)" -eq 0 ] || die "real install must run as root"
+
+if [ "$confirm_erase" != "$token" ]; then
+    print_plan
+    printf '\nType %s to erase %s and install ZenithOS: ' "$token" "$target" >&2
+    read -r typed_token
+    [ "$typed_token" = "$token" ] || die "confirmation did not match"
+fi
+
+cleanup() {
+    set +e
+    for path in \
+        "$mount_root/sys/firmware/efi/efivars" \
+        "$mount_root/run" \
+        "$mount_root/sys" \
+        "$mount_root/proc" \
+        "$mount_root/dev/pts" \
+        "$mount_root/dev" \
+        "$mount_root/.snapshots" \
+        "$mount_root/var" \
+        "$mount_root/home" \
+        "$mount_root/boot/efi" \
+        "$mount_root"; do
+        if mountpoint -q "$path" 2>/dev/null; then
+            umount "$path" 2>/dev/null || umount -l "$path" 2>/dev/null || true
+        fi
+    done
+}
+trap cleanup EXIT
+
+log "erasing partition signatures on $target"
+wipefs -a "$target"
+parted "$target" --script mklabel gpt
+parted "$target" --script mkpart ESP fat32 1MiB 513MiB
+parted "$target" --script set 1 esp on
+parted "$target" --script mkpart zenith-root btrfs 513MiB 100%
+partprobe "$target" || true
+udevadm settle
+
+wait_for_partition "$efi_partition"
+wait_for_partition "$root_partition"
+
+log "formatting $efi_partition and $root_partition"
+mkfs.vfat -F32 -n ZENITH_EFI "$efi_partition"
+mkfs.btrfs -f -L ZenithOS "$root_partition"
+
+mkdir -p "$mount_root"
+mount "$root_partition" "$mount_root"
+btrfs subvolume create "$mount_root/@"
+btrfs subvolume create "$mount_root/@home"
+btrfs subvolume create "$mount_root/@var"
+btrfs subvolume create "$mount_root/@snapshots"
+umount "$mount_root"
+
+mount -o subvol=@,compress=zstd,noatime "$root_partition" "$mount_root"
+mkdir -p "$mount_root/boot/efi" "$mount_root/home" "$mount_root/var" "$mount_root/.snapshots"
+mount "$efi_partition" "$mount_root/boot/efi"
+mount -o subvol=@home,compress=zstd,noatime "$root_partition" "$mount_root/home"
+mount -o subvol=@var,compress=zstd,noatime "$root_partition" "$mount_root/var"
+mount -o subvol=@snapshots,compress=zstd,noatime "$root_partition" "$mount_root/.snapshots"
+
+log "copying the live system to $target"
+rsync -aAXH --numeric-ids --info=progress2 \
+    --exclude=/dev/* \
+    --exclude=/proc/* \
+    --exclude=/sys/* \
+    --exclude=/run/* \
+    --exclude=/tmp/* \
+    --exclude=/mnt/* \
+    --exclude=/media/* \
+    --exclude=/cdrom/* \
+    --exclude=/live \
+    --exclude=/lib/live/mount/* \
+    --exclude=/var/lib/zenith-build/* \
+    --exclude=/var/log/* \
+    --exclude=/var/tmp/* \
+    --exclude=/lost+found \
+    / "$mount_root/"
+
+root_uuid="$(blkid -s UUID -o value "$root_partition")"
+efi_uuid="$(blkid -s UUID -o value "$efi_partition")"
+[ -n "$root_uuid" ] || die "could not read root UUID"
+[ -n "$efi_uuid" ] || die "could not read EFI UUID"
+
+cat > "$mount_root/etc/fstab" <<EOF
+# /etc/fstab generated by zenith-install-to-disk
+UUID=$root_uuid / btrfs defaults,subvol=@,compress=zstd,noatime 0 0
+UUID=$root_uuid /home btrfs defaults,subvol=@home,compress=zstd,noatime 0 0
+UUID=$root_uuid /var btrfs defaults,subvol=@var,compress=zstd,noatime 0 0
+UUID=$root_uuid /.snapshots btrfs defaults,subvol=@snapshots,compress=zstd,noatime 0 0
+UUID=$efi_uuid /boot/efi vfat umask=0077 0 1
+EOF
+
+mkdir -p "$mount_root/etc/default/grub.d"
+smoke_args=""
+if [ "$desktop_smoke" -eq 1 ]; then
+    smoke_args="${smoke_args} zenith.desktop_smoke=1"
+fi
+if [ "$manual_login_smoke" -eq 1 ]; then
+    smoke_args="${smoke_args} zenith.manual_login_smoke=1"
+fi
+if [ "$serial_console" -eq 1 ]; then
+    cat > "$mount_root/etc/default/grub.d/99-zenithos.cfg" <<EOF
+GRUB_DISTRIBUTOR="ZenithOS"
+GRUB_CMDLINE_LINUX_DEFAULT="quiet splash loglevel=3"
+GRUB_CMDLINE_LINUX="rootflags=subvol=@ console=tty0 console=ttyS0,115200n8 systemd.show_status=1 zenith.boot_report=1${smoke_args} zenith.profile=dev-vm"
+EOF
+else
+    cat > "$mount_root/etc/default/grub.d/99-zenithos.cfg" <<EOF
+GRUB_DISTRIBUTOR="ZenithOS"
+GRUB_CMDLINE_LINUX_DEFAULT="quiet splash loglevel=3 systemd.show_status=0 plymouth.ignore-serial-consoles"
+GRUB_CMDLINE_LINUX="rootflags=subvol=@${smoke_args} zenith.profile=generic-workstation"
+EOF
+fi
+
+truncate -s 0 "$mount_root/etc/machine-id" 2>/dev/null || true
+rm -f "$mount_root/var/lib/dbus/machine-id"
+rm -rf "$mount_root/var/log/"* "$mount_root/tmp/"* "$mount_root/var/tmp/"* "$mount_root/run/"* 2>/dev/null || true
+mkdir -p "$mount_root/tmp" "$mount_root/var/tmp" "$mount_root/var/log" "$mount_root/run"
+chmod 1777 "$mount_root/tmp" "$mount_root/var/tmp"
+
+mount --bind /dev "$mount_root/dev"
+mkdir -p "$mount_root/dev/pts"
+mount --bind /dev/pts "$mount_root/dev/pts"
+mount -t proc proc "$mount_root/proc"
+mount -t sysfs sys "$mount_root/sys"
+mount --bind /run "$mount_root/run"
+if [ -d /sys/firmware/efi/efivars ]; then
+    mkdir -p "$mount_root/sys/firmware/efi/efivars"
+    mount -t efivarfs efivarfs "$mount_root/sys/firmware/efi/efivars" 2>/dev/null || true
+fi
+
+log "building installed initramfs and EFI bootloader"
+chroot "$mount_root" update-initramfs -u -k all
+chroot "$mount_root" grub-install \
+    --target=x86_64-efi \
+    --efi-directory=/boot/efi \
+    --bootloader-id=ZenithOS \
+    --removable \
+    --no-nvram \
+    --recheck
+chroot "$mount_root" update-grub
+
+[ -f "$mount_root/boot/efi/EFI/BOOT/BOOTX64.EFI" ] || die "missing removable EFI fallback loader"
+sync
+
+log "install complete. Shut down, remove the live ISO, and boot from $target."

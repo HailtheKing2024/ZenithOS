@@ -1,0 +1,44 @@
+#!/bin/sh
+set -eu
+
+dropin=/etc/sddm.conf.d/90-zenith-desktop-smoke.conf
+user=hailtheking
+enabled=0
+
+for arg in $(cat /proc/cmdline 2>/dev/null || true); do
+    case "$arg" in
+        zenith.desktop_smoke=1)
+            enabled=1
+            ;;
+    esac
+done
+
+if [ "$enabled" -ne 1 ]; then
+    rm -f "$dropin"
+    exit 0
+fi
+
+if ! getent passwd "$user" >/dev/null 2>&1; then
+    echo "zenith-desktop-smoke-login: missing user $user" >&2
+    exit 1
+fi
+
+session=plasma.desktop
+for candidate in \
+    /usr/share/xsessions/plasma.desktop \
+    /usr/share/wayland-sessions/plasmawayland.desktop; do
+    if [ -f "$candidate" ]; then
+        session="$(basename "$candidate")"
+        break
+    fi
+done
+
+mkdir -p "$(dirname "$dropin")"
+cat > "$dropin" <<EOF
+[Autologin]
+User=$user
+Session=$session
+Relogin=false
+EOF
+
+echo "zenith-desktop-smoke-login: enabled SDDM autologin for $user with $session"

@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Zenith Session Report
+Exec=/usr/lib/zenith/zenith-session-report
+OnlyShowIn=KDE;
+NoDisplay=true
+X-KDE-Autostart-enabled=true

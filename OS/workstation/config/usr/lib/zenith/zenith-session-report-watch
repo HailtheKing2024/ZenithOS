@@ -1,0 +1,60 @@
+#!/bin/sh
+set -u
+
+log=/run/zenith-session-report-watch.log
+report=${ZENITH_SESSION_REPORT:-/home/hailtheking/.cache/zenith-session-report.log}
+enabled=0
+
+for arg in $(cat /proc/cmdline 2>/dev/null || true); do
+    case "$arg" in
+        zenith.desktop_smoke=1|zenith.manual_login_smoke=1)
+            enabled=1
+            ;;
+    esac
+done
+
+if [ "$enabled" -ne 1 ]; then
+    exit 0
+fi
+
+emit() {
+    printf '%s\n' "$*" | tee -a "$log"
+    if [ -c /dev/ttyS0 ]; then
+        printf '%s\n' "$*" > /dev/ttyS0
+    fi
+}
+
+relay_file() {
+    cat "$report" | tee -a "$log"
+    if [ -c /dev/ttyS0 ]; then
+        cat "$report" > /dev/ttyS0
+    fi
+}
+
+: > "$log"
+emit "zenith-session-report-watch: waiting for $report"
+
+elapsed=0
+while [ "$elapsed" -lt 150 ]; do
+    if [ -f "$report" ] && grep -Eq '^result: (PASS|FAIL)$' "$report"; then
+        break
+    fi
+    sleep 3
+    elapsed=$((elapsed + 3))
+done
+
+emit "=== ZenithOS session report relay ==="
+if [ ! -f "$report" ]; then
+    emit "zenith-session-report-watch: missing report after ${elapsed}s"
+    exit 1
+fi
+
+relay_file
+
+if grep -q '^result: PASS$' "$report"; then
+    emit "zenith-session-report-watch: PASS"
+    exit 0
+fi
+
+emit "zenith-session-report-watch: FAIL"
+exit 1

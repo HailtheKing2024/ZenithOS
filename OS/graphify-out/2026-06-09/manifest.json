@@ -1,0 +1,917 @@
+{
+  ".claude/settings.local.json": {
+    "mtime": 1779420019.1159916,
+    "ast_hash": "ace27893253754f1ffcc31dc2cf6601f",
+    "semantic_hash": "ace27893253754f1ffcc31dc2cf6601f"
+  },
+  ".codex/hooks.json": {
+    "mtime": 1780955966.6968684,
+    "ast_hash": "2baea336ec0572c4906e0cb706c6e257",
+    "semantic_hash": "2baea336ec0572c4906e0cb706c6e257"
+  },
+  "do-rebuild.sh": {
+    "mtime": 1779932632.084864,
+    "ast_hash": "597a31afbcb1dcb5be427621f54cec1d",
+    "semantic_hash": "597a31afbcb1dcb5be427621f54cec1d"
+  },
+  "full-rebuild.sh": {
+    "mtime": 1779927195.6001213,
+    "ast_hash": "96bc236eae3dae5abd9d1d6965fe60bc",
+    "semantic_hash": "96bc236eae3dae5abd9d1d6965fe60bc"
+  },
+  "kernel/arch/x86_64/cpu.c": {
+    "mtime": 1779243460.1704648,
+    "ast_hash": "9722785a617e76c3ad5ceedc8e410670",
+    "semantic_hash": "9722785a617e76c3ad5ceedc8e410670"
+  },
+  "kernel/arch/x86_64/interrupts.c": {
+    "mtime": 1778209618.5051084,
+    "ast_hash": "4cf6c31811447e6db1d517f0f66ae289",
+    "semantic_hash": "4cf6c31811447e6db1d517f0f66ae289"
+  },
+  "kernel/arch/x86_64/io.h": {
+    "mtime": 1778194017.4756217,
+    "ast_hash": "7c375e1e0c523417f00ee20d1314a9c8",
+    "semantic_hash": "7c375e1e0c523417f00ee20d1314a9c8"
+  },
+  "kernel/arch/x86_64/serial.c": {
+    "mtime": 1778204544.6811883,
+    "ast_hash": "2e0d349badb2be1fc620e036f387bef3",
+    "semantic_hash": "2e0d349badb2be1fc620e036f387bef3"
+  },
+  "kernel/fs/initramfs.c": {
+    "mtime": 1778210369.5502076,
+    "ast_hash": "87671022b68afe399cf49724a83f2ec5",
+    "semantic_hash": "87671022b68afe399cf49724a83f2ec5"
+  },
+  "kernel/gfx/console.c": {
+    "mtime": 1778206135.9901216,
+    "ast_hash": "0e22dff64b71f824537bbfad5cada035",
+    "semantic_hash": "0e22dff64b71f824537bbfad5cada035"
+  },
+  "kernel/gfx/framebuffer.c": {
+    "mtime": 1778204217.2751937,
+    "ast_hash": "8d00526c85373ac06222b371a96ae747",
+    "semantic_hash": "8d00526c85373ac06222b371a96ae747"
+  },
+  "kernel/include/zenith/compiler.h": {
+    "mtime": 1778193221.6751041,
+    "ast_hash": "a7acb55b7aa3bfdb62289bbdeab58a2c",
+    "semantic_hash": "a7acb55b7aa3bfdb62289bbdeab58a2c"
+  },
+  "kernel/include/zenith/console.h": {
+    "mtime": 1778206115.5628777,
+    "ast_hash": "b8532ed43c99aead67e8a2b3bed5f957",
+    "semantic_hash": "b8532ed43c99aead67e8a2b3bed5f957"
+  },
+  "kernel/include/zenith/cpu.h": {
+    "mtime": 1779243433.9053338,
+    "ast_hash": "10acb7a0ceca5adab27213ed6d177e06",
+    "semantic_hash": "10acb7a0ceca5adab27213ed6d177e06"
+  },
+  "kernel/include/zenith/framebuffer.h": {
+    "mtime": 1778203356.9521885,
+    "ast_hash": "6df80b4adcac286bc69f93292145644c",
+    "semantic_hash": "6df80b4adcac286bc69f93292145644c"
+  },
+  "kernel/include/zenith/halt.h": {
+    "mtime": 1778191931.1030438,
+    "ast_hash": "bbca053ed053f20da36f19bbb8676eb7",
+    "semantic_hash": "bbca053ed053f20da36f19bbb8676eb7"
+  },
+  "kernel/include/zenith/initramfs.h": {
+    "mtime": 1778203424.1384487,
+    "ast_hash": "23ec81dae3c566586c7a7f7712aa0759",
+    "semantic_hash": "23ec81dae3c566586c7a7f7712aa0759"
+  },
+  "kernel/include/zenith/input.h": {
+    "mtime": 1778209600.4385371,
+    "ast_hash": "a1d5ea744613b5d5d004364db3ecdc51",
+    "semantic_hash": "a1d5ea744613b5d5d004364db3ecdc51"
+  },
+  "kernel/include/zenith/interrupt_frame.h": {
+    "mtime": 1778203012.219541,
+    "ast_hash": "4c9c737ad022c49fcddae3aa8d756f52",
+    "semantic_hash": "4c9c737ad022c49fcddae3aa8d756f52"
+  },
+  "kernel/include/zenith/interrupts.h": {
+    "mtime": 1778193797.8946183,
+    "ast_hash": "fa880b6aa2e47e9e4a23d3750bbec06f",
+    "semantic_hash": "fa880b6aa2e47e9e4a23d3750bbec06f"
+  },
+  "kernel/include/zenith/ipc.h": {
+    "mtime": 1778201828.5175405,
+    "ast_hash": "d147a8c91b0683ca9920b406a82b261e",
+    "semantic_hash": "d147a8c91b0683ca9920b406a82b261e"
+  },
+  "kernel/include/zenith/keyboard.h": {
+    "mtime": 1778203375.2002099,
+    "ast_hash": "885d4f25b3eb4ab2bdba36378046b5e9",
+    "semantic_hash": "885d4f25b3eb4ab2bdba36378046b5e9"
+  },
+  "kernel/include/zenith/kheap.h": {
+    "mtime": 1778193797.9421694,
+    "ast_hash": "1b3027fb6aa23cefcb583bc135506e5f",
+    "semantic_hash": "1b3027fb6aa23cefcb583bc135506e5f"
+  },
+  "kernel/include/zenith/limine.h": {
+    "mtime": 1778193797.8473969,
+    "ast_hash": "5a276e3d7f552657254e647879192ef8",
+    "semantic_hash": "5a276e3d7f552657254e647879192ef8"
+  },
+  "kernel/include/zenith/mouse.h": {
+    "mtime": 1778209605.800305,
+    "ast_hash": "0480ccc46fb18c2f7b199a7115239f2e",
+    "semantic_hash": "0480ccc46fb18c2f7b199a7115239f2e"
+  },
+  "kernel/include/zenith/panic.h": {
+    "mtime": 1778193221.8084412,
+    "ast_hash": "9536e46d3c3b637baf218664b0714e9b",
+    "semantic_hash": "9536e46d3c3b637baf218664b0714e9b"
+  },
+  "kernel/include/zenith/pmm.h": {
+    "mtime": 1778193552.4336812,
+    "ast_hash": "088600a381baad8c7224b5e994c9fec0",
+    "semantic_hash": "088600a381baad8c7224b5e994c9fec0"
+  },
+  "kernel/include/zenith/scheduler.h": {
+    "mtime": 1779239122.012202,
+    "ast_hash": "8dc4395df2c780fe18adc134be89c383",
+    "semantic_hash": "8dc4395df2c780fe18adc134be89c383"
+  },
+  "kernel/include/zenith/serial.h": {
+    "mtime": 1778204544.6260862,
+    "ast_hash": "49da0b8d94faca261cd1abf7bb171962",
+    "semantic_hash": "49da0b8d94faca261cd1abf7bb171962"
+  },
+  "kernel/include/zenith/syscall.h": {
+    "mtime": 1779243398.7142913,
+    "ast_hash": "bdf6ebcc36feb1559df31f384a8f571c",
+    "semantic_hash": "bdf6ebcc36feb1559df31f384a8f571c"
+  },
+  "kernel/include/zenith/timer.h": {
+    "mtime": 1778194423.9740343,
+    "ast_hash": "99a746564222df4a09286998d748c296",
+    "semantic_hash": "99a746564222df4a09286998d748c296"
+  },
+  "kernel/include/zenith/ui.h": {
+    "mtime": 1778210219.8619952,
+    "ast_hash": "fea59b60e33de93aa408542c4d670305",
+    "semantic_hash": "fea59b60e33de93aa408542c4d670305"
+  },
+  "kernel/include/zenith/user_loader.h": {
+    "mtime": 1778210213.5094244,
+    "ast_hash": "444cb3323ae5ed7646e3eb56ef294403",
+    "semantic_hash": "444cb3323ae5ed7646e3eb56ef294403"
+  },
+  "kernel/include/zenith/vmm.h": {
+    "mtime": 1778203033.5941763,
+    "ast_hash": "28aeed58762634f226c71ff45a00f1d1",
+    "semantic_hash": "28aeed58762634f226c71ff45a00f1d1"
+  },
+  "kernel/input/input.c": {
+    "mtime": 1778209603.7813957,
+    "ast_hash": "445dd2d735f4cd63a8ed3dfd013c5b7d",
+    "semantic_hash": "445dd2d735f4cd63a8ed3dfd013c5b7d"
+  },
+  "kernel/input/keyboard.c": {
+    "mtime": 1778206921.9170077,
+    "ast_hash": "9c04c330798e9ca008747948bfa151cf",
+    "semantic_hash": "9c04c330798e9ca008747948bfa151cf"
+  },
+  "kernel/input/mouse.c": {
+    "mtime": 1778209614.944222,
+    "ast_hash": "d2cfb0e67a720c333f7f77b61a804a63",
+    "semantic_hash": "d2cfb0e67a720c333f7f77b61a804a63"
+  },
+  "kernel/ipc/ipc.c": {
+    "mtime": 1778201828.7012007,
+    "ast_hash": "77beabe05937420116adcbe1e44c63b7",
+    "semantic_hash": "77beabe05937420116adcbe1e44c63b7"
+  },
+  "kernel/ipc/ui.c": {
+    "mtime": 1778210228.160559,
+    "ast_hash": "e7a0d88038d83771d0f782cab3ff2e6f",
+    "semantic_hash": "e7a0d88038d83771d0f782cab3ff2e6f"
+  },
+  "kernel/lib/mem.c": {
+    "mtime": 1778203149.4384606,
+    "ast_hash": "326e959fbfcdf78911f3c962150a7265",
+    "semantic_hash": "326e959fbfcdf78911f3c962150a7265"
+  },
+  "kernel/main.c": {
+    "mtime": 1778210232.5432067,
+    "ast_hash": "6ab060203dcfa05510f81f6795ecc978",
+    "semantic_hash": "6ab060203dcfa05510f81f6795ecc978"
+  },
+  "kernel/mm/kheap.c": {
+    "mtime": 1778193873.129984,
+    "ast_hash": "9ea43e991d18a539bc4c2fc33996d25c",
+    "semantic_hash": "9ea43e991d18a539bc4c2fc33996d25c"
+  },
+  "kernel/mm/pmm.c": {
+    "mtime": 1778193590.092849,
+    "ast_hash": "ca70c65c989b870bd105388ad4f8d2f6",
+    "semantic_hash": "ca70c65c989b870bd105388ad4f8d2f6"
+  },
+  "kernel/mm/vmm.c": {
+    "mtime": 1778203041.8560145,
+    "ast_hash": "703d7978b218438754670f4500c1da1d",
+    "semantic_hash": "703d7978b218438754670f4500c1da1d"
+  },
+  "kernel/panic.c": {
+    "mtime": 1778193221.8383393,
+    "ast_hash": "593d32556b8f14153113e52dbf4700c7",
+    "semantic_hash": "593d32556b8f14153113e52dbf4700c7"
+  },
+  "kernel/sched/scheduler.c": {
+    "mtime": 1779239126.507463,
+    "ast_hash": "5ccb98d7f620e5d1cb1814bea252966a",
+    "semantic_hash": "5ccb98d7f620e5d1cb1814bea252966a"
+  },
+  "kernel/sys/syscall.c": {
+    "mtime": 1779243490.2087693,
+    "ast_hash": "62554863818b171bcb712633fcd553c6",
+    "semantic_hash": "62554863818b171bcb712633fcd553c6"
+  },
+  "kernel/time/timer.c": {
+    "mtime": 1778194458.9383583,
+    "ast_hash": "6d41283ae9b4826660cbf2ad06d6667d",
+    "semantic_hash": "6d41283ae9b4826660cbf2ad06d6667d"
+  },
+  "kernel/user/loader.c": {
+    "mtime": 1778206910.7416587,
+    "ast_hash": "b1781e0eec494a198aa3f3ebf8a828c5",
+    "semantic_hash": "b1781e0eec494a198aa3f3ebf8a828c5"
+  },
+  "plan.json": {
+    "mtime": 1780457202.922977,
+    "ast_hash": "c13b9c7edd0cf1b743feab5e8751781c",
+    "semantic_hash": "c13b9c7edd0cf1b743feab5e8751781c"
+  },
+  "rebuild-with-theme.sh": {
+    "mtime": 1779923203.7714596,
+    "ast_hash": "35213887c55316a396dde5ca7f99a59f",
+    "semantic_hash": "35213887c55316a396dde5ca7f99a59f"
+  },
+  "storage.json": {
+    "mtime": 1778214704.9314554,
+    "ast_hash": "d40922d39cd675889fd2df95e6d9fd16",
+    "semantic_hash": "d40922d39cd675889fd2df95e6d9fd16"
+  },
+  "threat_model.json": {
+    "mtime": 1778212990.8433192,
+    "ast_hash": "54aed78ed45c8204c7b989f42af5386b",
+    "semantic_hash": "54aed78ed45c8204c7b989f42af5386b"
+  },
+  "tools/check_workstation.py": {
+    "mtime": 1780457971.1346633,
+    "ast_hash": "a4152b861debb4426dcb90b2b14dafe8",
+    "semantic_hash": "a4152b861debb4426dcb90b2b14dafe8"
+  },
+  "tools/create_workstation_install_disk.ps1": {
+    "mtime": 1780952968.9189172,
+    "ast_hash": "0f7a2386993ee6162e0159da9c3fb756",
+    "semantic_hash": "0f7a2386993ee6162e0159da9c3fb756"
+  },
+  "tools/format_zenith_usb.ps1": {
+    "mtime": 1778544044.4187577,
+    "ast_hash": "371f906804ee27bad4b81bb430e3272b",
+    "semantic_hash": "371f906804ee27bad4b81bb430e3272b"
+  },
+  "tools/package_userland.py": {
+    "mtime": 1778212213.2402713,
+    "ast_hash": "ce4d2ea3e8bc1fa8d5a3087b83cec377",
+    "semantic_hash": "ce4d2ea3e8bc1fa8d5a3087b83cec377"
+  },
+  "tools/qemu_diagnostic_matrix.ps1": {
+    "mtime": 1778444758.8698099,
+    "ast_hash": "0a3b776d19ca92f9c944e25bb8a0d1e1",
+    "semantic_hash": "0a3b776d19ca92f9c944e25bb8a0d1e1"
+  },
+  "tools/run_workstation_seed.ps1": {
+    "mtime": 1780965661.4960034,
+    "ast_hash": "7681389dcf2a5a0925ec0c6363446e40",
+    "semantic_hash": ""
+  },
+  "tools/smoke_workstation_seed.ps1": {
+    "mtime": 1781031851.5054395,
+    "ast_hash": "ce238adafe03075ae09960299490bc95",
+    "semantic_hash": ""
+  },
+  "userland/desktop.c": {
+    "mtime": 1778209648.019292,
+    "ast_hash": "c21f974750819a1b72f5ef583224655e",
+    "semantic_hash": "c21f974750819a1b72f5ef583224655e"
+  },
+  "userland/echo.c": {
+    "mtime": 1778205814.5390255,
+    "ast_hash": "b24013d904433e1110ff3cc944282af6",
+    "semantic_hash": "b24013d904433e1110ff3cc944282af6"
+  },
+  "userland/help.c": {
+    "mtime": 1778205814.4917784,
+    "ast_hash": "a1d052444c4341c10b011abcaf968dc8",
+    "semantic_hash": "a1d052444c4341c10b011abcaf968dc8"
+  },
+  "userland/include/zenith/user.h": {
+    "mtime": 1779243411.1285615,
+    "ast_hash": "9144c5893eeaac5df2ffa5a009405ab4",
+    "semantic_hash": "9144c5893eeaac5df2ffa5a009405ab4"
+  },
+  "userland/init.c": {
+    "mtime": 1778210359.5907996,
+    "ast_hash": "f015615f48bdc1c4e87de4fbacb9153d",
+    "semantic_hash": "f015615f48bdc1c4e87de4fbacb9153d"
+  },
+  "userland/launcher.c": {
+    "mtime": 1778210351.9492493,
+    "ast_hash": "8c46995ee3a937b63e73c9008c925da5",
+    "semantic_hash": "8c46995ee3a937b63e73c9008c925da5"
+  },
+  "userland/lib/syscall.c": {
+    "mtime": 1779243420.9809544,
+    "ast_hash": "99a1f57c961804b1415a0a726f6b3466",
+    "semantic_hash": "99a1f57c961804b1415a0a726f6b3466"
+  },
+  "userland/session.c": {
+    "mtime": 1779239003.6573246,
+    "ast_hash": "3608abfd27cffbdb50ee216fcec6c92b",
+    "semantic_hash": "3608abfd27cffbdb50ee216fcec6c92b"
+  },
+  "userland/settings.c": {
+    "mtime": 1778210344.3390331,
+    "ast_hash": "54ca8c53d2be2871bb2a940b98288820",
+    "semantic_hash": "54ca8c53d2be2871bb2a940b98288820"
+  },
+  "userland/sh.c": {
+    "mtime": 1778206688.8818884,
+    "ast_hash": "a5641069f626ace0e294a3df86463db1",
+    "semantic_hash": "a5641069f626ace0e294a3df86463db1"
+  },
+  "userland/sysinfo.c": {
+    "mtime": 1778205814.519213,
+    "ast_hash": "9068df9542f69c3f9aaf99b8de2ef3af",
+    "semantic_hash": "9068df9542f69c3f9aaf99b8de2ef3af"
+  },
+  "userland/terminal.c": {
+    "mtime": 1779243505.4439824,
+    "ast_hash": "efc37661d59891fb6e51873ef8d6fd9d",
+    "semantic_hash": "efc37661d59891fb6e51873ef8d6fd9d"
+  },
+  "workstation/apps/bin/zenith-calculator": {
+    "mtime": 1779418002.964016,
+    "ast_hash": "2e74d76a4fab50d2dba24ff7c041962c",
+    "semantic_hash": "2e74d76a4fab50d2dba24ff7c041962c"
+  },
+  "workstation/apps/bin/zenith-clock": {
+    "mtime": 1779418032.2517877,
+    "ast_hash": "04d582dad71f248b308bfdd7c1cfbb9e",
+    "semantic_hash": "04d582dad71f248b308bfdd7c1cfbb9e"
+  },
+  "workstation/apps/bin/zenith-files": {
+    "mtime": 1778284367.7336473,
+    "ast_hash": "cf92033bd3efe141393590049ce0ff9c",
+    "semantic_hash": "cf92033bd3efe141393590049ce0ff9c"
+  },
+  "workstation/apps/bin/zenith-installer": {
+    "mtime": 1778377113.164542,
+    "ast_hash": "c2ee6edf24030263343a88f8fcc488e0",
+    "semantic_hash": "c2ee6edf24030263343a88f8fcc488e0"
+  },
+  "workstation/apps/bin/zenith-packages": {
+    "mtime": 1778284363.8513317,
+    "ast_hash": "71cb1050303cbb725290ee49da4b75c5",
+    "semantic_hash": "71cb1050303cbb725290ee49da4b75c5"
+  },
+  "workstation/apps/bin/zenith-settings": {
+    "mtime": 1778284355.8973894,
+    "ast_hash": "f576bbfc41ec721155c5824fabc90e65",
+    "semantic_hash": "f576bbfc41ec721155c5824fabc90e65"
+  },
+  "workstation/apps/bin/zenith-terminal": {
+    "mtime": 1778284358.8289096,
+    "ast_hash": "ced3572533519f9d29d94973008eb8bf",
+    "semantic_hash": "ced3572533519f9d29d94973008eb8bf"
+  },
+  "workstation/apps/bin/zenith-text-editor": {
+    "mtime": 1779418037.2292554,
+    "ast_hash": "850cb61c55b6f97db042e3672e12473a",
+    "semantic_hash": "850cb61c55b6f97db042e3672e12473a"
+  },
+  "workstation/apps/bin/zenith-welcome": {
+    "mtime": 1778377113.1029265,
+    "ast_hash": "eb767f38aebaf4f5b0b5bcd2ceec906f",
+    "semantic_hash": "eb767f38aebaf4f5b0b5bcd2ceec906f"
+  },
+  "workstation/apps/bin/zpkg": {
+    "mtime": 1779239514.918032,
+    "ast_hash": "4d6a18bb695e5179498ebb339b658ef6",
+    "semantic_hash": "4d6a18bb695e5179498ebb339b658ef6"
+  },
+  "workstation/apps/zenith-calculator/src/zenith_calculator/__init__.py": {
+    "mtime": 1779417971.227222,
+    "ast_hash": "4c96261e5f1d49828e89434569d4e9a2",
+    "semantic_hash": "4c96261e5f1d49828e89434569d4e9a2"
+  },
+  "workstation/apps/zenith-calculator/src/zenith_calculator/main.py": {
+    "mtime": 1779422001.235338,
+    "ast_hash": "397837ac8c535a3f0a5d429860eb2912",
+    "semantic_hash": "397837ac8c535a3f0a5d429860eb2912"
+  },
+  "workstation/apps/zenith-clock/src/zenith_clock/__init__.py": {
+    "mtime": 1779418003.0189815,
+    "ast_hash": "0902da10689e3ef3f16b3fd1544a0381",
+    "semantic_hash": "0902da10689e3ef3f16b3fd1544a0381"
+  },
+  "workstation/apps/zenith-clock/src/zenith_clock/main.py": {
+    "mtime": 1779421841.8983483,
+    "ast_hash": "e495fe79cf64d14a7aa27ce44ca9e678",
+    "semantic_hash": "e495fe79cf64d14a7aa27ce44ca9e678"
+  },
+  "workstation/apps/zenith-files/src/zenith_files/__init__.py": {
+    "mtime": 1778284449.4093182,
+    "ast_hash": "af3689dd4501847f26f171704270df78",
+    "semantic_hash": "af3689dd4501847f26f171704270df78"
+  },
+  "workstation/apps/zenith-files/src/zenith_files/main.py": {
+    "mtime": 1778440536.6600146,
+    "ast_hash": "c113345c924a7dd061c1a0f798159c8b",
+    "semantic_hash": "c113345c924a7dd061c1a0f798159c8b"
+  },
+  "workstation/apps/zenith-installer/bin/zenith-install-to-disk": {
+    "mtime": 1781031943.6153474,
+    "ast_hash": "66a10c611ba788397dc73bee6a192895",
+    "semantic_hash": ""
+  },
+  "workstation/apps/zenith-installer/src/zenith_installer/__init__.py": {
+    "mtime": 1778377112.9679382,
+    "ast_hash": "14cc17ec8fc6e87ee45632368bcc99c0",
+    "semantic_hash": "14cc17ec8fc6e87ee45632368bcc99c0"
+  },
+  "workstation/apps/zenith-installer/src/zenith_installer/main.py": {
+    "mtime": 1780952914.8247726,
+    "ast_hash": "40777bd21baf7e85208ba18b7281a018",
+    "semantic_hash": "40777bd21baf7e85208ba18b7281a018"
+  },
+  "workstation/apps/zenith-packages/src/zenith_packages/__init__.py": {
+    "mtime": 1778284420.89783,
+    "ast_hash": "031bc21b52b2224571dcdf812f1a39b4",
+    "semantic_hash": "031bc21b52b2224571dcdf812f1a39b4"
+  },
+  "workstation/apps/zenith-packages/src/zenith_packages/main.py": {
+    "mtime": 1779239532.0266914,
+    "ast_hash": "e069e5564e155e80e540a81356e017c4",
+    "semantic_hash": "e069e5564e155e80e540a81356e017c4"
+  },
+  "workstation/apps/zenith-packages/src/zenith_packages/zpkg.py": {
+    "mtime": 1779239510.3062148,
+    "ast_hash": "223cfd4ede38499e88b5dc72fe7a6ea0",
+    "semantic_hash": "223cfd4ede38499e88b5dc72fe7a6ea0"
+  },
+  "workstation/apps/zenith-settings/src/zenith_settings/__init__.py": {
+    "mtime": 1778213073.2967665,
+    "ast_hash": "cdb18b8717272333f013eb0a562bbd79",
+    "semantic_hash": "cdb18b8717272333f013eb0a562bbd79"
+  },
+  "workstation/apps/zenith-settings/src/zenith_settings/main.py": {
+    "mtime": 1780776999.891437,
+    "ast_hash": "e585a4b0c8857f81a0a9e8c5094d5c38",
+    "semantic_hash": "e585a4b0c8857f81a0a9e8c5094d5c38"
+  },
+  "workstation/apps/zenith-terminal/src/zenith_terminal/__init__.py": {
+    "mtime": 1778284395.7414331,
+    "ast_hash": "9154a17acd30c097d873334d5562efe2",
+    "semantic_hash": "9154a17acd30c097d873334d5562efe2"
+  },
+  "workstation/apps/zenith-terminal/src/zenith_terminal/main.py": {
+    "mtime": 1779241365.8429954,
+    "ast_hash": "9167ec9b1754783dd361d3a0fdf274bf",
+    "semantic_hash": "9167ec9b1754783dd361d3a0fdf274bf"
+  },
+  "workstation/apps/zenith-text-editor/src/zenith_text_editor/__init__.py": {
+    "mtime": 1779418032.287082,
+    "ast_hash": "4d11202263b27fddb97d44344e46c528",
+    "semantic_hash": "4d11202263b27fddb97d44344e46c528"
+  },
+  "workstation/apps/zenith-text-editor/src/zenith_text_editor/main.py": {
+    "mtime": 1779421943.2795787,
+    "ast_hash": "6bb476cae85c5b355d3a840d46431e36",
+    "semantic_hash": "6bb476cae85c5b355d3a840d46431e36"
+  },
+  "workstation/apps/zenith-welcome/src/zenith_welcome/__init__.py": {
+    "mtime": 1778377112.6919062,
+    "ast_hash": "3870c2c411d5bf1f3a399f3d47e05051",
+    "semantic_hash": "3870c2c411d5bf1f3a399f3d47e05051"
+  },
+  "workstation/apps/zenith-welcome/src/zenith_welcome/main.py": {
+    "mtime": 1780777000.0075202,
+    "ast_hash": "48c8da06c42bdc401454e22e47cbc024",
+    "semantic_hash": "48c8da06c42bdc401454e22e47cbc024"
+  },
+  "workstation/config/usr/lib/zenith/zenith-boot-report": {
+    "mtime": 1780953190.039008,
+    "ast_hash": "3b2e5c014ccee92b322f2b18d74039ea",
+    "semantic_hash": "3b2e5c014ccee92b322f2b18d74039ea"
+  },
+  "workstation/config/usr/lib/zenith/zenith-greeter": {
+    "mtime": 1779421083.5425444,
+    "ast_hash": "24b422a5ab85ee1ba914bc26e09b439a",
+    "semantic_hash": "24b422a5ab85ee1ba914bc26e09b439a"
+  },
+  "workstation/config/usr/lib/zenith/zenith-hardware-detect": {
+    "mtime": 1778444713.9326603,
+    "ast_hash": "a2e70b959be97d95584df9cf4dde56cd",
+    "semantic_hash": "a2e70b959be97d95584df9cf4dde56cd"
+  },
+  "workstation/config/usr/lib/zenith/zenith-performance-defaults": {
+    "mtime": 1780692612.1389558,
+    "ast_hash": "2c919b3372e30fc087d092d006fde7a5",
+    "semantic_hash": "2c919b3372e30fc087d092d006fde7a5"
+  },
+  "workstation/config/usr/lib/zenith/zenith-session-setup": {
+    "mtime": 1780777000.130196,
+    "ast_hash": "97858876ea0e23ccbccf137d3fc47a4b",
+    "semantic_hash": "97858876ea0e23ccbccf137d3fc47a4b"
+  },
+  "workstation/config/usr/lib/zenith/zenith-storage-monitor": {
+    "mtime": 1779931169.8813167,
+    "ast_hash": "e6ed5583b622b92e90b8c007ea9cf30a",
+    "semantic_hash": "e6ed5583b622b92e90b8c007ea9cf30a"
+  },
+  "workstation/config/usr/lib/zenith/zenith-welcome-once": {
+    "mtime": 1778377113.3143768,
+    "ast_hash": "d83d8694e7cf685a4387714f9650050b",
+    "semantic_hash": "d83d8694e7cf685a4387714f9650050b"
+  },
+  "workstation/distro/build-zenith-packages.sh": {
+    "mtime": 1781031886.6651933,
+    "ast_hash": "10b514c28028a924bb3a9f44a8b5e17e",
+    "semantic_hash": ""
+  },
+  "workstation/distro/publish-apt-repo.sh": {
+    "mtime": 1780692534.4138422,
+    "ast_hash": "e33c805eb1995b895fe89bdd7761fa93",
+    "semantic_hash": "e33c805eb1995b895fe89bdd7761fa93"
+  },
+  "workstation/distro/verify-apt-repo.sh": {
+    "mtime": 1778285932.6898932,
+    "ast_hash": "0576e0eedab5b902ed27a96f939730ac",
+    "semantic_hash": "0576e0eedab5b902ed27a96f939730ac"
+  },
+  "workstation/iso/build-live-iso.sh": {
+    "mtime": 1780694484.8659647,
+    "ast_hash": "1029611e5ab8fe97e77df893ee4f5da6",
+    "semantic_hash": "1029611e5ab8fe97e77df893ee4f5da6"
+  },
+  "workstation/iso/build-rootfs.sh": {
+    "mtime": 1781031886.811244,
+    "ast_hash": "2349bdd666791f5f5a2a4ee5dd3dab76",
+    "semantic_hash": ""
+  },
+  "workstation/iso/build-seed-iso.sh": {
+    "mtime": 1778286299.403874,
+    "ast_hash": "767985b96f979d44fb81f0866d56a09a",
+    "semantic_hash": "767985b96f979d44fb81f0866d56a09a"
+  },
+  "workstation/iso/check-apt-packages.sh": {
+    "mtime": 1778286354.4918294,
+    "ast_hash": "ecb3618f9b51d1191487929ee638b3cc",
+    "semantic_hash": "ecb3618f9b51d1191487929ee638b3cc"
+  },
+  "workstation/iso/create-persistence-disk.sh": {
+    "mtime": 1778445115.5758433,
+    "ast_hash": "cdbe59337cf949a9183d59abc0863d50",
+    "semantic_hash": "cdbe59337cf949a9183d59abc0863d50"
+  },
+  "workstation/iso/rebuild-current-seed.sh": {
+    "mtime": 1779403343.301093,
+    "ast_hash": "842292d334051310b4f98273489b9362",
+    "semantic_hash": "842292d334051310b4f98273489b9362"
+  },
+  "workstation/qa/runtime-check.sh": {
+    "mtime": 1781032061.7100763,
+    "ast_hash": "2970f7ffd83bfe2b734e1e4a0f9f2f19",
+    "semantic_hash": ""
+  },
+  "workstation/scripts/first-boot-apps.sh": {
+    "mtime": 1780692590.9826286,
+    "ast_hash": "27b788add5cf2ec4a9ae0fd762f6ef33",
+    "semantic_hash": "27b788add5cf2ec4a9ae0fd762f6ef33"
+  },
+  "workstation/selfhost/zenith-build.sh": {
+    "mtime": 1779403538.91756,
+    "ast_hash": "666f49d12fee6aa0705c37363ad68b1e",
+    "semantic_hash": "666f49d12fee6aa0705c37363ad68b1e"
+  },
+  "workstation/shell/plasma-config/zenith-panel-setup.js": {
+    "mtime": 1780775894.108634,
+    "ast_hash": "25d0f34581f7e8b1bf1f53e4ec2503a9",
+    "semantic_hash": "25d0f34581f7e8b1bf1f53e4ec2503a9"
+  },
+  "workstation/storage/budget.json": {
+    "mtime": 1778214712.2439563,
+    "ast_hash": "1bd22ebf253975581526b24ca97fbe98",
+    "semantic_hash": "1bd22ebf253975581526b24ca97fbe98"
+  },
+  ".claude/agents/auditor.md": {
+    "mtime": 1779245859.8446465,
+    "ast_hash": "409e93c7f44941be161d2e744f986b19",
+    "semantic_hash": ""
+  },
+  ".claude/agents/cartographer.md": {
+    "mtime": 1779245859.8649354,
+    "ast_hash": "c517a144cbecbdc559ed459d4285b778",
+    "semantic_hash": ""
+  },
+  ".claude/agents/compliance.md": {
+    "mtime": 1779245859.7804978,
+    "ast_hash": "d33cb02c3b699fdf9119147e6587aea0",
+    "semantic_hash": ""
+  },
+  ".claude/agents/eod-summary.md": {
+    "mtime": 1779245859.900537,
+    "ast_hash": "10bf160d915b6037f567d43c8c192fcf",
+    "semantic_hash": ""
+  },
+  ".claude/agents/hardware-v14.md": {
+    "mtime": 1779245859.6526804,
+    "ast_hash": "92cc5f1160b759f3071b758230025d94",
+    "semantic_hash": ""
+  },
+  ".claude/agents/kernel-core.md": {
+    "mtime": 1779245859.604034,
+    "ast_hash": "a42619f2121863a3675dcf56d895335e",
+    "semantic_hash": ""
+  },
+  ".claude/agents/memory-vmm.md": {
+    "mtime": 1779245859.6841946,
+    "ast_hash": "83b05904d3ae6019a183ecd0dfb5a38c",
+    "semantic_hash": ""
+  },
+  ".claude/agents/scout.md": {
+    "mtime": 1779245859.8065207,
+    "ast_hash": "6c4567995b7b0279c8e5f30d0dc3cb25",
+    "semantic_hash": ""
+  },
+  ".claude/agents/zenith-pkg.md": {
+    "mtime": 1779245859.7483647,
+    "ast_hash": "cc618c3a53be27855afaf8a3714593db",
+    "semantic_hash": ""
+  },
+  ".claude/agents/zenith-ui.md": {
+    "mtime": 1779245859.7207122,
+    "ast_hash": "03e61607860d560663ff2738d18dd723",
+    "semantic_hash": ""
+  },
+  ".codex/skills/graphify/SKILL.md": {
+    "mtime": 1780955966.6913128,
+    "ast_hash": "161604e38be94d9064430c7b068fc492",
+    "semantic_hash": ""
+  },
+  ".codex/skills/graphify/references/add-watch.md": {
+    "mtime": 1780955958.1357145,
+    "ast_hash": "0df0589623217ca38a12bdcabfb42f4c",
+    "semantic_hash": ""
+  },
+  ".codex/skills/graphify/references/exports.md": {
+    "mtime": 1780955958.1390438,
+    "ast_hash": "7fb1a81aca17a462db70684a324fcfb0",
+    "semantic_hash": ""
+  },
+  ".codex/skills/graphify/references/extraction-spec.md": {
+    "mtime": 1780955958.142039,
+    "ast_hash": "a86a7321597b23cc2b22e011b3dc6e1d",
+    "semantic_hash": ""
+  },
+  ".codex/skills/graphify/references/github-and-merge.md": {
+    "mtime": 1780955958.1470933,
+    "ast_hash": "cde13df085e4c492aeb7ba298a996d0d",
+    "semantic_hash": ""
+  },
+  ".codex/skills/graphify/references/hooks.md": {
+    "mtime": 1780955958.1470933,
+    "ast_hash": "3f545db6ce646650bb9de588f5512a27",
+    "semantic_hash": ""
+  },
+  ".codex/skills/graphify/references/query.md": {
+    "mtime": 1780955958.1486044,
+    "ast_hash": "c2a8e798674a81b02aa9975f43023819",
+    "semantic_hash": ""
+  },
+  ".codex/skills/graphify/references/transcribe.md": {
+    "mtime": 1780955958.149618,
+    "ast_hash": "70f6aa30d6211f3a2c7e9fc45479f50c",
+    "semantic_hash": ""
+  },
+  ".codex/skills/graphify/references/update.md": {
+    "mtime": 1780955958.149618,
+    "ast_hash": "0dad167a95bdb389f02fecffb60b1bc8",
+    "semantic_hash": ""
+  },
+  "AGENTS.md": {
+    "mtime": 1780955966.6933584,
+    "ast_hash": "4f2b3f2b28c063400dc3f51359730b94",
+    "semantic_hash": ""
+  },
+  "AUTONOMOUS_WORK_SUMMARY.md": {
+    "mtime": 1779924082.3845694,
+    "ast_hash": "2765ce1ff795e38444f5e4322595d36f",
+    "semantic_hash": ""
+  },
+  "BUILD_STATUS.md": {
+    "mtime": 1779923267.0767682,
+    "ast_hash": "f47cdd506e37f498b7f465d69cba252a",
+    "semantic_hash": ""
+  },
+  "CLAUDE.md": {
+    "mtime": 1779244545.8171663,
+    "ast_hash": "13c004f4817181c7cc6b1fb533deaf24",
+    "semantic_hash": ""
+  },
+  "NEW_FEATURES_SUMMARY.md": {
+    "mtime": 1779931263.7208288,
+    "ast_hash": "53d58cb39ebd723795506c0a7c4c69d5",
+    "semantic_hash": ""
+  },
+  "OS_BUILDING_GUIDE.md": {
+    "mtime": 1779923984.013455,
+    "ast_hash": "3486ce19aecad6143b1b46ab0bfacfd6",
+    "semantic_hash": ""
+  },
+  "QUICK_START.md": {
+    "mtime": 1780965712.3935504,
+    "ast_hash": "ccb959dd43eaf1f222498d840a3fc42c",
+    "semantic_hash": ""
+  },
+  "README.md": {
+    "mtime": 1780965736.5388298,
+    "ast_hash": "d7eb59b0cbc905d34b196020308a5164",
+    "semantic_hash": ""
+  },
+  "boot_sequence.md": {
+    "mtime": 1780457434.200069,
+    "ast_hash": "0632c313ffa8a81009411020f5ee3db4",
+    "semantic_hash": ""
+  },
+  "docs/kernel-lab.md": {
+    "mtime": 1778212998.6058154,
+    "ast_hash": "4aa867c2b621a66d24134b08fef2d5ce",
+    "semantic_hash": ""
+  },
+  "docs/limine-bootstrap.md": {
+    "mtime": 1778192139.7178059,
+    "ast_hash": "23a5577e92f70b21b4a4215f7b0906f4",
+    "semantic_hash": ""
+  },
+  "docs/terminal-package-phases.md": {
+    "mtime": 1779244048.1469126,
+    "ast_hash": "880a94fa806c124de36d4cbae67f40dd",
+    "semantic_hash": ""
+  },
+  "hardware_matrix.md": {
+    "mtime": 1778444793.5004368,
+    "ast_hash": "8d17d8ece3f22cf6a66fa6178c2e70d3",
+    "semantic_hash": ""
+  },
+  "workstation/CHANGELOG-login-update.md": {
+    "mtime": 1780457425.7028773,
+    "ast_hash": "bcb4de05eee1d61155005498595c627b",
+    "semantic_hash": ""
+  },
+  "workstation/README.md": {
+    "mtime": 1780965744.09829,
+    "ast_hash": "d84bed6f82bd8fc2630d0842d9b4e74d",
+    "semantic_hash": ""
+  },
+  "workstation/apps/README.md": {
+    "mtime": 1778284501.6540165,
+    "ast_hash": "2407af11124d81012bf8a2e36067557c",
+    "semantic_hash": ""
+  },
+  "workstation/apps/app-roadmap.md": {
+    "mtime": 1778284331.045863,
+    "ast_hash": "acd1ef7811b03d4b80d7ee961322e41b",
+    "semantic_hash": ""
+  },
+  "workstation/architecture.md": {
+    "mtime": 1780457416.548752,
+    "ast_hash": "6946efa2a4f3d996b4b569dc012a4782",
+    "semantic_hash": ""
+  },
+  "workstation/distro/README.md": {
+    "mtime": 1778285683.6378772,
+    "ast_hash": "74eb1bc4e7c2fe3bb6434f8c93b137e0",
+    "semantic_hash": ""
+  },
+  "workstation/distro/gnome-source-plan.md": {
+    "mtime": 1778285698.1022768,
+    "ast_hash": "e623e17d1e6e89d2b3eb314efd2b21ec",
+    "semantic_hash": ""
+  },
+  "workstation/distro/pipeline.md": {
+    "mtime": 1778285692.03881,
+    "ast_hash": "94604f2406cc4c71829d5c1cc801d2f2",
+    "semantic_hash": ""
+  },
+  "workstation/iso/README.md": {
+    "mtime": 1780953281.4259992,
+    "ast_hash": "cb4c0398ac461aeb59f9ba9adaa96f94",
+    "semantic_hash": ""
+  },
+  "workstation/packages/strategy.md": {
+    "mtime": 1778212898.0790837,
+    "ast_hash": "a56c6d15f342cf4041b1a73ef84e6926",
+    "semantic_hash": ""
+  },
+  "workstation/profiles/README.md": {
+    "mtime": 1778444713.8696704,
+    "ast_hash": "d8bf2553f24b615dbc49d5ebead44950",
+    "semantic_hash": ""
+  },
+  "workstation/release/CHANGELOG.md": {
+    "mtime": 1778447037.301245,
+    "ast_hash": "077b74c578f3105376784962addb738f",
+    "semantic_hash": ""
+  },
+  "workstation/release/KNOWN_ISSUES.md": {
+    "mtime": 1780953293.7305443,
+    "ast_hash": "14bbb442aa2f74bb0df4dab45e667df9",
+    "semantic_hash": ""
+  },
+  "workstation/release/RELEASE_NOTES.md": {
+    "mtime": 1780965750.8038547,
+    "ast_hash": "2182abe0331de1fa2cbb2f4b1c91d026",
+    "semantic_hash": ""
+  },
+  "workstation/roadmap.md": {
+    "mtime": 1780457212.653499,
+    "ast_hash": "18eb4ed37b16aa19009a523864f6e171",
+    "semantic_hash": ""
+  },
+  "workstation/selfhost/README.md": {
+    "mtime": 1778215116.4654877,
+    "ast_hash": "390c69a8c40dd09bf390e77396c94944",
+    "semantic_hash": ""
+  },
+  "workstation/shell/README.md": {
+    "mtime": 1778213039.068208,
+    "ast_hash": "c5c2c90a0d4fe28d3231334f6ac3f983",
+    "semantic_hash": ""
+  },
+  "workstation/shell/shell-spec.md": {
+    "mtime": 1780457194.2743106,
+    "ast_hash": "8267641d727b82ee4efc053c59b11ebf",
+    "semantic_hash": ""
+  },
+  "workstation/storage/enforcement.md": {
+    "mtime": 1780457405.7339175,
+    "ast_hash": "263613a78b0bab049b1e8dfe581762e1",
+    "semantic_hash": ""
+  },
+  "workstation/themes/README.md": {
+    "mtime": 1780457409.7180002,
+    "ast_hash": "b8d6ea3fc9453b625c4ef40ab824b356",
+    "semantic_hash": ""
+  },
+  "workstation/assets/backgrounds/zenith-default.svg": {
+    "mtime": 1778363106.3500118,
+    "ast_hash": "182eb895505ed2774e770a42c4f967de",
+    "semantic_hash": ""
+  },
+  "workstation/assets/backgrounds/zenith-login-wallpaper.png": {
+    "mtime": 1780775857.2998374,
+    "ast_hash": "b88f78bcc3a3bf2608f10c068bd44741",
+    "semantic_hash": ""
+  },
+  "bg.mp4": {
+    "mtime": 1779420978.2517443,
+    "ast_hash": "88b2bb92f3a63f8520af952e2d9696ca",
+    "semantic_hash": "88b2bb92f3a63f8520af952e2d9696ca"
+  },
+  "workstation/themes/sddm/pixel-skyscrapers/bg.mp4": {
+    "mtime": 1779917217.3403077,
+    "ast_hash": "88b2bb92f3a63f8520af952e2d9696ca",
+    "semantic_hash": "88b2bb92f3a63f8520af952e2d9696ca"
+  },
+  "workstation/config/usr/lib/zenith/zenith-autoinstall": {
+    "mtime": 1781031944.4110503,
+    "ast_hash": "9baffa072067873fed0ffac215f96d2a",
+    "semantic_hash": ""
+  },
+  "workstation/config/usr/lib/zenith/zenith-desktop-smoke-login": {
+    "mtime": 1781031943.79572,
+    "ast_hash": "02d18b4d556f7bbd687bed25b7d7448c",
+    "semantic_hash": ""
+  },
+  "workstation/config/usr/lib/zenith/zenith-session-report": {
+    "mtime": 1781032229.1243184,
+    "ast_hash": "99a526ab61a8b29fb34e7101ead8fead",
+    "semantic_hash": ""
+  },
+  "workstation/config/usr/lib/zenith/zenith-session-report-watch": {
+    "mtime": 1781031944.1227374,
+    "ast_hash": "8633625927397460dd2562c7c1805429",
+    "semantic_hash": ""
+  }
+}
