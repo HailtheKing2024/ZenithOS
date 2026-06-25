@@ -81,13 +81,97 @@
       "norm_label": "pretooluse"
     },
     {
+      "label": "do-rebuild.sh",
+      "file_type": "code",
+      "source_file": "do-rebuild.sh",
+      "source_location": "L1",
+      "metadata": {
+        "language": "bash",
+        "kind": "file"
+      },
+      "_origin": "ast",
+      "id": "do_rebuild",
+      "community": 85,
+      "norm_label": "do-rebuild.sh"
+    },
+    {
+      "label": "do-rebuild.sh script",
+      "file_type": "code",
+      "source_file": "do-rebuild.sh",
+      "source_location": "L1",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_entrypoint"
+      },
+      "_origin": "ast",
+      "id": "c_users_krish_zenithos_os_do_rebuild_sh__entry",
+      "community": 85,
+      "norm_label": "do-rebuild.sh script"
+    },
+    {
+      "label": "ZENITH_APT_SIGNING_KEY",
+      "file_type": "code",
+      "source_file": "do-rebuild.sh",
+      "source_location": "L2",
+      "metadata": {
+        "language": "bash",
+        "kind": "code"
+      },
+      "_origin": "ast",
+      "id": "do_rebuild_zenith_apt_signing_key",
+      "community": 85,
+      "norm_label": "zenith_apt_signing_key"
+    },
+    {
+      "label": "full-rebuild.sh",
+      "file_type": "code",
+      "source_file": "full-rebuild.sh",
+      "source_location": "L1",
+      "metadata": {
+        "language": "bash",
+        "kind": "file"
+      },
+      "_origin": "ast",
+      "id": "full_rebuild",
+      "community": 86,
+      "norm_label": "full-rebuild.sh"
+    },
+    {
+      "label": "full-rebuild.sh script",
+      "file_type": "code",
+      "source_file": "full-rebuild.sh",
+      "source_location": "L1",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_entrypoint"
+      },
+      "_origin": "ast",
+      "id": "c_users_krish_zenithos_os_full_rebuild_sh__entry",
+      "community": 86,
+      "norm_label": "full-rebuild.sh script"
+    },
+    {
+      "label": "ZENITH_APT_SIGNING_KEY",
+      "file_type": "code",
+      "source_file": "full-rebuild.sh",
+      "source_location": "L2",
+      "metadata": {
+        "language": "bash",
+        "kind": "code"
+      },
+      "_origin": "ast",
+      "id": "full_rebuild_zenith_apt_signing_key",
+      "community": 86,
+      "norm_label": "zenith_apt_signing_key"
+    },
+    {
       "label": "cpu.c",
       "file_type": "code",
       "source_file": "kernel/arch/x86_64/cpu.c",
       "source_location": "L1",
       "_origin": "ast",
       "id": "x86_64_cpu",
-      "community": 17,
+      "community": 19,
       "norm_label": "cpu.c"
     },
     {
@@ -97,7 +181,7 @@
       "source_location": "L59",
       "_origin": "ast",
       "id": "x86_64_cpu_read_msr",
-      "community": 17,
+      "community": 19,
       "norm_label": "read_msr()"
     },
     {
@@ -107,7 +191,7 @@
       "source_location": "L68",
       "_origin": "ast",
       "id": "x86_64_cpu_write_msr",
-      "community": 17,
+      "community": 19,
       "norm_label": "write_msr()"
     },
     {
@@ -117,7 +201,7 @@
       "source_location": "L76",
       "_origin": "ast",
       "id": "x86_64_cpu_write_tss_descriptor",
-      "community": 17,
+      "community": 19,
       "norm_label": "write_tss_descriptor()"
     },
     {
@@ -127,7 +211,7 @@
       "source_location": "L90",
       "_origin": "ast",
       "id": "x86_64_cpu_x86_64_cpu_init",
-      "community": 17,
+      "community": 19,
       "norm_label": "x86_64_cpu_init()"
     },
     {
@@ -137,7 +221,7 @@
       "source_location": "L117",
       "_origin": "ast",
       "id": "x86_64_cpu_x86_64_syscall_enable",
-      "community": 17,
+      "community": 19,
       "norm_label": "x86_64_syscall_enable()"
     },
     {
@@ -317,7 +401,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "x86_64_serial",
-      "community": 14,
+      "community": 48,
       "norm_label": "serial.c"
     },
     {
@@ -327,7 +411,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "x86_64_serial_serial_can_write",
-      "community": 14,
+      "community": 48,
       "norm_label": "serial_can_write()"
     },
     {
@@ -337,7 +421,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "x86_64_serial_serial_can_read",
-      "community": 14,
+      "community": 48,
       "norm_label": "serial_can_read()"
     },
     {
@@ -347,7 +431,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "x86_64_serial_serial_init",
-      "community": 14,
+      "community": 48,
       "norm_label": "serial_init()"
     },
     {
@@ -357,7 +441,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "x86_64_serial_serial_write_char",
-      "community": 14,
+      "community": 48,
       "norm_label": "serial_write_char()"
     },
     {
@@ -367,7 +451,7 @@
       "source_location": "L38",
       "_origin": "ast",
       "id": "x86_64_serial_serial_try_read_char",
-      "community": 14,
+      "community": 48,
       "norm_label": "serial_try_read_char()"
     },
     {
@@ -397,7 +481,7 @@
       "source_location": "L68",
       "_origin": "ast",
       "id": "x86_64_serial_serial_write_u64_dec",
-      "community": 19,
+      "community": 48,
       "norm_label": "serial_write_u64_dec()"
     },
     {
@@ -407,7 +491,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "fs_initramfs",
-      "community": 19,
+      "community": 48,
       "norm_label": "initramfs.c"
     },
     {
@@ -417,7 +501,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "fs_initramfs_string_equals",
-      "community": 19,
+      "community": 48,
       "norm_label": "string_equals()"
     },
     {
@@ -427,7 +511,7 @@
       "source_location": "L39",
       "_origin": "ast",
       "id": "fs_initramfs_initramfs_init",
-      "community": 19,
+      "community": 48,
       "norm_label": "initramfs_init()"
     },
     {
@@ -437,7 +521,7 @@
       "source_location": "L46",
       "_origin": "ast",
       "id": "fs_initramfs_initramfs_lookup",
-      "community": 19,
+      "community": 48,
       "norm_label": "initramfs_lookup()"
     },
     {
@@ -447,7 +531,7 @@
       "source_location": "L61",
       "_origin": "ast",
       "id": "fs_initramfs_initramfs_self_test",
-      "community": 19,
+      "community": 48,
       "norm_label": "initramfs_self_test()"
     },
     {
@@ -1107,7 +1191,7 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "input_keyboard_keyboard_init",
-      "community": 14,
+      "community": 19,
       "norm_label": "keyboard_init()"
     },
     {
@@ -1497,7 +1581,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "mm_kheap",
-      "community": 0,
+      "community": 50,
       "norm_label": "kheap.c"
     },
     {
@@ -1507,7 +1591,7 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "mm_kheap_align_up_u64",
-      "community": 0,
+      "community": 50,
       "norm_label": "align_up_u64()"
     },
     {
@@ -1517,7 +1601,7 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "mm_kheap_map_heap_page",
-      "community": 0,
+      "community": 23,
       "norm_label": "map_heap_page()"
     },
     {
@@ -1527,7 +1611,7 @@
       "source_location": "L44",
       "_origin": "ast",
       "id": "mm_kheap_ensure_mapped",
-      "community": 0,
+      "community": 50,
       "norm_label": "ensure_mapped()"
     },
     {
@@ -1537,7 +1621,7 @@
       "source_location": "L56",
       "_origin": "ast",
       "id": "mm_kheap_kheap_init",
-      "community": 19,
+      "community": 50,
       "norm_label": "kheap_init()"
     },
     {
@@ -1547,7 +1631,7 @@
       "source_location": "L70",
       "_origin": "ast",
       "id": "mm_kheap_kmalloc_aligned",
-      "community": 0,
+      "community": 50,
       "norm_label": "kmalloc_aligned()"
     },
     {
@@ -1557,7 +1641,7 @@
       "source_location": "L96",
       "_origin": "ast",
       "id": "mm_kheap_kmalloc",
-      "community": 0,
+      "community": 50,
       "norm_label": "kmalloc()"
     },
     {
@@ -1567,7 +1651,7 @@
       "source_location": "L101",
       "_origin": "ast",
       "id": "mm_kheap_kheap_self_test",
-      "community": 0,
+      "community": 50,
       "norm_label": "kheap_self_test()"
     },
     {
@@ -1577,7 +1661,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "mm_pmm",
-      "community": 0,
+      "community": 29,
       "norm_label": "pmm.c"
     },
     {
@@ -1587,7 +1671,7 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "mm_pmm_align_up",
-      "community": 0,
+      "community": 29,
       "norm_label": "align_up()"
     },
     {
@@ -1597,7 +1681,7 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "mm_pmm_align_down",
-      "community": 0,
+      "community": 29,
       "norm_label": "align_down()"
     },
     {
@@ -1607,7 +1691,7 @@
       "source_location": "L37",
       "_origin": "ast",
       "id": "mm_pmm_frame_index",
-      "community": 0,
+      "community": 29,
       "norm_label": "frame_index()"
     },
     {
@@ -1617,7 +1701,7 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "mm_pmm_frame_address",
-      "community": 0,
+      "community": 29,
       "norm_label": "frame_address()"
     },
     {
@@ -1627,7 +1711,7 @@
       "source_location": "L47",
       "_origin": "ast",
       "id": "mm_pmm_frame_mask",
-      "community": 0,
+      "community": 29,
       "norm_label": "frame_mask()"
     },
     {
@@ -1637,7 +1721,7 @@
       "source_location": "L52",
       "_origin": "ast",
       "id": "mm_pmm_frame_is_used",
-      "community": 0,
+      "community": 29,
       "norm_label": "frame_is_used()"
     },
     {
@@ -1647,7 +1731,7 @@
       "source_location": "L57",
       "_origin": "ast",
       "id": "mm_pmm_frame_is_usable",
-      "community": 0,
+      "community": 29,
       "norm_label": "frame_is_usable()"
     },
     {
@@ -1657,7 +1741,7 @@
       "source_location": "L62",
       "_origin": "ast",
       "id": "mm_pmm_mark_frame_not_usable",
-      "community": 0,
+      "community": 29,
       "norm_label": "mark_frame_not_usable()"
     },
     {
@@ -1667,7 +1751,7 @@
       "source_location": "L77",
       "_origin": "ast",
       "id": "mm_pmm_mark_frame_used",
-      "community": 0,
+      "community": 29,
       "norm_label": "mark_frame_used()"
     },
     {
@@ -1677,7 +1761,7 @@
       "source_location": "L89",
       "_origin": "ast",
       "id": "mm_pmm_mark_frame_free",
-      "community": 0,
+      "community": 29,
       "norm_label": "mark_frame_free()"
     },
     {
@@ -1687,7 +1771,7 @@
       "source_location": "L106",
       "_origin": "ast",
       "id": "mm_pmm_mark_range_free",
-      "community": 0,
+      "community": 29,
       "norm_label": "mark_range_free()"
     },
     {
@@ -1697,7 +1781,7 @@
       "source_location": "L120",
       "_origin": "ast",
       "id": "mm_pmm_mark_range_not_usable",
-      "community": 0,
+      "community": 29,
       "norm_label": "mark_range_not_usable()"
     },
     {
@@ -1707,7 +1791,7 @@
       "source_location": "L134",
       "_origin": "ast",
       "id": "mm_pmm_fill_bitmap_used",
-      "community": 0,
+      "community": 29,
       "norm_label": "fill_bitmap_used()"
     },
     {
@@ -1717,7 +1801,7 @@
       "source_location": "L145",
       "_origin": "ast",
       "id": "mm_pmm_memmap_highest_usable_address",
-      "community": 0,
+      "community": 29,
       "norm_label": "memmap_highest_usable_address()"
     },
     {
@@ -1727,7 +1811,7 @@
       "source_location": "L165",
       "_origin": "ast",
       "id": "mm_pmm_pmm_init",
-      "community": 0,
+      "community": 29,
       "norm_label": "pmm_init()"
     },
     {
@@ -1737,7 +1821,7 @@
       "source_location": "L219",
       "_origin": "ast",
       "id": "mm_pmm_pmm_alloc_frame",
-      "community": 0,
+      "community": 23,
       "norm_label": "pmm_alloc_frame()"
     },
     {
@@ -1747,7 +1831,7 @@
       "source_location": "L248",
       "_origin": "ast",
       "id": "mm_pmm_pmm_free_frame",
-      "community": 0,
+      "community": 29,
       "norm_label": "pmm_free_frame()"
     },
     {
@@ -1757,7 +1841,7 @@
       "source_location": "L274",
       "_origin": "ast",
       "id": "mm_pmm_pmm_get_stats",
-      "community": 0,
+      "community": 29,
       "norm_label": "pmm_get_stats()"
     },
     {
@@ -1767,7 +1851,7 @@
       "source_location": "L289",
       "_origin": "ast",
       "id": "mm_pmm_pmm_self_test",
-      "community": 0,
+      "community": 23,
       "norm_label": "pmm_self_test()"
     },
     {
@@ -1777,7 +1861,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "mm_vmm",
-      "community": 0,
+      "community": 23,
       "norm_label": "vmm.c"
     },
     {
@@ -1787,7 +1871,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "mm_vmm_read_cr3",
-      "community": 0,
+      "community": 23,
       "norm_label": "read_cr3()"
     },
     {
@@ -1797,7 +1881,7 @@
       "source_location": "L28",
       "_origin": "ast",
       "id": "mm_vmm_invlpg",
-      "community": 0,
+      "community": 23,
       "norm_label": "invlpg()"
     },
     {
@@ -1807,7 +1891,7 @@
       "source_location": "L33",
       "_origin": "ast",
       "id": "mm_vmm_memory_zero",
-      "community": 0,
+      "community": 23,
       "norm_label": "memory_zero()"
     },
     {
@@ -1817,7 +1901,7 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "mm_vmm_pml4_index",
-      "community": 0,
+      "community": 23,
       "norm_label": "pml4_index()"
     },
     {
@@ -1827,7 +1911,7 @@
       "source_location": "L47",
       "_origin": "ast",
       "id": "mm_vmm_pdpt_index",
-      "community": 0,
+      "community": 23,
       "norm_label": "pdpt_index()"
     },
     {
@@ -1837,7 +1921,7 @@
       "source_location": "L52",
       "_origin": "ast",
       "id": "mm_vmm_pd_index",
-      "community": 0,
+      "community": 23,
       "norm_label": "pd_index()"
     },
     {
@@ -1847,7 +1931,7 @@
       "source_location": "L57",
       "_origin": "ast",
       "id": "mm_vmm_pt_index",
-      "community": 0,
+      "community": 23,
       "norm_label": "pt_index()"
     },
     {
@@ -1857,7 +1941,7 @@
       "source_location": "L62",
       "_origin": "ast",
       "id": "mm_vmm_vmm_phys_to_hhdm",
-      "community": 0,
+      "community": 23,
       "norm_label": "vmm_phys_to_hhdm()"
     },
     {
@@ -1867,7 +1951,7 @@
       "source_location": "L71",
       "_origin": "ast",
       "id": "mm_vmm_table_from_entry",
-      "community": 0,
+      "community": 23,
       "norm_label": "table_from_entry()"
     },
     {
@@ -1877,7 +1961,7 @@
       "source_location": "L76",
       "_origin": "ast",
       "id": "mm_vmm_make_table",
-      "community": 0,
+      "community": 23,
       "norm_label": "make_table()"
     },
     {
@@ -1887,7 +1971,7 @@
       "source_location": "L87",
       "_origin": "ast",
       "id": "mm_vmm_walk_to_pt",
-      "community": 0,
+      "community": 23,
       "norm_label": "walk_to_pt()"
     },
     {
@@ -1897,7 +1981,7 @@
       "source_location": "L128",
       "_origin": "ast",
       "id": "mm_vmm_vmm_init",
-      "community": 0,
+      "community": 23,
       "norm_label": "vmm_init()"
     },
     {
@@ -1917,7 +2001,7 @@
       "source_location": "L157",
       "_origin": "ast",
       "id": "mm_vmm_vmm_create_address_space",
-      "community": 0,
+      "community": 23,
       "norm_label": "vmm_create_address_space()"
     },
     {
@@ -1927,7 +2011,7 @@
       "source_location": "L180",
       "_origin": "ast",
       "id": "mm_vmm_vmm_switch_address_space",
-      "community": 0,
+      "community": 23,
       "norm_label": "vmm_switch_address_space()"
     },
     {
@@ -1937,7 +2021,7 @@
       "source_location": "L189",
       "_origin": "ast",
       "id": "mm_vmm_vmm_map_page",
-      "community": 0,
+      "community": 23,
       "norm_label": "vmm_map_page()"
     },
     {
@@ -1947,7 +2031,7 @@
       "source_location": "L202",
       "_origin": "ast",
       "id": "mm_vmm_vmm_map_page_in_space",
-      "community": 0,
+      "community": 23,
       "norm_label": "vmm_map_page_in_space()"
     },
     {
@@ -1957,7 +2041,7 @@
       "source_location": "L234",
       "_origin": "ast",
       "id": "mm_vmm_vmm_unmap_page",
-      "community": 0,
+      "community": 23,
       "norm_label": "vmm_unmap_page()"
     },
     {
@@ -1967,7 +2051,7 @@
       "source_location": "L259",
       "_origin": "ast",
       "id": "mm_vmm_vmm_translate",
-      "community": 0,
+      "community": 23,
       "norm_label": "vmm_translate()"
     },
     {
@@ -1977,7 +2061,7 @@
       "source_location": "L278",
       "_origin": "ast",
       "id": "mm_vmm_vmm_self_test",
-      "community": 0,
+      "community": 23,
       "norm_label": "vmm_self_test()"
     },
     {
@@ -1987,7 +2071,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "kernel_panic",
-      "community": 0,
+      "community": 23,
       "norm_label": "panic.c"
     },
     {
@@ -1997,7 +2081,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "kernel_panic_panic_set_framebuffer",
-      "community": 0,
+      "community": 23,
       "norm_label": "panic_set_framebuffer()"
     },
     {
@@ -2007,7 +2091,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "kernel_panic_panic",
-      "community": 0,
+      "community": 23,
       "norm_label": "panic()"
     },
     {
@@ -2017,7 +2101,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "kernel_panic_c_zenith_noreturn",
-      "community": 0,
+      "community": 23,
       "norm_label": "zenith_noreturn"
     },
     {
@@ -2137,7 +2221,7 @@
       "source_location": "L216",
       "_origin": "ast",
       "id": "sched_scheduler_scheduler_create_user_process",
-      "community": 19,
+      "community": 0,
       "norm_label": "scheduler_create_user_process()"
     },
     {
@@ -2307,7 +2391,7 @@
       "source_location": "L557",
       "_origin": "ast",
       "id": "sched_scheduler_scheduler_current_parent_id",
-      "community": 0,
+      "community": 2,
       "norm_label": "scheduler_current_parent_id()"
     },
     {
@@ -2767,7 +2851,7 @@
       "source_location": "L1017",
       "_origin": "ast",
       "id": "sys_syscall_syscall_start_user_self_test",
-      "community": 2,
+      "community": 19,
       "norm_label": "syscall_start_user_self_test()"
     },
     {
@@ -3591,45 +3675,45 @@
       "norm_label": "kernel_lab"
     },
     {
-      "label": "rebuild.sh",
+      "label": "rebuild-with-theme.sh",
       "file_type": "code",
-      "source_file": "rebuild.sh",
+      "source_file": "rebuild-with-theme.sh",
       "source_location": "L1",
       "metadata": {
         "language": "bash",
         "kind": "file"
       },
       "_origin": "ast",
-      "id": "rebuild",
-      "community": 29,
-      "norm_label": "rebuild.sh"
+      "id": "rebuild_with_theme",
+      "community": 87,
+      "norm_label": "rebuild-with-theme.sh"
     },
     {
-      "label": "rebuild.sh script",
+      "label": "rebuild-with-theme.sh script",
       "file_type": "code",
-      "source_file": "rebuild.sh",
+      "source_file": "rebuild-with-theme.sh",
       "source_location": "L1",
       "metadata": {
         "language": "bash",
         "kind": "bash_entrypoint"
       },
       "_origin": "ast",
-      "id": "c_users_krish_zenithos_os_rebuild_sh__entry",
-      "community": 29,
-      "norm_label": "rebuild.sh script"
+      "id": "c_users_krish_zenithos_os_rebuild_with_theme_sh__entry",
+      "community": 87,
+      "norm_label": "rebuild-with-theme.sh script"
     },
     {
       "label": "ZENITH_APT_SIGNING_KEY",
       "file_type": "code",
-      "source_file": "rebuild.sh",
-      "source_location": "L23",
+      "source_file": "rebuild-with-theme.sh",
+      "source_location": "L3",
       "metadata": {
         "language": "bash",
         "kind": "code"
       },
       "_origin": "ast",
-      "id": "rebuild_zenith_apt_signing_key",
-      "community": 29,
+      "id": "rebuild_with_theme_zenith_apt_signing_key",
+      "community": 87,
       "norm_label": "zenith_apt_signing_key"
     },
     {
@@ -4609,7 +4693,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "userland_echo",
-      "community": 8,
+      "community": 1,
       "norm_label": "echo.c"
     },
     {
@@ -4619,7 +4703,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "userland_echo_main",
-      "community": 8,
+      "community": 1,
       "norm_label": "main()"
     },
     {
@@ -4629,7 +4713,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "userland_help",
-      "community": 8,
+      "community": 1,
       "norm_label": "help.c"
     },
     {
@@ -4639,7 +4723,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "userland_help_main",
-      "community": 8,
+      "community": 1,
       "norm_label": "main()"
     },
     {
@@ -4659,7 +4743,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "userland_init",
-      "community": 8,
+      "community": 1,
       "norm_label": "init.c"
     },
     {
@@ -4669,7 +4753,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "userland_init_main",
-      "community": 8,
+      "community": 1,
       "norm_label": "main()"
     },
     {
@@ -4739,7 +4823,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "lib_syscall",
-      "community": 8,
+      "community": 1,
       "norm_label": "syscall.c"
     },
     {
@@ -4749,7 +4833,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "lib_syscall_z_syscall6",
-      "community": 8,
+      "community": 1,
       "norm_label": "z_syscall6()"
     },
     {
@@ -4759,7 +4843,7 @@
       "source_location": "L28",
       "_origin": "ast",
       "id": "lib_syscall_z_ping",
-      "community": 8,
+      "community": 1,
       "norm_label": "z_ping()"
     },
     {
@@ -4769,7 +4853,7 @@
       "source_location": "L33",
       "_origin": "ast",
       "id": "lib_syscall_z_sleep_ticks",
-      "community": 8,
+      "community": 1,
       "norm_label": "z_sleep_ticks()"
     },
     {
@@ -4779,7 +4863,7 @@
       "source_location": "L38",
       "_origin": "ast",
       "id": "lib_syscall_z_map_page",
-      "community": 8,
+      "community": 1,
       "norm_label": "z_map_page()"
     },
     {
@@ -4789,7 +4873,7 @@
       "source_location": "L43",
       "_origin": "ast",
       "id": "lib_syscall_z_event_poll",
-      "community": 8,
+      "community": 1,
       "norm_label": "z_event_poll()"
     },
     {
@@ -4819,7 +4903,7 @@
       "source_location": "L64",
       "_origin": "ast",
       "id": "lib_syscall_z_console_init",
-      "community": 8,
+      "community": 1,
       "norm_label": "z_console_init()"
     },
     {
@@ -4829,7 +4913,7 @@
       "source_location": "L69",
       "_origin": "ast",
       "id": "lib_syscall_z_console_event",
-      "community": 8,
+      "community": 1,
       "norm_label": "z_console_event()"
     },
     {
@@ -4839,7 +4923,7 @@
       "source_location": "L74",
       "_origin": "ast",
       "id": "lib_syscall_z_console_prompt",
-      "community": 8,
+      "community": 1,
       "norm_label": "z_console_prompt()"
     },
     {
@@ -4849,7 +4933,7 @@
       "source_location": "L79",
       "_origin": "ast",
       "id": "lib_syscall_z_console_arg_read",
-      "community": 8,
+      "community": 1,
       "norm_label": "z_console_arg_read()"
     },
     {
@@ -4859,7 +4943,7 @@
       "source_location": "L85",
       "_origin": "ast",
       "id": "lib_syscall_z_console_read_line",
-      "community": 8,
+      "community": 1,
       "norm_label": "z_console_read_line()"
     },
     {
@@ -4869,7 +4953,7 @@
       "source_location": "L91",
       "_origin": "ast",
       "id": "lib_syscall_z_console_clear",
-      "community": 8,
+      "community": 1,
       "norm_label": "z_console_clear()"
     },
     {
@@ -4879,7 +4963,7 @@
       "source_location": "L96",
       "_origin": "ast",
       "id": "lib_syscall_z_spawn",
-      "community": 8,
+      "community": 1,
       "norm_label": "z_spawn()"
     },
     {
@@ -4889,7 +4973,7 @@
       "source_location": "L104",
       "_origin": "ast",
       "id": "lib_syscall_z_wait",
-      "community": 8,
+      "community": 1,
       "norm_label": "z_wait()"
     },
     {
@@ -4899,7 +4983,7 @@
       "source_location": "L109",
       "_origin": "ast",
       "id": "lib_syscall_z_exit",
-      "community": 8,
+      "community": 1,
       "norm_label": "z_exit()"
     },
     {
@@ -4919,7 +5003,7 @@
       "source_location": "L119",
       "_origin": "ast",
       "id": "lib_syscall_z_write",
-      "community": 8,
+      "community": 1,
       "norm_label": "z_write()"
     },
     {
@@ -4949,7 +5033,7 @@
       "source_location": "L134",
       "_origin": "ast",
       "id": "lib_syscall_z_pipe",
-      "community": 8,
+      "community": 1,
       "norm_label": "z_pipe()"
     },
     {
@@ -4959,7 +5043,7 @@
       "source_location": "L139",
       "_origin": "ast",
       "id": "lib_syscall_z_dup2",
-      "community": 8,
+      "community": 1,
       "norm_label": "z_dup2()"
     },
     {
@@ -4969,7 +5053,7 @@
       "source_location": "L144",
       "_origin": "ast",
       "id": "lib_syscall_z_getpid",
-      "community": 8,
+      "community": 1,
       "norm_label": "z_getpid()"
     },
     {
@@ -4979,7 +5063,7 @@
       "source_location": "L149",
       "_origin": "ast",
       "id": "lib_syscall_z_getppid",
-      "community": 8,
+      "community": 1,
       "norm_label": "z_getppid()"
     },
     {
@@ -4989,7 +5073,7 @@
       "source_location": "L154",
       "_origin": "ast",
       "id": "lib_syscall_z_reboot",
-      "community": 8,
+      "community": 1,
       "norm_label": "z_reboot()"
     },
     {
@@ -4999,7 +5083,7 @@
       "source_location": "L159",
       "_origin": "ast",
       "id": "lib_syscall_z_chdir",
-      "community": 8,
+      "community": 1,
       "norm_label": "z_chdir()"
     },
     {
@@ -5019,7 +5103,7 @@
       "source_location": "L175",
       "_origin": "ast",
       "id": "lib_syscall_z_strlen",
-      "community": 8,
+      "community": 1,
       "norm_label": "z_strlen()"
     },
     {
@@ -5029,7 +5113,7 @@
       "source_location": "L190",
       "_origin": "ast",
       "id": "lib_syscall_z_ui_bind_session",
-      "community": 8,
+      "community": 1,
       "norm_label": "z_ui_bind_session()"
     },
     {
@@ -5049,7 +5133,7 @@
       "source_location": "L211",
       "_origin": "ast",
       "id": "lib_syscall_z_ui_recv",
-      "community": 8,
+      "community": 1,
       "norm_label": "z_ui_recv()"
     },
     {
@@ -5539,7 +5623,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "userland_sh",
-      "community": 8,
+      "community": 1,
       "norm_label": "sh.c"
     },
     {
@@ -5549,7 +5633,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "userland_sh_string_equals",
-      "community": 8,
+      "community": 1,
       "norm_label": "string_equals()"
     },
     {
@@ -5559,7 +5643,7 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "userland_sh_string_starts_with",
-      "community": 8,
+      "community": 1,
       "norm_label": "string_starts_with()"
     },
     {
@@ -5569,7 +5653,7 @@
       "source_location": "L35",
       "_origin": "ast",
       "id": "userland_sh_write_line",
-      "community": 8,
+      "community": 1,
       "norm_label": "write_line()"
     },
     {
@@ -5579,7 +5663,7 @@
       "source_location": "L40",
       "_origin": "ast",
       "id": "userland_sh_spawn_and_wait",
-      "community": 8,
+      "community": 1,
       "norm_label": "spawn_and_wait()"
     },
     {
@@ -5589,7 +5673,7 @@
       "source_location": "L51",
       "_origin": "ast",
       "id": "userland_sh_read_command",
-      "community": 8,
+      "community": 1,
       "norm_label": "read_command()"
     },
     {
@@ -5599,7 +5683,7 @@
       "source_location": "L69",
       "_origin": "ast",
       "id": "userland_sh_main",
-      "community": 8,
+      "community": 1,
       "norm_label": "main()"
     },
     {
@@ -5609,7 +5693,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "userland_sysinfo",
-      "community": 8,
+      "community": 1,
       "norm_label": "sysinfo.c"
     },
     {
@@ -5619,7 +5703,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "userland_sysinfo_main",
-      "community": 8,
+      "community": 1,
       "norm_label": "main()"
     },
     {
@@ -6289,7 +6373,7 @@
       "source_location": "L1233",
       "_origin": "ast",
       "id": "userland_terminal_handle_exit",
-      "community": 8,
+      "community": 1,
       "norm_label": "handle_exit()"
     },
     {
@@ -7456,7 +7540,7 @@
       "label": "command_output()",
       "file_type": "code",
       "source_file": "workstation/apps/zenith-packages/src/zenith_packages/main.py",
-      "source_location": "L20",
+      "source_location": "L13",
       "_origin": "ast",
       "id": "zenith_packages_main_command_output",
       "community": 24,
@@ -7466,7 +7550,7 @@
       "label": "available()",
       "file_type": "code",
       "source_file": "workstation/apps/zenith-packages/src/zenith_packages/main.py",
-      "source_location": "L36",
+      "source_location": "L29",
       "_origin": "ast",
       "id": "zenith_packages_main_available",
       "community": 24,
@@ -7476,7 +7560,7 @@
       "label": "local_repo_count()",
       "file_type": "code",
       "source_file": "workstation/apps/zenith-packages/src/zenith_packages/main.py",
-      "source_location": "L40",
+      "source_location": "L33",
       "_origin": "ast",
       "id": "zenith_packages_main_local_repo_count",
       "community": 24,
@@ -7486,7 +7570,7 @@
       "label": "directory_size()",
       "file_type": "code",
       "source_file": "workstation/apps/zenith-packages/src/zenith_packages/main.py",
-      "source_location": "L49",
+      "source_location": "L42",
       "_origin": "ast",
       "id": "zenith_packages_main_directory_size",
       "community": 24,
@@ -7496,7 +7580,7 @@
       "label": "first_boot_apps_status()",
       "file_type": "code",
       "source_file": "workstation/apps/zenith-packages/src/zenith_packages/main.py",
-      "source_location": "L62",
+      "source_location": "L55",
       "_origin": "ast",
       "id": "zenith_packages_main_first_boot_apps_status",
       "community": 24,
@@ -7506,7 +7590,7 @@
       "label": "terminal_command()",
       "file_type": "code",
       "source_file": "workstation/apps/zenith-packages/src/zenith_packages/main.py",
-      "source_location": "L98",
+      "source_location": "L91",
       "_origin": "ast",
       "id": "zenith_packages_main_terminal_command",
       "community": 24,
@@ -7516,7 +7600,7 @@
       "label": "PackagesWindow",
       "file_type": "code",
       "source_file": "workstation/apps/zenith-packages/src/zenith_packages/main.py",
-      "source_location": "L102",
+      "source_location": "L95",
       "_origin": "ast",
       "id": "zenith_packages_main_packageswindow",
       "community": 24,
@@ -7526,7 +7610,7 @@
       "label": ".__init__()",
       "file_type": "code",
       "source_file": "workstation/apps/zenith-packages/src/zenith_packages/main.py",
-      "source_location": "L103",
+      "source_location": "L96",
       "_origin": "ast",
       "id": "zenith_packages_main_packageswindow_init",
       "community": 24,
@@ -7536,7 +7620,7 @@
       "label": "._build_content()",
       "file_type": "code",
       "source_file": "workstation/apps/zenith-packages/src/zenith_packages/main.py",
-      "source_location": "L115",
+      "source_location": "L107",
       "_origin": "ast",
       "id": "zenith_packages_main_packageswindow_build_content",
       "community": 24,
@@ -7546,7 +7630,7 @@
       "label": "._run_search()",
       "file_type": "code",
       "source_file": "workstation/apps/zenith-packages/src/zenith_packages/main.py",
-      "source_location": "L229",
+      "source_location": "L197",
       "_origin": "ast",
       "id": "zenith_packages_main_packageswindow_run_search",
       "community": 24,
@@ -7556,107 +7640,37 @@
       "label": "._run_action()",
       "file_type": "code",
       "source_file": "workstation/apps/zenith-packages/src/zenith_packages/main.py",
-      "source_location": "L236",
+      "source_location": "L204",
       "_origin": "ast",
       "id": "zenith_packages_main_packageswindow_run_action",
       "community": 24,
       "norm_label": "._run_action()"
     },
     {
-      "label": "._run_apt_worker()",
-      "file_type": "code",
-      "source_file": "workstation/apps/zenith-packages/src/zenith_packages/main.py",
-      "source_location": "L239",
-      "_origin": "ast",
-      "id": "zenith_packages_main_packageswindow_run_apt_worker",
-      "community": 24,
-      "norm_label": "._run_apt_worker()"
-    },
-    {
-      "label": "._run_flatpak_worker()",
-      "file_type": "code",
-      "source_file": "workstation/apps/zenith-packages/src/zenith_packages/main.py",
-      "source_location": "L248",
-      "_origin": "ast",
-      "id": "zenith_packages_main_packageswindow_run_flatpak_worker",
-      "community": 24,
-      "norm_label": "._run_flatpak_worker()"
-    },
-    {
       "label": "._run_command()",
       "file_type": "code",
       "source_file": "workstation/apps/zenith-packages/src/zenith_packages/main.py",
-      "source_location": "L257",
+      "source_location": "L207",
       "_origin": "ast",
       "id": "zenith_packages_main_packageswindow_run_command",
       "community": 24,
       "norm_label": "._run_command()"
     },
     {
-      "label": "._start_worker()",
-      "file_type": "code",
-      "source_file": "workstation/apps/zenith-packages/src/zenith_packages/main.py",
-      "source_location": "L277",
-      "_origin": "ast",
-      "id": "zenith_packages_main_packageswindow_start_worker",
-      "community": 24,
-      "norm_label": "._start_worker()"
-    },
-    {
-      "label": "._worker_thread()",
-      "file_type": "code",
-      "source_file": "workstation/apps/zenith-packages/src/zenith_packages/main.py",
-      "source_location": "L292",
-      "_origin": "ast",
-      "id": "zenith_packages_main_packageswindow_worker_thread",
-      "community": 24,
-      "norm_label": "._worker_thread()"
-    },
-    {
-      "label": "._append_output()",
-      "file_type": "code",
-      "source_file": "workstation/apps/zenith-packages/src/zenith_packages/main.py",
-      "source_location": "L310",
-      "_origin": "ast",
-      "id": "zenith_packages_main_packageswindow_append_output",
-      "community": 24,
-      "norm_label": "._append_output()"
-    },
-    {
-      "label": "._finish_worker()",
-      "file_type": "code",
-      "source_file": "workstation/apps/zenith-packages/src/zenith_packages/main.py",
-      "source_location": "L316",
-      "_origin": "ast",
-      "id": "zenith_packages_main_packageswindow_finish_worker",
-      "community": 24,
-      "norm_label": "._finish_worker()"
-    },
-    {
       "label": "._open_terminal_action()",
       "file_type": "code",
       "source_file": "workstation/apps/zenith-packages/src/zenith_packages/main.py",
-      "source_location": "L322",
+      "source_location": "L227",
       "_origin": "ast",
       "id": "zenith_packages_main_packageswindow_open_terminal_action",
       "community": 24,
       "norm_label": "._open_terminal_action()"
     },
     {
-      "label": "._format_command()",
-      "file_type": "code",
-      "source_file": "workstation/apps/zenith-packages/src/zenith_packages/main.py",
-      "source_location": "L328",
-      "_origin": "ast",
-      "id": "zenith_packages_main_packageswindow_format_command",
-      "community": 24,
-      "norm_label": "._format_command()"
-    },
-    {
       "label": "PackagesApp",
       "file_type": "code",
       "source_file": "workstation/apps/zenith-packages/src/zenith_packages/main.py",
-      "source_location": "L332",
+      "source_location": "L234",
       "_origin": "ast",
       "id": "zenith_packages_main_packagesapp",
       "community": 24,
@@ -7666,7 +7680,7 @@
       "label": ".__init__()",
       "file_type": "code",
       "source_file": "workstation/apps/zenith-packages/src/zenith_packages/main.py",
-      "source_location": "L333",
+      "source_location": "L235",
       "_origin": "ast",
       "id": "zenith_packages_main_packagesapp_init",
       "community": 24,
@@ -7676,7 +7690,7 @@
       "label": ".do_activate()",
       "file_type": "code",
       "source_file": "workstation/apps/zenith-packages/src/zenith_packages/main.py",
-      "source_location": "L339",
+      "source_location": "L241",
       "_origin": "ast",
       "id": "zenith_packages_main_packagesapp_do_activate",
       "community": 24,
@@ -7686,81 +7700,11 @@
       "label": "main()",
       "file_type": "code",
       "source_file": "workstation/apps/zenith-packages/src/zenith_packages/main.py",
-      "source_location": "L346",
+      "source_location": "L248",
       "_origin": "ast",
       "id": "zenith_packages_main_main",
       "community": 24,
       "norm_label": "main()"
-    },
-    {
-      "label": "workers.py",
-      "file_type": "code",
-      "source_file": "workstation/apps/zenith-packages/src/zenith_packages/workers.py",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "zenith_packages_workers",
-      "community": 24,
-      "norm_label": "workers.py"
-    },
-    {
-      "label": "PackageCommandError",
-      "file_type": "code",
-      "source_file": "workstation/apps/zenith-packages/src/zenith_packages/workers.py",
-      "source_location": "L4",
-      "_origin": "ast",
-      "id": "zenith_packages_workers_packagecommanderror",
-      "community": 24,
-      "norm_label": "packagecommanderror"
-    },
-    {
-      "label": "ValueError",
-      "file_type": "code",
-      "source_file": "",
-      "source_location": "",
-      "_origin": "ast",
-      "id": "valueerror",
-      "community": 21,
-      "norm_label": "valueerror"
-    },
-    {
-      "label": "validate_apt_package()",
-      "file_type": "code",
-      "source_file": "workstation/apps/zenith-packages/src/zenith_packages/workers.py",
-      "source_location": "L12",
-      "_origin": "ast",
-      "id": "zenith_packages_workers_validate_apt_package",
-      "community": 24,
-      "norm_label": "validate_apt_package()"
-    },
-    {
-      "label": "validate_flatpak_app_id()",
-      "file_type": "code",
-      "source_file": "workstation/apps/zenith-packages/src/zenith_packages/workers.py",
-      "source_location": "L19",
-      "_origin": "ast",
-      "id": "zenith_packages_workers_validate_flatpak_app_id",
-      "community": 24,
-      "norm_label": "validate_flatpak_app_id()"
-    },
-    {
-      "label": "apt_command()",
-      "file_type": "code",
-      "source_file": "workstation/apps/zenith-packages/src/zenith_packages/workers.py",
-      "source_location": "L26",
-      "_origin": "ast",
-      "id": "zenith_packages_workers_apt_command",
-      "community": 24,
-      "norm_label": "apt_command()"
-    },
-    {
-      "label": "flatpak_command()",
-      "file_type": "code",
-      "source_file": "workstation/apps/zenith-packages/src/zenith_packages/workers.py",
-      "source_location": "L35",
-      "_origin": "ast",
-      "id": "zenith_packages_workers_flatpak_command",
-      "community": 24,
-      "norm_label": "flatpak_command()"
     },
     {
       "label": "zpkg.py",
@@ -8091,86 +8035,6 @@
       "id": "zenith_packages_zpkg_main",
       "community": 6,
       "norm_label": "main()"
-    },
-    {
-      "label": "test_workers.py",
-      "file_type": "code",
-      "source_file": "workstation/apps/zenith-packages/tests/test_workers.py",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "tests_test_workers",
-      "community": 24,
-      "norm_label": "test_workers.py"
-    },
-    {
-      "label": "PackageWorkerCommandTests",
-      "file_type": "code",
-      "source_file": "workstation/apps/zenith-packages/tests/test_workers.py",
-      "source_location": "L12",
-      "_origin": "ast",
-      "id": "tests_test_workers_packageworkercommandtests",
-      "community": 24,
-      "norm_label": "packageworkercommandtests"
-    },
-    {
-      "label": ".test_validates_apt_package_names()",
-      "file_type": "code",
-      "source_file": "workstation/apps/zenith-packages/tests/test_workers.py",
-      "source_location": "L13",
-      "_origin": "ast",
-      "id": "tests_test_workers_packageworkercommandtests_test_validates_apt_package_names",
-      "community": 24,
-      "norm_label": ".test_validates_apt_package_names()"
-    },
-    {
-      "label": ".test_rejects_unsafe_apt_package_names()",
-      "file_type": "code",
-      "source_file": "workstation/apps/zenith-packages/tests/test_workers.py",
-      "source_location": "L17",
-      "_origin": "ast",
-      "id": "tests_test_workers_packageworkercommandtests_test_rejects_unsafe_apt_package_names",
-      "community": 24,
-      "norm_label": ".test_rejects_unsafe_apt_package_names()"
-    },
-    {
-      "label": ".test_validates_flatpak_app_ids()",
-      "file_type": "code",
-      "source_file": "workstation/apps/zenith-packages/tests/test_workers.py",
-      "source_location": "L23",
-      "_origin": "ast",
-      "id": "tests_test_workers_packageworkercommandtests_test_validates_flatpak_app_ids",
-      "community": 24,
-      "norm_label": ".test_validates_flatpak_app_ids()"
-    },
-    {
-      "label": ".test_rejects_unsafe_flatpak_app_ids()",
-      "file_type": "code",
-      "source_file": "workstation/apps/zenith-packages/tests/test_workers.py",
-      "source_location": "L27",
-      "_origin": "ast",
-      "id": "tests_test_workers_packageworkercommandtests_test_rejects_unsafe_flatpak_app_ids",
-      "community": 24,
-      "norm_label": ".test_rejects_unsafe_flatpak_app_ids()"
-    },
-    {
-      "label": ".test_builds_argv_only_apt_commands()",
-      "file_type": "code",
-      "source_file": "workstation/apps/zenith-packages/tests/test_workers.py",
-      "source_location": "L33",
-      "_origin": "ast",
-      "id": "tests_test_workers_packageworkercommandtests_test_builds_argv_only_apt_commands",
-      "community": 24,
-      "norm_label": ".test_builds_argv_only_apt_commands()"
-    },
-    {
-      "label": ".test_builds_argv_only_flatpak_commands()",
-      "file_type": "code",
-      "source_file": "workstation/apps/zenith-packages/tests/test_workers.py",
-      "source_location": "L43",
-      "_origin": "ast",
-      "id": "tests_test_workers_packageworkercommandtests_test_builds_argv_only_flatpak_commands",
-      "community": 24,
-      "norm_label": ".test_builds_argv_only_flatpak_commands()"
     },
     {
       "label": "__init__.py",
@@ -11535,6 +11399,246 @@
       "norm_label": "graphify"
     },
     {
+      "label": "AUTONOMOUS_WORK_SUMMARY.md",
+      "file_type": "document",
+      "source_file": "AUTONOMOUS_WORK_SUMMARY.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "autonomous_work_summary",
+      "community": 17,
+      "norm_label": "autonomous_work_summary.md"
+    },
+    {
+      "label": "ZenithOS - Work Completed Autonomously",
+      "file_type": "document",
+      "source_file": "AUTONOMOUS_WORK_SUMMARY.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "autonomous_work_summary_zenithos_work_completed_autonomously",
+      "community": 17,
+      "norm_label": "zenithos - work completed autonomously"
+    },
+    {
+      "label": "\u2705 Completed Tasks",
+      "file_type": "document",
+      "source_file": "AUTONOMOUS_WORK_SUMMARY.md",
+      "source_location": "L8",
+      "_origin": "ast",
+      "id": "autonomous_work_summary_completed_tasks",
+      "community": 17,
+      "norm_label": "\u2705 completed tasks"
+    },
+    {
+      "label": "1. **OS Building Research & Documentation**",
+      "file_type": "document",
+      "source_file": "AUTONOMOUS_WORK_SUMMARY.md",
+      "source_location": "L10",
+      "_origin": "ast",
+      "id": "autonomous_work_summary_1_os_building_research_documentation",
+      "community": 17,
+      "norm_label": "1. **os building research & documentation**"
+    },
+    {
+      "label": "2. **Pre-installed Applications via Flatpak**",
+      "file_type": "document",
+      "source_file": "AUTONOMOUS_WORK_SUMMARY.md",
+      "source_location": "L29",
+      "_origin": "ast",
+      "id": "autonomous_work_summary_2_pre_installed_applications_via_flatpak",
+      "community": 17,
+      "norm_label": "2. **pre-installed applications via flatpak**"
+    },
+    {
+      "label": "3. **Build System Integration**",
+      "file_type": "document",
+      "source_file": "AUTONOMOUS_WORK_SUMMARY.md",
+      "source_location": "L73",
+      "_origin": "ast",
+      "id": "autonomous_work_summary_3_build_system_integration",
+      "community": 17,
+      "norm_label": "3. **build system integration**"
+    },
+    {
+      "label": "4. **Package Management Strategy Documentation**",
+      "file_type": "document",
+      "source_file": "AUTONOMOUS_WORK_SUMMARY.md",
+      "source_location": "L89",
+      "_origin": "ast",
+      "id": "autonomous_work_summary_4_package_management_strategy_documentation",
+      "community": 17,
+      "norm_label": "4. **package management strategy documentation**"
+    },
+    {
+      "label": "\ud83d\udea7 Pending Tasks (Blocked)",
+      "file_type": "document",
+      "source_file": "AUTONOMOUS_WORK_SUMMARY.md",
+      "source_location": "L114",
+      "_origin": "ast",
+      "id": "autonomous_work_summary_pending_tasks_blocked",
+      "community": 17,
+      "norm_label": "\ud83d\udea7 pending tasks (blocked)"
+    },
+    {
+      "label": "1. **SDDM Pixel-Skyscrapers Theme**",
+      "file_type": "document",
+      "source_file": "AUTONOMOUS_WORK_SUMMARY.md",
+      "source_location": "L116",
+      "_origin": "ast",
+      "id": "autonomous_work_summary_1_sddm_pixel_skyscrapers_theme",
+      "community": 17,
+      "norm_label": "1. **sddm pixel-skyscrapers theme**"
+    },
+    {
+      "label": "\ud83d\udcca Impact Summary",
+      "file_type": "document",
+      "source_file": "AUTONOMOUS_WORK_SUMMARY.md",
+      "source_location": "L137",
+      "_origin": "ast",
+      "id": "autonomous_work_summary_impact_summary",
+      "community": 17,
+      "norm_label": "\ud83d\udcca impact summary"
+    },
+    {
+      "label": "ISO Size Impact:",
+      "file_type": "document",
+      "source_file": "AUTONOMOUS_WORK_SUMMARY.md",
+      "source_location": "L139",
+      "_origin": "ast",
+      "id": "autonomous_work_summary_iso_size_impact",
+      "community": 17,
+      "norm_label": "iso size impact:"
+    },
+    {
+      "label": "First Boot Time:",
+      "file_type": "document",
+      "source_file": "AUTONOMOUS_WORK_SUMMARY.md",
+      "source_location": "L144",
+      "_origin": "ast",
+      "id": "autonomous_work_summary_first_boot_time",
+      "community": 17,
+      "norm_label": "first boot time:"
+    },
+    {
+      "label": "User Experience:",
+      "file_type": "document",
+      "source_file": "AUTONOMOUS_WORK_SUMMARY.md",
+      "source_location": "L149",
+      "_origin": "ast",
+      "id": "autonomous_work_summary_user_experience",
+      "community": 17,
+      "norm_label": "user experience:"
+    },
+    {
+      "label": "\ud83d\udcc1 Files Created/Modified",
+      "file_type": "document",
+      "source_file": "AUTONOMOUS_WORK_SUMMARY.md",
+      "source_location": "L158",
+      "_origin": "ast",
+      "id": "autonomous_work_summary_files_created_modified",
+      "community": 17,
+      "norm_label": "\ud83d\udcc1 files created/modified"
+    },
+    {
+      "label": "New Files:",
+      "file_type": "document",
+      "source_file": "AUTONOMOUS_WORK_SUMMARY.md",
+      "source_location": "L160",
+      "_origin": "ast",
+      "id": "autonomous_work_summary_new_files",
+      "community": 17,
+      "norm_label": "new files:"
+    },
+    {
+      "label": "Modified Files:",
+      "file_type": "document",
+      "source_file": "AUTONOMOUS_WORK_SUMMARY.md",
+      "source_location": "L167",
+      "_origin": "ast",
+      "id": "autonomous_work_summary_modified_files",
+      "community": 17,
+      "norm_label": "modified files:"
+    },
+    {
+      "label": "\ud83c\udfaf Next Steps (When User Returns)",
+      "file_type": "document",
+      "source_file": "AUTONOMOUS_WORK_SUMMARY.md",
+      "source_location": "L175",
+      "_origin": "ast",
+      "id": "autonomous_work_summary_next_steps_when_user_returns",
+      "community": 17,
+      "norm_label": "\ud83c\udfaf next steps (when user returns)"
+    },
+    {
+      "label": "Immediate Priority:",
+      "file_type": "document",
+      "source_file": "AUTONOMOUS_WORK_SUMMARY.md",
+      "source_location": "L177",
+      "_origin": "ast",
+      "id": "autonomous_work_summary_immediate_priority",
+      "community": 17,
+      "norm_label": "immediate priority:"
+    },
+    {
+      "label": "Secondary Priority:",
+      "file_type": "document",
+      "source_file": "AUTONOMOUS_WORK_SUMMARY.md",
+      "source_location": "L183",
+      "_origin": "ast",
+      "id": "autonomous_work_summary_secondary_priority",
+      "community": 17,
+      "norm_label": "secondary priority:"
+    },
+    {
+      "label": "Future Enhancements:",
+      "file_type": "document",
+      "source_file": "AUTONOMOUS_WORK_SUMMARY.md",
+      "source_location": "L189",
+      "_origin": "ast",
+      "id": "autonomous_work_summary_future_enhancements",
+      "community": 17,
+      "norm_label": "future enhancements:"
+    },
+    {
+      "label": "\ud83d\udca1 Key Insights",
+      "file_type": "document",
+      "source_file": "AUTONOMOUS_WORK_SUMMARY.md",
+      "source_location": "L198",
+      "_origin": "ast",
+      "id": "autonomous_work_summary_key_insights",
+      "community": 17,
+      "norm_label": "\ud83d\udca1 key insights"
+    },
+    {
+      "label": "What Worked Well:",
+      "file_type": "document",
+      "source_file": "AUTONOMOUS_WORK_SUMMARY.md",
+      "source_location": "L200",
+      "_origin": "ast",
+      "id": "autonomous_work_summary_what_worked_well",
+      "community": 17,
+      "norm_label": "what worked well:"
+    },
+    {
+      "label": "Challenges Overcome:",
+      "file_type": "document",
+      "source_file": "AUTONOMOUS_WORK_SUMMARY.md",
+      "source_location": "L206",
+      "_origin": "ast",
+      "id": "autonomous_work_summary_challenges_overcome",
+      "community": 17,
+      "norm_label": "challenges overcome:"
+    },
+    {
+      "label": "Lessons Learned:",
+      "file_type": "document",
+      "source_file": "AUTONOMOUS_WORK_SUMMARY.md",
+      "source_location": "L212",
+      "_origin": "ast",
+      "id": "autonomous_work_summary_lessons_learned",
+      "community": 17,
+      "norm_label": "lessons learned:"
+    },
+    {
       "label": "BUILD_STATUS.md",
       "file_type": "document",
       "source_file": "BUILD_STATUS.md",
@@ -11545,74 +11649,184 @@
       "norm_label": "build_status.md"
     },
     {
-      "label": "ZenithOS Build Status",
+      "label": "ZenithOS Build Status Report",
       "file_type": "document",
       "source_file": "BUILD_STATUS.md",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "build_status_zenithos_build_status",
+      "id": "build_status_zenithos_build_status_report",
       "community": 22,
-      "norm_label": "zenithos build status"
+      "norm_label": "zenithos build status report"
     },
     {
-      "label": "Quick Reference",
+      "label": "\u2705 Completed Features",
       "file_type": "document",
       "source_file": "BUILD_STATUS.md",
-      "source_location": "L7",
+      "source_location": "L8",
       "_origin": "ast",
-      "id": "build_status_quick_reference",
+      "id": "build_status_completed_features",
       "community": 22,
-      "norm_label": "quick reference"
+      "norm_label": "\u2705 completed features"
     },
     {
-      "label": "Build Pipeline",
+      "label": "1. Secure Login System",
       "file_type": "document",
       "source_file": "BUILD_STATUS.md",
-      "source_location": "L15",
+      "source_location": "L10",
       "_origin": "ast",
-      "id": "build_status_build_pipeline",
+      "id": "build_status_1_secure_login_system",
       "community": 22,
-      "norm_label": "build pipeline"
+      "norm_label": "1. secure login system"
     },
     {
-      "label": "Current State",
+      "label": "2. Pixel-Skyscrapers Theme",
       "file_type": "document",
       "source_file": "BUILD_STATUS.md",
-      "source_location": "L21",
+      "source_location": "L16",
       "_origin": "ast",
-      "id": "build_status_current_state",
+      "id": "build_status_2_pixel_skyscrapers_theme",
       "community": 22,
-      "norm_label": "current state"
+      "norm_label": "2. pixel-skyscrapers theme"
     },
     {
-      "label": "Known Issues",
-      "file_type": "document",
-      "source_file": "BUILD_STATUS.md",
-      "source_location": "L29",
-      "_origin": "ast",
-      "id": "build_status_known_issues",
-      "community": 22,
-      "norm_label": "known issues"
-    },
-    {
-      "label": "Release Notes",
+      "label": "3. ZenithOS Applications (12 First-Party Apps)",
       "file_type": "document",
       "source_file": "BUILD_STATUS.md",
       "source_location": "L33",
       "_origin": "ast",
-      "id": "build_status_release_notes",
+      "id": "build_status_3_zenithos_applications_12_first_party_apps",
       "community": 22,
-      "norm_label": "release notes"
+      "norm_label": "3. zenithos applications (12 first-party apps)"
     },
     {
-      "label": "Hardware Target",
+      "label": "4. Build System",
       "file_type": "document",
       "source_file": "BUILD_STATUS.md",
-      "source_location": "L37",
+      "source_location": "L48",
       "_origin": "ast",
-      "id": "build_status_hardware_target",
+      "id": "build_status_4_build_system",
       "community": 22,
-      "norm_label": "hardware target"
+      "norm_label": "4. build system"
+    },
+    {
+      "label": "\ud83d\udea7 Current Blockers",
+      "file_type": "document",
+      "source_file": "BUILD_STATUS.md",
+      "source_location": "L56",
+      "_origin": "ast",
+      "id": "build_status_current_blockers",
+      "community": 22,
+      "norm_label": "\ud83d\udea7 current blockers"
+    },
+    {
+      "label": "**CRITICAL: Sudo Access Required**",
+      "file_type": "document",
+      "source_file": "BUILD_STATUS.md",
+      "source_location": "L58",
+      "_origin": "ast",
+      "id": "build_status_critical_sudo_access_required",
+      "community": 22,
+      "norm_label": "**critical: sudo access required**"
+    },
+    {
+      "label": "\ud83d\udccb Next Steps (When Sudo is Available)",
+      "file_type": "document",
+      "source_file": "BUILD_STATUS.md",
+      "source_location": "L86",
+      "_origin": "ast",
+      "id": "build_status_next_steps_when_sudo_is_available",
+      "community": 22,
+      "norm_label": "\ud83d\udccb next steps (when sudo is available)"
+    },
+    {
+      "label": "Immediate (5-15 minutes):",
+      "file_type": "document",
+      "source_file": "BUILD_STATUS.md",
+      "source_location": "L88",
+      "_origin": "ast",
+      "id": "build_status_immediate_5_15_minutes",
+      "community": 22,
+      "norm_label": "immediate (5-15 minutes):"
+    },
+    {
+      "label": "Short-term Features:",
+      "file_type": "document",
+      "source_file": "BUILD_STATUS.md",
+      "source_location": "L95",
+      "_origin": "ast",
+      "id": "build_status_short_term_features",
+      "community": 22,
+      "norm_label": "short-term features:"
+    },
+    {
+      "label": "Long-term Roadmap:",
+      "file_type": "document",
+      "source_file": "BUILD_STATUS.md",
+      "source_location": "L101",
+      "_origin": "ast",
+      "id": "build_status_long_term_roadmap",
+      "community": 22,
+      "norm_label": "long-term roadmap:"
+    },
+    {
+      "label": "\ud83d\udd27 Technical Details",
+      "file_type": "document",
+      "source_file": "BUILD_STATUS.md",
+      "source_location": "L109",
+      "_origin": "ast",
+      "id": "build_status_technical_details",
+      "community": 22,
+      "norm_label": "\ud83d\udd27 technical details"
+    },
+    {
+      "label": "Build Environment",
+      "file_type": "document",
+      "source_file": "BUILD_STATUS.md",
+      "source_location": "L111",
+      "_origin": "ast",
+      "id": "build_status_build_environment",
+      "community": 22,
+      "norm_label": "build environment"
+    },
+    {
+      "label": "Current ISO Stats",
+      "file_type": "document",
+      "source_file": "BUILD_STATUS.md",
+      "source_location": "L119",
+      "_origin": "ast",
+      "id": "build_status_current_iso_stats",
+      "community": 22,
+      "norm_label": "current iso stats"
+    },
+    {
+      "label": "Theme Integration Details",
+      "file_type": "document",
+      "source_file": "BUILD_STATUS.md",
+      "source_location": "L126",
+      "_origin": "ast",
+      "id": "build_status_theme_integration_details",
+      "community": 22,
+      "norm_label": "theme integration details"
+    },
+    {
+      "label": "\ud83d\udcdd Skills Created During This Session",
+      "file_type": "document",
+      "source_file": "BUILD_STATUS.md",
+      "source_location": "L137",
+      "_origin": "ast",
+      "id": "build_status_skills_created_during_this_session",
+      "community": 22,
+      "norm_label": "\ud83d\udcdd skills created during this session"
+    },
+    {
+      "label": "\ud83c\udfaf Success Criteria",
+      "file_type": "document",
+      "source_file": "BUILD_STATUS.md",
+      "source_location": "L152",
+      "_origin": "ast",
+      "id": "build_status_success_criteria",
+      "community": 22,
+      "norm_label": "\ud83c\udfaf success criteria"
     },
     {
       "label": "CLAUDE.md",
@@ -11755,124 +11969,634 @@
       "norm_label": "references"
     },
     {
-      "label": "DEPRECATED.md",
+      "label": "NEW_FEATURES_SUMMARY.md",
       "file_type": "document",
-      "source_file": "DEPRECATED.md",
+      "source_file": "NEW_FEATURES_SUMMARY.md",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "deprecated",
-      "community": 23,
-      "norm_label": "deprecated.md"
-    },
-    {
-      "label": "ZenithOS Documentation Status",
-      "file_type": "document",
-      "source_file": "DEPRECATED.md",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "deprecated_zenithos_documentation_status",
-      "community": 23,
-      "norm_label": "zenithos documentation status"
-    },
-    {
-      "label": "Canonical status sources",
-      "file_type": "document",
-      "source_file": "DEPRECATED.md",
-      "source_location": "L12",
-      "_origin": "ast",
-      "id": "deprecated_canonical_status_sources",
-      "community": 23,
-      "norm_label": "canonical status sources"
-    },
-    {
-      "label": "Why the May 27 summaries were retired",
-      "file_type": "document",
-      "source_file": "DEPRECATED.md",
-      "source_location": "L24",
-      "_origin": "ast",
-      "id": "deprecated_why_the_may_27_summaries_were_retired",
-      "community": 23,
-      "norm_label": "why the may 27 summaries were retired"
-    },
-    {
-      "label": "Historical archive",
-      "file_type": "document",
-      "source_file": "DEPRECATED.md",
-      "source_location": "L38",
-      "_origin": "ast",
-      "id": "deprecated_historical_archive",
-      "community": 23,
-      "norm_label": "historical archive"
-    },
-    {
-      "label": "KERNEL_TRACK_STATUS.md",
-      "file_type": "document",
-      "source_file": "KERNEL_TRACK_STATUS.md",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "kernel_track_status",
+      "id": "new_features_summary",
       "community": 15,
-      "norm_label": "kernel_track_status.md"
+      "norm_label": "new_features_summary.md"
     },
     {
-      "label": "ZenithOS Hybrid Kernel Track \u2014 Status",
+      "label": "\ud83c\udf89 New Features Added to ZenithOS",
       "file_type": "document",
-      "source_file": "KERNEL_TRACK_STATUS.md",
+      "source_file": "NEW_FEATURES_SUMMARY.md",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "kernel_track_status_zenithos_hybrid_kernel_track_status",
+      "id": "new_features_summary_new_features_added_to_zenithos",
       "community": 15,
-      "norm_label": "zenithos hybrid kernel track \u2014 status"
+      "norm_label": "\ud83c\udf89 new features added to zenithos"
     },
     {
-      "label": "Why we're not building it right now",
+      "label": "\u2728 NEW FEATURES ADDED",
       "file_type": "document",
-      "source_file": "KERNEL_TRACK_STATUS.md",
+      "source_file": "NEW_FEATURES_SUMMARY.md",
       "source_location": "L8",
       "_origin": "ast",
-      "id": "kernel_track_status_why_we_re_not_building_it_right_now",
+      "id": "new_features_summary_new_features_added",
       "community": 15,
-      "norm_label": "why we're not building it right now"
+      "norm_label": "\u2728 new features added"
     },
     {
-      "label": "What exists",
+      "label": "1. **Enhanced First-Boot Apps (10 Apps Total!)**",
       "file_type": "document",
-      "source_file": "KERNEL_TRACK_STATUS.md",
-      "source_location": "L22",
+      "source_file": "NEW_FEATURES_SUMMARY.md",
+      "source_location": "L10",
       "_origin": "ast",
-      "id": "kernel_track_status_what_exists",
+      "id": "new_features_summary_1_enhanced_first_boot_apps_10_apps_total",
       "community": 15,
-      "norm_label": "what exists"
+      "norm_label": "1. **enhanced first-boot apps (10 apps total!)**"
     },
     {
-      "label": "What doesn't exist",
+      "label": "2. **Performance Optimization Script**",
       "file_type": "document",
-      "source_file": "KERNEL_TRACK_STATUS.md",
-      "source_location": "L37",
+      "source_file": "NEW_FEATURES_SUMMARY.md",
+      "source_location": "L39",
       "_origin": "ast",
-      "id": "kernel_track_status_what_doesn_t_exist",
+      "id": "new_features_summary_2_performance_optimization_script",
       "community": 15,
-      "norm_label": "what doesn't exist"
+      "norm_label": "2. **performance optimization script**"
     },
     {
-      "label": "When to reopen this track",
+      "label": "3. **Storage Quota Monitor (30GB Limit)**",
       "file_type": "document",
-      "source_file": "KERNEL_TRACK_STATUS.md",
-      "source_location": "L45",
+      "source_file": "NEW_FEATURES_SUMMARY.md",
+      "source_location": "L62",
       "_origin": "ast",
-      "id": "kernel_track_status_when_to_reopen_this_track",
+      "id": "new_features_summary_3_storage_quota_monitor_30gb_limit",
       "community": 15,
-      "norm_label": "when to reopen this track"
+      "norm_label": "3. **storage quota monitor (30gb limit)**"
     },
     {
-      "label": "Pointers",
+      "label": "\ud83d\udcca FEATURES SUMMARY",
       "file_type": "document",
-      "source_file": "KERNEL_TRACK_STATUS.md",
+      "source_file": "NEW_FEATURES_SUMMARY.md",
+      "source_location": "L88",
+      "_origin": "ast",
+      "id": "new_features_summary_features_summary",
+      "community": 15,
+      "norm_label": "\ud83d\udcca features summary"
+    },
+    {
+      "label": "\ud83d\ude80 REBUILD INSTRUCTIONS",
+      "file_type": "document",
+      "source_file": "NEW_FEATURES_SUMMARY.md",
+      "source_location": "L100",
+      "_origin": "ast",
+      "id": "new_features_summary_rebuild_instructions",
+      "community": 15,
+      "norm_label": "\ud83d\ude80 rebuild instructions"
+    },
+    {
+      "label": "Quick Rebuild Command:",
+      "file_type": "document",
+      "source_file": "NEW_FEATURES_SUMMARY.md",
+      "source_location": "L104",
+      "_origin": "ast",
+      "id": "new_features_summary_quick_rebuild_command",
+      "community": 15,
+      "norm_label": "quick rebuild command:"
+    },
+    {
+      "label": "After Build - Boot & Verify:",
+      "file_type": "document",
+      "source_file": "NEW_FEATURES_SUMMARY.md",
+      "source_location": "L123",
+      "_origin": "ast",
+      "id": "new_features_summary_after_build_boot_verify",
+      "community": 15,
+      "norm_label": "after build - boot & verify:"
+    },
+    {
+      "label": "\ud83c\udfaf TESTING CHECKLIST",
+      "file_type": "document",
+      "source_file": "NEW_FEATURES_SUMMARY.md",
+      "source_location": "L136",
+      "_origin": "ast",
+      "id": "new_features_summary_testing_checklist",
+      "community": 15,
+      "norm_label": "\ud83c\udfaf testing checklist"
+    },
+    {
+      "label": "Theme:",
+      "file_type": "document",
+      "source_file": "NEW_FEATURES_SUMMARY.md",
+      "source_location": "L140",
+      "_origin": "ast",
+      "id": "new_features_summary_theme",
+      "community": 15,
+      "norm_label": "theme:"
+    },
+    {
+      "label": "Performance:",
+      "file_type": "document",
+      "source_file": "NEW_FEATURES_SUMMARY.md",
+      "source_location": "L146",
+      "_origin": "ast",
+      "id": "new_features_summary_performance",
+      "community": 15,
+      "norm_label": "performance:"
+    },
+    {
+      "label": "Apps:",
+      "file_type": "document",
+      "source_file": "NEW_FEATURES_SUMMARY.md",
+      "source_location": "L152",
+      "_origin": "ast",
+      "id": "new_features_summary_apps",
+      "community": 15,
+      "norm_label": "apps:"
+    },
+    {
+      "label": "Storage:",
+      "file_type": "document",
+      "source_file": "NEW_FEATURES_SUMMARY.md",
+      "source_location": "L159",
+      "_origin": "ast",
+      "id": "new_features_summary_storage",
+      "community": 15,
+      "norm_label": "storage:"
+    },
+    {
+      "label": "\ud83d\udcc1 FILES CREATED/MODIFIED",
+      "file_type": "document",
+      "source_file": "NEW_FEATURES_SUMMARY.md",
+      "source_location": "L167",
+      "_origin": "ast",
+      "id": "new_features_summary_files_created_modified",
+      "community": 15,
+      "norm_label": "\ud83d\udcc1 files created/modified"
+    },
+    {
+      "label": "New Files (5):",
+      "file_type": "document",
+      "source_file": "NEW_FEATURES_SUMMARY.md",
+      "source_location": "L169",
+      "_origin": "ast",
+      "id": "new_features_summary_new_files_5",
+      "community": 15,
+      "norm_label": "new files (5):"
+    },
+    {
+      "label": "Modified Files (3):",
+      "file_type": "document",
+      "source_file": "NEW_FEATURES_SUMMARY.md",
+      "source_location": "L179",
+      "_origin": "ast",
+      "id": "new_features_summary_modified_files_3",
+      "community": 15,
+      "norm_label": "modified files (3):"
+    },
+    {
+      "label": "Documentation (5):",
+      "file_type": "document",
+      "source_file": "NEW_FEATURES_SUMMARY.md",
+      "source_location": "L186",
+      "_origin": "ast",
+      "id": "new_features_summary_documentation_5",
+      "community": 15,
+      "norm_label": "documentation (5):"
+    },
+    {
+      "label": "\ud83d\udca1 IMPACT ASSESSMENT",
+      "file_type": "document",
+      "source_file": "NEW_FEATURES_SUMMARY.md",
+      "source_location": "L197",
+      "_origin": "ast",
+      "id": "new_features_summary_impact_assessment",
+      "community": 15,
+      "norm_label": "\ud83d\udca1 impact assessment"
+    },
+    {
+      "label": "Before These Features:",
+      "file_type": "document",
+      "source_file": "NEW_FEATURES_SUMMARY.md",
+      "source_location": "L199",
+      "_origin": "ast",
+      "id": "new_features_summary_before_these_features",
+      "community": 15,
+      "norm_label": "before these features:"
+    },
+    {
+      "label": "After These Features:",
+      "file_type": "document",
+      "source_file": "NEW_FEATURES_SUMMARY.md",
+      "source_location": "L205",
+      "_origin": "ast",
+      "id": "new_features_summary_after_these_features",
+      "community": 15,
+      "norm_label": "after these features:"
+    },
+    {
+      "label": "User Benefits:",
+      "file_type": "document",
+      "source_file": "NEW_FEATURES_SUMMARY.md",
+      "source_location": "L211",
+      "_origin": "ast",
+      "id": "new_features_summary_user_benefits",
+      "community": 15,
+      "norm_label": "user benefits:"
+    },
+    {
+      "label": "\ud83c\udf8a NEXT STEPS",
+      "file_type": "document",
+      "source_file": "NEW_FEATURES_SUMMARY.md",
+      "source_location": "L219",
+      "_origin": "ast",
+      "id": "new_features_summary_next_steps",
+      "community": 15,
+      "norm_label": "\ud83c\udf8a next steps"
+    },
+    {
+      "label": "Immediate:",
+      "file_type": "document",
+      "source_file": "NEW_FEATURES_SUMMARY.md",
+      "source_location": "L221",
+      "_origin": "ast",
+      "id": "new_features_summary_immediate",
+      "community": 15,
+      "norm_label": "immediate:"
+    },
+    {
+      "label": "When You Return:",
+      "file_type": "document",
+      "source_file": "NEW_FEATURES_SUMMARY.md",
+      "source_location": "L227",
+      "_origin": "ast",
+      "id": "new_features_summary_when_you_return",
+      "community": 15,
+      "norm_label": "when you return:"
+    },
+    {
+      "label": "\ud83d\udd25 QUICK START",
+      "file_type": "document",
+      "source_file": "NEW_FEATURES_SUMMARY.md",
+      "source_location": "L238",
+      "_origin": "ast",
+      "id": "new_features_summary_quick_start",
+      "community": 15,
+      "norm_label": "\ud83d\udd25 quick start"
+    },
+    {
+      "label": "OS_BUILDING_GUIDE.md",
+      "file_type": "document",
+      "source_file": "OS_BUILDING_GUIDE.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "os_building_guide",
+      "community": 3,
+      "norm_label": "os_building_guide.md"
+    },
+    {
+      "label": "ZenithOS OS Building Guide",
+      "file_type": "document",
+      "source_file": "OS_BUILDING_GUIDE.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "os_building_guide_zenithos_os_building_guide",
+      "community": 3,
+      "norm_label": "zenithos os building guide"
+    },
+    {
+      "label": "\ud83d\udcda Research Summary: OS Building Best Practices",
+      "file_type": "document",
+      "source_file": "OS_BUILDING_GUIDE.md",
+      "source_location": "L7",
+      "_origin": "ast",
+      "id": "os_building_guide_research_summary_os_building_best_practices",
+      "community": 3,
+      "norm_label": "\ud83d\udcda research summary: os building best practices"
+    },
+    {
+      "label": "Key Resources Studied:",
+      "file_type": "document",
+      "source_file": "OS_BUILDING_GUIDE.md",
+      "source_location": "L9",
+      "_origin": "ast",
+      "id": "os_building_guide_key_resources_studied",
+      "community": 3,
+      "norm_label": "key resources studied:"
+    },
+    {
+      "label": "Core Principles Learned:",
+      "file_type": "document",
+      "source_file": "OS_BUILDING_GUIDE.md",
+      "source_location": "L16",
+      "_origin": "ast",
+      "id": "os_building_guide_core_principles_learned",
+      "community": 3,
+      "norm_label": "core principles learned:"
+    },
+    {
+      "label": "1. **Package Management Strategy**",
+      "file_type": "document",
+      "source_file": "OS_BUILDING_GUIDE.md",
+      "source_location": "L18",
+      "_origin": "ast",
+      "id": "os_building_guide_1_package_management_strategy",
+      "community": 3,
+      "norm_label": "1. **package management strategy**"
+    },
+    {
+      "label": "2. **Build System Architecture**",
+      "file_type": "document",
+      "source_file": "OS_BUILDING_GUIDE.md",
+      "source_location": "L24",
+      "_origin": "ast",
+      "id": "os_building_guide_2_build_system_architecture",
+      "community": 3,
+      "norm_label": "2. **build system architecture**"
+    },
+    {
+      "label": "3. **Application Distribution Strategies**",
+      "file_type": "document",
+      "source_file": "OS_BUILDING_GUIDE.md",
       "source_location": "L58",
       "_origin": "ast",
-      "id": "kernel_track_status_pointers",
-      "community": 15,
-      "norm_label": "pointers"
+      "id": "os_building_guide_3_application_distribution_strategies",
+      "community": 3,
+      "norm_label": "3. **application distribution strategies**"
+    },
+    {
+      "label": "4. **Common Pitfalls Avoided**",
+      "file_type": "document",
+      "source_file": "OS_BUILDING_GUIDE.md",
+      "source_location": "L74",
+      "_origin": "ast",
+      "id": "os_building_guide_4_common_pitfalls_avoided",
+      "community": 3,
+      "norm_label": "4. **common pitfalls avoided**"
+    },
+    {
+      "label": "\ud83d\udee0\ufe0f ZenithOS Build System",
+      "file_type": "document",
+      "source_file": "OS_BUILDING_GUIDE.md",
+      "source_location": "L85",
+      "_origin": "ast",
+      "id": "os_building_guide_zenithos_build_system",
+      "community": 3,
+      "norm_label": "\ud83d\udee0\ufe0f zenithos build system"
+    },
+    {
+      "label": "Current Architecture:",
+      "file_type": "document",
+      "source_file": "OS_BUILDING_GUIDE.md",
+      "source_location": "L87",
+      "_origin": "ast",
+      "id": "os_building_guide_current_architecture",
+      "community": 3,
+      "norm_label": "current architecture:"
+    },
+    {
+      "label": "Build Commands:",
+      "file_type": "document",
+      "source_file": "OS_BUILDING_GUIDE.md",
+      "source_location": "L101",
+      "_origin": "ast",
+      "id": "os_building_guide_build_commands",
+      "community": 3,
+      "norm_label": "build commands:"
+    },
+    {
+      "label": "Base System:",
+      "file_type": "document",
+      "source_file": "OS_BUILDING_GUIDE.md",
+      "source_location": "L114",
+      "_origin": "ast",
+      "id": "os_building_guide_base_system",
+      "community": 3,
+      "norm_label": "base system:"
+    },
+    {
+      "label": "\ud83d\udce6 Adding Applications to ZenithOS",
+      "file_type": "document",
+      "source_file": "OS_BUILDING_GUIDE.md",
+      "source_location": "L124",
+      "_origin": "ast",
+      "id": "os_building_guide_adding_applications_to_zenithos",
+      "community": 3,
+      "norm_label": "\ud83d\udce6 adding applications to zenithos"
+    },
+    {
+      "label": "Method 1: Flatpak (Recommended for Proprietary Apps)",
+      "file_type": "document",
+      "source_file": "OS_BUILDING_GUIDE.md",
+      "source_location": "L126",
+      "_origin": "ast",
+      "id": "os_building_guide_method_1_flatpak_recommended_for_proprietary_apps",
+      "community": 3,
+      "norm_label": "method 1: flatpak (recommended for proprietary apps)"
+    },
+    {
+      "label": "Method 2: APT Packages (For System Software)",
+      "file_type": "document",
+      "source_file": "OS_BUILDING_GUIDE.md",
+      "source_location": "L163",
+      "_origin": "ast",
+      "id": "os_building_guide_method_2_apt_packages_for_system_software",
+      "community": 3,
+      "norm_label": "method 2: apt packages (for system software)"
+    },
+    {
+      "label": "Method 3: Custom DEB Packages (For ZenithOS Features)",
+      "file_type": "document",
+      "source_file": "OS_BUILDING_GUIDE.md",
+      "source_location": "L178",
+      "_origin": "ast",
+      "id": "os_building_guide_method_3_custom_deb_packages_for_zenithos_features",
+      "community": 3,
+      "norm_label": "method 3: custom deb packages (for zenithos features)"
+    },
+    {
+      "label": "\ud83c\udfa8 Theme Integration",
+      "file_type": "document",
+      "source_file": "OS_BUILDING_GUIDE.md",
+      "source_location": "L194",
+      "_origin": "ast",
+      "id": "os_building_guide_theme_integration",
+      "community": 3,
+      "norm_label": "\ud83c\udfa8 theme integration"
+    },
+    {
+      "label": "SDDM Themes:",
+      "file_type": "document",
+      "source_file": "OS_BUILDING_GUIDE.md",
+      "source_location": "L196",
+      "_origin": "ast",
+      "id": "os_building_guide_sddm_themes",
+      "community": 3,
+      "norm_label": "sddm themes:"
+    },
+    {
+      "label": "GNOME Themes:",
+      "file_type": "document",
+      "source_file": "OS_BUILDING_GUIDE.md",
+      "source_location": "L213",
+      "_origin": "ast",
+      "id": "os_building_guide_gnome_themes",
+      "community": 3,
+      "norm_label": "gnome themes:"
+    },
+    {
+      "label": "\ud83d\udd27 Advanced Customization",
+      "file_type": "document",
+      "source_file": "OS_BUILDING_GUIDE.md",
+      "source_location": "L220",
+      "_origin": "ast",
+      "id": "os_building_guide_advanced_customization",
+      "community": 3,
+      "norm_label": "\ud83d\udd27 advanced customization"
+    },
+    {
+      "label": "Kernel Customization:",
+      "file_type": "document",
+      "source_file": "OS_BUILDING_GUIDE.md",
+      "source_location": "L222",
+      "_origin": "ast",
+      "id": "os_building_guide_kernel_customization",
+      "community": 3,
+      "norm_label": "kernel customization:"
+    },
+    {
+      "label": "Custom Init Scripts:",
+      "file_type": "document",
+      "source_file": "OS_BUILDING_GUIDE.md",
+      "source_location": "L229",
+      "_origin": "ast",
+      "id": "os_building_guide_custom_init_scripts",
+      "community": 3,
+      "norm_label": "custom init scripts:"
+    },
+    {
+      "label": "Hardware Profiles:",
+      "file_type": "document",
+      "source_file": "OS_BUILDING_GUIDE.md",
+      "source_location": "L237",
+      "_origin": "ast",
+      "id": "os_building_guide_hardware_profiles",
+      "community": 3,
+      "norm_label": "hardware profiles:"
+    },
+    {
+      "label": "\ud83d\udcca Build Optimization Tips",
+      "file_type": "document",
+      "source_file": "OS_BUILDING_GUIDE.md",
+      "source_location": "L247",
+      "_origin": "ast",
+      "id": "os_building_guide_build_optimization_tips",
+      "community": 3,
+      "norm_label": "\ud83d\udcca build optimization tips"
+    },
+    {
+      "label": "Reduce ISO Size:",
+      "file_type": "document",
+      "source_file": "OS_BUILDING_GUIDE.md",
+      "source_location": "L249",
+      "_origin": "ast",
+      "id": "os_building_guide_reduce_iso_size",
+      "community": 3,
+      "norm_label": "reduce iso size:"
+    },
+    {
+      "label": "Improve Build Speed:",
+      "file_type": "document",
+      "source_file": "OS_BUILDING_GUIDE.md",
+      "source_location": "L255",
+      "_origin": "ast",
+      "id": "os_building_guide_improve_build_speed",
+      "community": 3,
+      "norm_label": "improve build speed:"
+    },
+    {
+      "label": "Quality Assurance:",
+      "file_type": "document",
+      "source_file": "OS_BUILDING_GUIDE.md",
+      "source_location": "L261",
+      "_origin": "ast",
+      "id": "os_building_guide_quality_assurance",
+      "community": 3,
+      "norm_label": "quality assurance:"
+    },
+    {
+      "label": "\ud83d\ude80 Next Steps for ZenithOS",
+      "file_type": "document",
+      "source_file": "OS_BUILDING_GUIDE.md",
+      "source_location": "L269",
+      "_origin": "ast",
+      "id": "os_building_guide_next_steps_for_zenithos",
+      "community": 3,
+      "norm_label": "\ud83d\ude80 next steps for zenithos"
+    },
+    {
+      "label": "Immediate:",
+      "file_type": "document",
+      "source_file": "OS_BUILDING_GUIDE.md",
+      "source_location": "L271",
+      "_origin": "ast",
+      "id": "os_building_guide_immediate",
+      "community": 3,
+      "norm_label": "immediate:"
+    },
+    {
+      "label": "Short-term:",
+      "file_type": "document",
+      "source_file": "OS_BUILDING_GUIDE.md",
+      "source_location": "L277",
+      "_origin": "ast",
+      "id": "os_building_guide_short_term",
+      "community": 3,
+      "norm_label": "short-term:"
+    },
+    {
+      "label": "Long-term:",
+      "file_type": "document",
+      "source_file": "OS_BUILDING_GUIDE.md",
+      "source_location": "L283",
+      "_origin": "ast",
+      "id": "os_building_guide_long_term",
+      "community": 3,
+      "norm_label": "long-term:"
+    },
+    {
+      "label": "\ud83d\udcd6 Additional Resources",
+      "file_type": "document",
+      "source_file": "OS_BUILDING_GUIDE.md",
+      "source_location": "L291",
+      "_origin": "ast",
+      "id": "os_building_guide_additional_resources",
+      "community": 3,
+      "norm_label": "\ud83d\udcd6 additional resources"
+    },
+    {
+      "label": "Documentation:",
+      "file_type": "document",
+      "source_file": "OS_BUILDING_GUIDE.md",
+      "source_location": "L293",
+      "_origin": "ast",
+      "id": "os_building_guide_documentation",
+      "community": 3,
+      "norm_label": "documentation:"
+    },
+    {
+      "label": "Tools:",
+      "file_type": "document",
+      "source_file": "OS_BUILDING_GUIDE.md",
+      "source_location": "L299",
+      "_origin": "ast",
+      "id": "os_building_guide_tools",
+      "community": 3,
+      "norm_label": "tools:"
+    },
+    {
+      "label": "Communities:",
+      "file_type": "document",
+      "source_file": "OS_BUILDING_GUIDE.md",
+      "source_location": "L305",
+      "_origin": "ast",
+      "id": "os_building_guide_communities",
+      "community": 3,
+      "norm_label": "communities:"
     },
     {
       "label": "QUICK_START.md",
@@ -13015,136 +13739,6 @@
       "norm_label": "next control step"
     },
     {
-      "label": "LENOVO_V14_ADA_CHECKLIST.md",
-      "file_type": "document",
-      "source_file": "workstation/docs/LENOVO_V14_ADA_CHECKLIST.md",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "docs_lenovo_v14_ada_checklist",
-      "community": 3,
-      "norm_label": "lenovo_v14_ada_checklist.md"
-    },
-    {
-      "label": "ZenithOS Lenovo V14-ADA Hardware Validation Checklist",
-      "file_type": "document",
-      "source_file": "workstation/docs/LENOVO_V14_ADA_CHECKLIST.md",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "docs_lenovo_v14_ada_checklist_zenithos_lenovo_v14_ada_hardware_validation_checklist",
-      "community": 3,
-      "norm_label": "zenithos lenovo v14-ada hardware validation checklist"
-    },
-    {
-      "label": "Preparation",
-      "file_type": "document",
-      "source_file": "workstation/docs/LENOVO_V14_ADA_CHECKLIST.md",
-      "source_location": "L5",
-      "_origin": "ast",
-      "id": "docs_lenovo_v14_ada_checklist_preparation",
-      "community": 3,
-      "norm_label": "preparation"
-    },
-    {
-      "label": "Boot Tests",
-      "file_type": "document",
-      "source_file": "workstation/docs/LENOVO_V14_ADA_CHECKLIST.md",
-      "source_location": "L12",
-      "_origin": "ast",
-      "id": "docs_lenovo_v14_ada_checklist_boot_tests",
-      "community": 3,
-      "norm_label": "boot tests"
-    },
-    {
-      "label": "Display",
-      "file_type": "document",
-      "source_file": "workstation/docs/LENOVO_V14_ADA_CHECKLIST.md",
-      "source_location": "L22",
-      "_origin": "ast",
-      "id": "docs_lenovo_v14_ada_checklist_display",
-      "community": 3,
-      "norm_label": "display"
-    },
-    {
-      "label": "Touchpad",
-      "file_type": "document",
-      "source_file": "workstation/docs/LENOVO_V14_ADA_CHECKLIST.md",
-      "source_location": "L32",
-      "_origin": "ast",
-      "id": "docs_lenovo_v14_ada_checklist_touchpad",
-      "community": 3,
-      "norm_label": "touchpad"
-    },
-    {
-      "label": "Wi-Fi",
-      "file_type": "document",
-      "source_file": "workstation/docs/LENOVO_V14_ADA_CHECKLIST.md",
-      "source_location": "L42",
-      "_origin": "ast",
-      "id": "docs_lenovo_v14_ada_checklist_wi_fi",
-      "community": 3,
-      "norm_label": "wi-fi"
-    },
-    {
-      "label": "Audio",
-      "file_type": "document",
-      "source_file": "workstation/docs/LENOVO_V14_ADA_CHECKLIST.md",
-      "source_location": "L52",
-      "_origin": "ast",
-      "id": "docs_lenovo_v14_ada_checklist_audio",
-      "community": 3,
-      "norm_label": "audio"
-    },
-    {
-      "label": "Storage",
-      "file_type": "document",
-      "source_file": "workstation/docs/LENOVO_V14_ADA_CHECKLIST.md",
-      "source_location": "L62",
-      "_origin": "ast",
-      "id": "docs_lenovo_v14_ada_checklist_storage",
-      "community": 3,
-      "norm_label": "storage"
-    },
-    {
-      "label": "Suspend/Resume / Power",
-      "file_type": "document",
-      "source_file": "workstation/docs/LENOVO_V14_ADA_CHECKLIST.md",
-      "source_location": "L72",
-      "_origin": "ast",
-      "id": "docs_lenovo_v14_ada_checklist_suspend_resume_power",
-      "community": 3,
-      "norm_label": "suspend/resume / power"
-    },
-    {
-      "label": "Extras",
-      "file_type": "document",
-      "source_file": "workstation/docs/LENOVO_V14_ADA_CHECKLIST.md",
-      "source_location": "L83",
-      "_origin": "ast",
-      "id": "docs_lenovo_v14_ada_checklist_extras",
-      "community": 3,
-      "norm_label": "extras"
-    },
-    {
-      "label": "Collect Probe Data",
-      "file_type": "document",
-      "source_file": "workstation/docs/LENOVO_V14_ADA_CHECKLIST.md",
-      "source_location": "L92",
-      "_origin": "ast",
-      "id": "docs_lenovo_v14_ada_checklist_collect_probe_data",
-      "community": 3,
-      "norm_label": "collect probe data"
-    },
-    {
-      "label": "Completion",
-      "file_type": "document",
-      "source_file": "workstation/docs/LENOVO_V14_ADA_CHECKLIST.md",
-      "source_location": "L101",
-      "_origin": "ast",
-      "id": "docs_lenovo_v14_ada_checklist_completion",
-      "community": 3,
-      "norm_label": "completion"
-    },
-    {
       "label": "README.md",
       "file_type": "document",
       "source_file": "workstation/iso/README.md",
@@ -13912,6 +14506,46 @@
       "confidence_score": 1.0,
       "source": "codex_hooks_hooks",
       "target": "codex_hooks_hooks_pretooluse"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "do-rebuild.sh",
+      "source_location": "L1",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "do_rebuild",
+      "target": "c_users_krish_zenithos_os_do_rebuild_sh__entry"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "do-rebuild.sh",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "do_rebuild",
+      "target": "do_rebuild_zenith_apt_signing_key"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "full-rebuild.sh",
+      "source_location": "L1",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "full_rebuild",
+      "target": "c_users_krish_zenithos_os_full_rebuild_sh__entry"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "full-rebuild.sh",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "full_rebuild",
+      "target": "full_rebuild_zenith_apt_signing_key"
     },
     {
       "relation": "contains",
@@ -23124,22 +23758,22 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "rebuild.sh",
+      "source_file": "rebuild-with-theme.sh",
       "source_location": "L1",
       "weight": 1.0,
-      "source": "rebuild",
-      "target": "c_users_krish_zenithos_os_rebuild_sh__entry",
-      "confidence_score": 1.0
+      "confidence_score": 1.0,
+      "source": "rebuild_with_theme",
+      "target": "c_users_krish_zenithos_os_rebuild_with_theme_sh__entry"
     },
     {
       "relation": "defines",
       "confidence": "EXTRACTED",
-      "source_file": "rebuild.sh",
-      "source_location": "L23",
+      "source_file": "rebuild-with-theme.sh",
+      "source_location": "L3",
       "weight": 1.0,
-      "source": "rebuild",
-      "target": "rebuild_zenith_apt_signing_key",
-      "confidence_score": 1.0
+      "confidence_score": 1.0,
+      "source": "rebuild_with_theme",
+      "target": "rebuild_with_theme_zenith_apt_signing_key"
     },
     {
       "relation": "contains",
@@ -30860,9 +31494,9 @@
       "source_file": "workstation/apps/zenith-files/src/zenith_files/main.py",
       "source_location": "L13",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "zenith_files_main",
-      "target": "zenith_files_operations"
+      "target": "zenith_files_operations",
+      "confidence_score": 1.0
     },
     {
       "relation": "calls",
@@ -30921,9 +31555,9 @@
       "source_file": "workstation/apps/zenith-files/src/zenith_files/main.py",
       "source_location": "L158",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "zenith_files_main_fileswindow",
-      "target": "zenith_files_main_fileswindow_copy_selected"
+      "target": "zenith_files_main_fileswindow_copy_selected",
+      "confidence_score": 1.0
     },
     {
       "relation": "method",
@@ -30971,9 +31605,9 @@
       "source_file": "workstation/apps/zenith-files/src/zenith_files/main.py",
       "source_location": "L165",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "zenith_files_main_fileswindow",
-      "target": "zenith_files_main_fileswindow_move_selected"
+      "target": "zenith_files_main_fileswindow_move_selected",
+      "confidence_score": 1.0
     },
     {
       "relation": "method",
@@ -31001,9 +31635,9 @@
       "source_file": "workstation/apps/zenith-files/src/zenith_files/main.py",
       "source_location": "L127",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "zenith_files_main_fileswindow",
-      "target": "zenith_files_main_fileswindow_on_row_selected"
+      "target": "zenith_files_main_fileswindow_on_row_selected",
+      "confidence_score": 1.0
     },
     {
       "relation": "method",
@@ -31041,9 +31675,9 @@
       "source_file": "workstation/apps/zenith-files/src/zenith_files/main.py",
       "source_location": "L172",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "zenith_files_main_fileswindow",
-      "target": "zenith_files_main_fileswindow_paste_clipboard"
+      "target": "zenith_files_main_fileswindow_paste_clipboard",
+      "confidence_score": 1.0
     },
     {
       "relation": "method",
@@ -31061,9 +31695,9 @@
       "source_file": "workstation/apps/zenith-files/src/zenith_files/main.py",
       "source_location": "L275",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "zenith_files_main_fileswindow",
-      "target": "zenith_files_main_fileswindow_set_status"
+      "target": "zenith_files_main_fileswindow_set_status",
+      "confidence_score": 1.0
     },
     {
       "relation": "method",
@@ -31091,9 +31725,9 @@
       "source_file": "workstation/apps/zenith-files/src/zenith_files/main.py",
       "source_location": "L189",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "zenith_files_main_fileswindow",
-      "target": "zenith_files_main_fileswindow_trash_selected"
+      "target": "zenith_files_main_fileswindow_trash_selected",
+      "confidence_score": 1.0
     },
     {
       "relation": "calls",
@@ -31212,9 +31846,9 @@
       "source_file": "workstation/apps/zenith-files/src/zenith_files/main.py",
       "source_location": "L130",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "zenith_files_main_fileswindow_on_row_selected",
-      "target": "zenith_files_main_fileswindow_set_status"
+      "target": "zenith_files_main_fileswindow_set_status",
+      "confidence_score": 1.0
     },
     {
       "relation": "calls",
@@ -31267,9 +31901,9 @@
       "source_file": "workstation/apps/zenith-files/src/zenith_files/main.py",
       "source_location": "L160",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "zenith_files_main_fileswindow_copy_selected",
-      "target": "zenith_files_main_fileswindow_set_status"
+      "target": "zenith_files_main_fileswindow_set_status",
+      "confidence_score": 1.0
     },
     {
       "relation": "calls",
@@ -31278,9 +31912,9 @@
       "source_file": "workstation/apps/zenith-files/src/zenith_files/main.py",
       "source_location": "L167",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "zenith_files_main_fileswindow_move_selected",
-      "target": "zenith_files_main_fileswindow_set_status"
+      "target": "zenith_files_main_fileswindow_set_status",
+      "confidence_score": 1.0
     },
     {
       "relation": "calls",
@@ -31289,9 +31923,9 @@
       "source_file": "workstation/apps/zenith-files/src/zenith_files/main.py",
       "source_location": "L187",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "zenith_files_main_fileswindow_paste_clipboard",
-      "target": "zenith_files_main_fileswindow_refresh_file_list"
+      "target": "zenith_files_main_fileswindow_refresh_file_list",
+      "confidence_score": 1.0
     },
     {
       "relation": "calls",
@@ -31300,9 +31934,9 @@
       "source_file": "workstation/apps/zenith-files/src/zenith_files/main.py",
       "source_location": "L174",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "zenith_files_main_fileswindow_paste_clipboard",
-      "target": "zenith_files_main_fileswindow_set_status"
+      "target": "zenith_files_main_fileswindow_set_status",
+      "confidence_score": 1.0
     },
     {
       "relation": "calls",
@@ -31333,9 +31967,9 @@
       "source_file": "workstation/apps/zenith-files/src/zenith_files/main.py",
       "source_location": "L200",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "zenith_files_main_fileswindow_trash_selected",
-      "target": "zenith_files_main_fileswindow_refresh_file_list"
+      "target": "zenith_files_main_fileswindow_refresh_file_list",
+      "confidence_score": 1.0
     },
     {
       "relation": "calls",
@@ -31344,9 +31978,9 @@
       "source_file": "workstation/apps/zenith-files/src/zenith_files/main.py",
       "source_location": "L191",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "zenith_files_main_fileswindow_trash_selected",
-      "target": "zenith_files_main_fileswindow_set_status"
+      "target": "zenith_files_main_fileswindow_set_status",
+      "confidence_score": 1.0
     },
     {
       "relation": "calls",
@@ -31419,9 +32053,9 @@
       "source_file": "workstation/apps/zenith-files/tests/test_operations.py",
       "source_location": "L5",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "tests_test_operations",
-      "target": "zenith_files_operations"
+      "target": "zenith_files_operations",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -31429,9 +32063,9 @@
       "source_file": "workstation/apps/zenith-files/src/zenith_files/operations.py",
       "source_location": "L45",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "zenith_files_operations",
-      "target": "zenith_files_operations_copy_path"
+      "target": "zenith_files_operations_copy_path",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -31439,9 +32073,9 @@
       "source_file": "workstation/apps/zenith-files/src/zenith_files/operations.py",
       "source_location": "L7",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "zenith_files_operations",
-      "target": "zenith_files_operations_decode_mount_path"
+      "target": "zenith_files_operations_decode_mount_path",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -31449,9 +32083,9 @@
       "source_file": "workstation/apps/zenith-files/src/zenith_files/operations.py",
       "source_location": "L131",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "zenith_files_operations",
-      "target": "zenith_files_operations_mounted_volumes"
+      "target": "zenith_files_operations_mounted_volumes",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -31459,9 +32093,9 @@
       "source_file": "workstation/apps/zenith-files/src/zenith_files/operations.py",
       "source_location": "L60",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "zenith_files_operations",
-      "target": "zenith_files_operations_move_path"
+      "target": "zenith_files_operations_move_path",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -31469,9 +32103,9 @@
       "source_file": "workstation/apps/zenith-files/src/zenith_files/operations.py",
       "source_location": "L98",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "zenith_files_operations",
-      "target": "zenith_files_operations_parse_mountinfo"
+      "target": "zenith_files_operations_parse_mountinfo",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -31479,9 +32113,9 @@
       "source_file": "workstation/apps/zenith-files/src/zenith_files/operations.py",
       "source_location": "L32",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "zenith_files_operations",
-      "target": "zenith_files_operations_reject_folder_into_self"
+      "target": "zenith_files_operations_reject_folder_into_self",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -31489,9 +32123,9 @@
       "source_file": "workstation/apps/zenith-files/src/zenith_files/operations.py",
       "source_location": "L72",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "zenith_files_operations",
-      "target": "zenith_files_operations_trash_path"
+      "target": "zenith_files_operations_trash_path",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -31499,9 +32133,9 @@
       "source_file": "workstation/apps/zenith-files/src/zenith_files/operations.py",
       "source_location": "L17",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "zenith_files_operations",
-      "target": "zenith_files_operations_unique_destination"
+      "target": "zenith_files_operations_unique_destination",
+      "confidence_score": 1.0
     },
     {
       "relation": "calls",
@@ -31510,9 +32144,9 @@
       "source_file": "workstation/apps/zenith-files/src/zenith_files/operations.py",
       "source_location": "L110",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "zenith_files_operations_parse_mountinfo",
-      "target": "zenith_files_operations_decode_mount_path"
+      "target": "zenith_files_operations_decode_mount_path",
+      "confidence_score": 1.0
     },
     {
       "relation": "calls",
@@ -31521,9 +32155,9 @@
       "source_file": "workstation/apps/zenith-files/src/zenith_files/operations.py",
       "source_location": "L52",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "zenith_files_operations_copy_path",
-      "target": "zenith_files_operations_unique_destination"
+      "target": "zenith_files_operations_unique_destination",
+      "confidence_score": 1.0
     },
     {
       "relation": "calls",
@@ -31532,9 +32166,9 @@
       "source_file": "workstation/apps/zenith-files/src/zenith_files/operations.py",
       "source_location": "L67",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "zenith_files_operations_move_path",
-      "target": "zenith_files_operations_unique_destination"
+      "target": "zenith_files_operations_unique_destination",
+      "confidence_score": 1.0
     },
     {
       "relation": "calls",
@@ -31543,9 +32177,9 @@
       "source_file": "workstation/apps/zenith-files/src/zenith_files/operations.py",
       "source_location": "L84",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "zenith_files_operations_trash_path",
-      "target": "zenith_files_operations_unique_destination"
+      "target": "zenith_files_operations_unique_destination",
+      "confidence_score": 1.0
     },
     {
       "relation": "calls",
@@ -31554,9 +32188,9 @@
       "source_file": "workstation/apps/zenith-files/src/zenith_files/operations.py",
       "source_location": "L51",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "zenith_files_operations_copy_path",
-      "target": "zenith_files_operations_reject_folder_into_self"
+      "target": "zenith_files_operations_reject_folder_into_self",
+      "confidence_score": 1.0
     },
     {
       "relation": "calls",
@@ -31565,20 +32199,9 @@
       "source_file": "workstation/apps/zenith-files/src/zenith_files/operations.py",
       "source_location": "L66",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "zenith_files_operations_move_path",
-      "target": "zenith_files_operations_reject_folder_into_self"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "INFERRED",
-      "confidence_score": 0.8,
-      "source_file": "workstation/apps/zenith-files/src/zenith_files/operations.py",
-      "source_location": "L40",
-      "weight": 1.0,
-      "source": "zenith_files_operations_reject_folder_into_self",
-      "target": "valueerror"
+      "target": "zenith_files_operations_reject_folder_into_self",
+      "confidence_score": 1.0
     },
     {
       "relation": "calls",
@@ -31631,9 +32254,9 @@
       "source_file": "workstation/apps/zenith-files/src/zenith_files/operations.py",
       "source_location": "L137",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "zenith_files_operations_mounted_volumes",
-      "target": "zenith_files_operations_parse_mountinfo"
+      "target": "zenith_files_operations_parse_mountinfo",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -31641,9 +32264,9 @@
       "source_file": "workstation/apps/zenith-files/tests/test_operations.py",
       "source_location": "L8",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "tests_test_operations",
-      "target": "tests_test_operations_fileoperationtests"
+      "target": "tests_test_operations_fileoperationtests",
+      "confidence_score": 1.0
     },
     {
       "relation": "method",
@@ -31651,9 +32274,9 @@
       "source_file": "workstation/apps/zenith-files/tests/test_operations.py",
       "source_location": "L9",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "tests_test_operations_fileoperationtests",
-      "target": "tests_test_operations_fileoperationtests_test_copy_file_uses_unique_destination"
+      "target": "tests_test_operations_fileoperationtests_test_copy_file_uses_unique_destination",
+      "confidence_score": 1.0
     },
     {
       "relation": "method",
@@ -31661,9 +32284,9 @@
       "source_file": "workstation/apps/zenith-files/tests/test_operations.py",
       "source_location": "L27",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "tests_test_operations_fileoperationtests",
-      "target": "tests_test_operations_fileoperationtests_test_move_folder_rejects_moving_into_itself"
+      "target": "tests_test_operations_fileoperationtests_test_move_folder_rejects_moving_into_itself",
+      "confidence_score": 1.0
     },
     {
       "relation": "method",
@@ -31671,9 +32294,9 @@
       "source_file": "workstation/apps/zenith-files/tests/test_operations.py",
       "source_location": "L51",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "tests_test_operations_fileoperationtests",
-      "target": "tests_test_operations_fileoperationtests_test_parse_mountinfo_returns_user_visible_volumes"
+      "target": "tests_test_operations_fileoperationtests_test_parse_mountinfo_returns_user_visible_volumes",
+      "confidence_score": 1.0
     },
     {
       "relation": "method",
@@ -31681,9 +32304,9 @@
       "source_file": "workstation/apps/zenith-files/tests/test_operations.py",
       "source_location": "L36",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "tests_test_operations_fileoperationtests",
-      "target": "tests_test_operations_fileoperationtests_test_trash_path_creates_trashinfo"
+      "target": "tests_test_operations_fileoperationtests_test_trash_path_creates_trashinfo",
+      "confidence_score": 1.0
     },
     {
       "relation": "rationale_for",
@@ -32611,17 +33234,6 @@
       "target": "zenith_packages_main_terminal_command"
     },
     {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "workstation/apps/zenith-packages/src/zenith_packages/main.py",
-      "source_location": "L15",
-      "weight": 1.0,
-      "source": "zenith_packages_main",
-      "target": "zenith_packages_workers",
-      "confidence_score": 1.0
-    },
-    {
       "relation": "calls",
       "context": "call",
       "confidence": "EXTRACTED",
@@ -32712,41 +33324,11 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "workstation/apps/zenith-packages/src/zenith_packages/main.py",
-      "source_location": "L310",
-      "weight": 1.0,
-      "source": "zenith_packages_main_packageswindow",
-      "target": "zenith_packages_main_packageswindow_append_output",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "method",
-      "confidence": "EXTRACTED",
-      "source_file": "workstation/apps/zenith-packages/src/zenith_packages/main.py",
       "source_location": "L71",
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "zenith_packages_main_packageswindow",
       "target": "zenith_packages_main_packageswindow_build_content"
-    },
-    {
-      "relation": "method",
-      "confidence": "EXTRACTED",
-      "source_file": "workstation/apps/zenith-packages/src/zenith_packages/main.py",
-      "source_location": "L316",
-      "weight": 1.0,
-      "source": "zenith_packages_main_packageswindow",
-      "target": "zenith_packages_main_packageswindow_finish_worker",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "method",
-      "confidence": "EXTRACTED",
-      "source_file": "workstation/apps/zenith-packages/src/zenith_packages/main.py",
-      "source_location": "L328",
-      "weight": 1.0,
-      "source": "zenith_packages_main_packageswindow",
-      "target": "zenith_packages_main_packageswindow_format_command",
-      "confidence_score": 1.0
     },
     {
       "relation": "method",
@@ -32782,16 +33364,6 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "workstation/apps/zenith-packages/src/zenith_packages/main.py",
-      "source_location": "L239",
-      "weight": 1.0,
-      "source": "zenith_packages_main_packageswindow",
-      "target": "zenith_packages_main_packageswindow_run_apt_worker",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "method",
-      "confidence": "EXTRACTED",
-      "source_file": "workstation/apps/zenith-packages/src/zenith_packages/main.py",
       "source_location": "L168",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -32802,51 +33374,11 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "workstation/apps/zenith-packages/src/zenith_packages/main.py",
-      "source_location": "L248",
-      "weight": 1.0,
-      "source": "zenith_packages_main_packageswindow",
-      "target": "zenith_packages_main_packageswindow_run_flatpak_worker",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "method",
-      "confidence": "EXTRACTED",
-      "source_file": "workstation/apps/zenith-packages/src/zenith_packages/main.py",
       "source_location": "L158",
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "zenith_packages_main_packageswindow",
       "target": "zenith_packages_main_packageswindow_run_search"
-    },
-    {
-      "relation": "method",
-      "confidence": "EXTRACTED",
-      "source_file": "workstation/apps/zenith-packages/src/zenith_packages/main.py",
-      "source_location": "L277",
-      "weight": 1.0,
-      "source": "zenith_packages_main_packageswindow",
-      "target": "zenith_packages_main_packageswindow_start_worker",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "method",
-      "confidence": "EXTRACTED",
-      "source_file": "workstation/apps/zenith-packages/src/zenith_packages/main.py",
-      "source_location": "L292",
-      "weight": 1.0,
-      "source": "zenith_packages_main_packageswindow",
-      "target": "zenith_packages_main_packageswindow_worker_thread",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "uses",
-      "confidence": "INFERRED",
-      "source_file": "workstation/apps/zenith-packages/src/zenith_packages/main.py",
-      "source_location": "L17",
-      "weight": 0.8,
-      "source": "zenith_packages_main_packageswindow",
-      "target": "zenith_packages_workers_packagecommanderror",
-      "confidence_score": 0.5
     },
     {
       "relation": "calls",
@@ -32908,83 +33440,6 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "workstation/apps/zenith-packages/src/zenith_packages/main.py",
-      "source_location": "L246",
-      "weight": 1.0,
-      "source": "zenith_packages_main_packageswindow_run_apt_worker",
-      "target": "zenith_packages_main_packageswindow_start_worker",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "workstation/apps/zenith-packages/src/zenith_packages/main.py",
-      "source_location": "L242",
-      "weight": 1.0,
-      "source": "zenith_packages_main_packageswindow_run_apt_worker",
-      "target": "zenith_packages_workers_apt_command"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "workstation/apps/zenith-packages/src/zenith_packages/main.py",
-      "source_location": "L255",
-      "weight": 1.0,
-      "source": "zenith_packages_main_packageswindow_run_flatpak_worker",
-      "target": "zenith_packages_main_packageswindow_start_worker",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "workstation/apps/zenith-packages/src/zenith_packages/main.py",
-      "source_location": "L251",
-      "weight": 1.0,
-      "source": "zenith_packages_main_packageswindow_run_flatpak_worker",
-      "target": "zenith_packages_workers_flatpak_command"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "workstation/apps/zenith-packages/src/zenith_packages/main.py",
-      "source_location": "L258",
-      "weight": 1.0,
-      "source": "zenith_packages_main_packageswindow_run_command",
-      "target": "zenith_packages_main_packageswindow_format_command",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "workstation/apps/zenith-packages/src/zenith_packages/main.py",
-      "source_location": "L284",
-      "weight": 1.0,
-      "source": "zenith_packages_main_packageswindow_start_worker",
-      "target": "zenith_packages_main_packageswindow_format_command",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "workstation/apps/zenith-packages/src/zenith_packages/main.py",
-      "source_location": "L317",
-      "weight": 1.0,
-      "source": "zenith_packages_main_packageswindow_finish_worker",
-      "target": "zenith_packages_main_packageswindow_append_output",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "workstation/apps/zenith-packages/src/zenith_packages/main.py",
       "source_location": "L210",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -33010,240 +33465,6 @@
       "confidence_score": 1.0,
       "source": "zenith_packages_main_packagesapp",
       "target": "zenith_packages_main_packagesapp_init"
-    },
-    {
-      "relation": "uses",
-      "confidence": "INFERRED",
-      "source_file": "workstation/apps/zenith-packages/src/zenith_packages/main.py",
-      "source_location": "L17",
-      "weight": 0.8,
-      "source": "zenith_packages_main_packagesapp",
-      "target": "zenith_packages_workers_packagecommanderror",
-      "confidence_score": 0.5
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "workstation/apps/zenith-packages/tests/test_workers.py",
-      "source_location": "L3",
-      "weight": 1.0,
-      "source": "tests_test_workers",
-      "target": "zenith_packages_workers",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "workstation/apps/zenith-packages/src/zenith_packages/workers.py",
-      "source_location": "L26",
-      "weight": 1.0,
-      "source": "zenith_packages_workers",
-      "target": "zenith_packages_workers_apt_command",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "workstation/apps/zenith-packages/src/zenith_packages/workers.py",
-      "source_location": "L35",
-      "weight": 1.0,
-      "source": "zenith_packages_workers",
-      "target": "zenith_packages_workers_flatpak_command",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "workstation/apps/zenith-packages/src/zenith_packages/workers.py",
-      "source_location": "L4",
-      "weight": 1.0,
-      "source": "zenith_packages_workers",
-      "target": "zenith_packages_workers_packagecommanderror",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "workstation/apps/zenith-packages/src/zenith_packages/workers.py",
-      "source_location": "L12",
-      "weight": 1.0,
-      "source": "zenith_packages_workers",
-      "target": "zenith_packages_workers_validate_apt_package",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "workstation/apps/zenith-packages/src/zenith_packages/workers.py",
-      "source_location": "L19",
-      "weight": 1.0,
-      "source": "zenith_packages_workers",
-      "target": "zenith_packages_workers_validate_flatpak_app_id",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "uses",
-      "confidence": "INFERRED",
-      "source_file": "workstation/apps/zenith-packages/tests/test_workers.py",
-      "source_location": "L3",
-      "weight": 0.8,
-      "source": "tests_test_workers_packageworkercommandtests",
-      "target": "zenith_packages_workers_packagecommanderror",
-      "confidence_score": 0.5
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "workstation/apps/zenith-packages/src/zenith_packages/workers.py",
-      "source_location": "L32",
-      "weight": 1.0,
-      "source": "zenith_packages_workers_apt_command",
-      "target": "zenith_packages_workers_packagecommanderror",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "workstation/apps/zenith-packages/src/zenith_packages/workers.py",
-      "source_location": "L41",
-      "weight": 1.0,
-      "source": "zenith_packages_workers_flatpak_command",
-      "target": "zenith_packages_workers_packagecommanderror",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "inherits",
-      "confidence": "EXTRACTED",
-      "source_file": "workstation/apps/zenith-packages/src/zenith_packages/workers.py",
-      "source_location": "L4",
-      "weight": 1.0,
-      "source": "zenith_packages_workers_packagecommanderror",
-      "target": "valueerror",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "workstation/apps/zenith-packages/src/zenith_packages/workers.py",
-      "source_location": "L15",
-      "weight": 1.0,
-      "source": "zenith_packages_workers_validate_apt_package",
-      "target": "zenith_packages_workers_packagecommanderror",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "workstation/apps/zenith-packages/src/zenith_packages/workers.py",
-      "source_location": "L22",
-      "weight": 1.0,
-      "source": "zenith_packages_workers_validate_flatpak_app_id",
-      "target": "zenith_packages_workers_packagecommanderror",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "INFERRED",
-      "confidence_score": 0.8,
-      "source_file": "workstation/apps/zenith-terminal/src/zenith_terminal/main.py",
-      "source_location": "L60",
-      "weight": 1.0,
-      "source": "zenith_terminal_main_profilestore_load",
-      "target": "valueerror"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "workstation/apps/zenith-packages/tests/test_workers.py",
-      "source_location": "L21",
-      "weight": 1.0,
-      "source": "tests_test_workers_packageworkercommandtests_test_rejects_unsafe_apt_package_names",
-      "target": "zenith_packages_workers_validate_apt_package"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "workstation/apps/zenith-packages/tests/test_workers.py",
-      "source_location": "L14",
-      "weight": 1.0,
-      "source": "tests_test_workers_packageworkercommandtests_test_validates_apt_package_names",
-      "target": "zenith_packages_workers_validate_apt_package"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "workstation/apps/zenith-packages/src/zenith_packages/workers.py",
-      "source_location": "L27",
-      "weight": 1.0,
-      "source": "zenith_packages_workers_apt_command",
-      "target": "zenith_packages_workers_validate_apt_package",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "workstation/apps/zenith-packages/tests/test_workers.py",
-      "source_location": "L31",
-      "weight": 1.0,
-      "source": "tests_test_workers_packageworkercommandtests_test_rejects_unsafe_flatpak_app_ids",
-      "target": "zenith_packages_workers_validate_flatpak_app_id"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "workstation/apps/zenith-packages/tests/test_workers.py",
-      "source_location": "L24",
-      "weight": 1.0,
-      "source": "tests_test_workers_packageworkercommandtests_test_validates_flatpak_app_ids",
-      "target": "zenith_packages_workers_validate_flatpak_app_id"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "workstation/apps/zenith-packages/src/zenith_packages/workers.py",
-      "source_location": "L36",
-      "weight": 1.0,
-      "source": "zenith_packages_workers_flatpak_command",
-      "target": "zenith_packages_workers_validate_flatpak_app_id",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "workstation/apps/zenith-packages/tests/test_workers.py",
-      "source_location": "L35",
-      "weight": 1.0,
-      "source": "tests_test_workers_packageworkercommandtests_test_builds_argv_only_apt_commands",
-      "target": "zenith_packages_workers_apt_command"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "workstation/apps/zenith-packages/tests/test_workers.py",
-      "source_location": "L45",
-      "weight": 1.0,
-      "source": "tests_test_workers_packageworkercommandtests_test_builds_argv_only_flatpak_commands",
-      "target": "zenith_packages_workers_flatpak_command"
     },
     {
       "relation": "contains",
@@ -34049,76 +34270,6 @@
       "confidence_score": 1.0,
       "source": "zenith_packages_zpkg_main",
       "target": "zenith_packages_zpkg_build_parser"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "workstation/apps/zenith-packages/tests/test_workers.py",
-      "source_location": "L12",
-      "weight": 1.0,
-      "source": "tests_test_workers",
-      "target": "tests_test_workers_packageworkercommandtests",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "method",
-      "confidence": "EXTRACTED",
-      "source_file": "workstation/apps/zenith-packages/tests/test_workers.py",
-      "source_location": "L33",
-      "weight": 1.0,
-      "source": "tests_test_workers_packageworkercommandtests",
-      "target": "tests_test_workers_packageworkercommandtests_test_builds_argv_only_apt_commands",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "method",
-      "confidence": "EXTRACTED",
-      "source_file": "workstation/apps/zenith-packages/tests/test_workers.py",
-      "source_location": "L43",
-      "weight": 1.0,
-      "source": "tests_test_workers_packageworkercommandtests",
-      "target": "tests_test_workers_packageworkercommandtests_test_builds_argv_only_flatpak_commands",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "method",
-      "confidence": "EXTRACTED",
-      "source_file": "workstation/apps/zenith-packages/tests/test_workers.py",
-      "source_location": "L17",
-      "weight": 1.0,
-      "source": "tests_test_workers_packageworkercommandtests",
-      "target": "tests_test_workers_packageworkercommandtests_test_rejects_unsafe_apt_package_names",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "method",
-      "confidence": "EXTRACTED",
-      "source_file": "workstation/apps/zenith-packages/tests/test_workers.py",
-      "source_location": "L27",
-      "weight": 1.0,
-      "source": "tests_test_workers_packageworkercommandtests",
-      "target": "tests_test_workers_packageworkercommandtests_test_rejects_unsafe_flatpak_app_ids",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "method",
-      "confidence": "EXTRACTED",
-      "source_file": "workstation/apps/zenith-packages/tests/test_workers.py",
-      "source_location": "L13",
-      "weight": 1.0,
-      "source": "tests_test_workers_packageworkercommandtests",
-      "target": "tests_test_workers_packageworkercommandtests_test_validates_apt_package_names",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "method",
-      "confidence": "EXTRACTED",
-      "source_file": "workstation/apps/zenith-packages/tests/test_workers.py",
-      "source_location": "L23",
-      "weight": 1.0,
-      "source": "tests_test_workers_packageworkercommandtests",
-      "target": "tests_test_workers_packageworkercommandtests_test_validates_flatpak_app_ids",
-      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -38344,62 +38495,322 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "AUTONOMOUS_WORK_SUMMARY.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "autonomous_work_summary",
+      "target": "autonomous_work_summary_zenithos_work_completed_autonomously"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AUTONOMOUS_WORK_SUMMARY.md",
+      "source_location": "L8",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "autonomous_work_summary_zenithos_work_completed_autonomously",
+      "target": "autonomous_work_summary_completed_tasks"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AUTONOMOUS_WORK_SUMMARY.md",
+      "source_location": "L158",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "autonomous_work_summary_zenithos_work_completed_autonomously",
+      "target": "autonomous_work_summary_files_created_modified"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AUTONOMOUS_WORK_SUMMARY.md",
+      "source_location": "L137",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "autonomous_work_summary_zenithos_work_completed_autonomously",
+      "target": "autonomous_work_summary_impact_summary"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AUTONOMOUS_WORK_SUMMARY.md",
+      "source_location": "L198",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "autonomous_work_summary_zenithos_work_completed_autonomously",
+      "target": "autonomous_work_summary_key_insights"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AUTONOMOUS_WORK_SUMMARY.md",
+      "source_location": "L175",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "autonomous_work_summary_zenithos_work_completed_autonomously",
+      "target": "autonomous_work_summary_next_steps_when_user_returns"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AUTONOMOUS_WORK_SUMMARY.md",
+      "source_location": "L114",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "autonomous_work_summary_zenithos_work_completed_autonomously",
+      "target": "autonomous_work_summary_pending_tasks_blocked"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AUTONOMOUS_WORK_SUMMARY.md",
+      "source_location": "L10",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "autonomous_work_summary_completed_tasks",
+      "target": "autonomous_work_summary_1_os_building_research_documentation"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AUTONOMOUS_WORK_SUMMARY.md",
+      "source_location": "L29",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "autonomous_work_summary_completed_tasks",
+      "target": "autonomous_work_summary_2_pre_installed_applications_via_flatpak"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AUTONOMOUS_WORK_SUMMARY.md",
+      "source_location": "L73",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "autonomous_work_summary_completed_tasks",
+      "target": "autonomous_work_summary_3_build_system_integration"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AUTONOMOUS_WORK_SUMMARY.md",
+      "source_location": "L89",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "autonomous_work_summary_completed_tasks",
+      "target": "autonomous_work_summary_4_package_management_strategy_documentation"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AUTONOMOUS_WORK_SUMMARY.md",
+      "source_location": "L116",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "autonomous_work_summary_pending_tasks_blocked",
+      "target": "autonomous_work_summary_1_sddm_pixel_skyscrapers_theme"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AUTONOMOUS_WORK_SUMMARY.md",
+      "source_location": "L144",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "autonomous_work_summary_impact_summary",
+      "target": "autonomous_work_summary_first_boot_time"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AUTONOMOUS_WORK_SUMMARY.md",
+      "source_location": "L139",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "autonomous_work_summary_impact_summary",
+      "target": "autonomous_work_summary_iso_size_impact"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AUTONOMOUS_WORK_SUMMARY.md",
+      "source_location": "L149",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "autonomous_work_summary_impact_summary",
+      "target": "autonomous_work_summary_user_experience"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AUTONOMOUS_WORK_SUMMARY.md",
+      "source_location": "L167",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "autonomous_work_summary_files_created_modified",
+      "target": "autonomous_work_summary_modified_files"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AUTONOMOUS_WORK_SUMMARY.md",
+      "source_location": "L160",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "autonomous_work_summary_files_created_modified",
+      "target": "autonomous_work_summary_new_files"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AUTONOMOUS_WORK_SUMMARY.md",
+      "source_location": "L189",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "autonomous_work_summary_next_steps_when_user_returns",
+      "target": "autonomous_work_summary_future_enhancements"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AUTONOMOUS_WORK_SUMMARY.md",
+      "source_location": "L177",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "autonomous_work_summary_next_steps_when_user_returns",
+      "target": "autonomous_work_summary_immediate_priority"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AUTONOMOUS_WORK_SUMMARY.md",
+      "source_location": "L183",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "autonomous_work_summary_next_steps_when_user_returns",
+      "target": "autonomous_work_summary_secondary_priority"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AUTONOMOUS_WORK_SUMMARY.md",
+      "source_location": "L206",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "autonomous_work_summary_key_insights",
+      "target": "autonomous_work_summary_challenges_overcome"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AUTONOMOUS_WORK_SUMMARY.md",
+      "source_location": "L212",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "autonomous_work_summary_key_insights",
+      "target": "autonomous_work_summary_lessons_learned"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AUTONOMOUS_WORK_SUMMARY.md",
+      "source_location": "L200",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "autonomous_work_summary_key_insights",
+      "target": "autonomous_work_summary_what_worked_well"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "BUILD_STATUS.md",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "build_status",
-      "target": "build_status_zenithos_build_status",
-      "confidence_score": 1.0
+      "target": "build_status_zenithos_build_status_report"
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "BUILD_STATUS.md",
-      "source_location": "L15",
+      "source_location": "L8",
       "weight": 1.0,
-      "source": "build_status_zenithos_build_status",
-      "target": "build_status_build_pipeline",
-      "confidence_score": 1.0
+      "confidence_score": 1.0,
+      "source": "build_status_zenithos_build_status_report",
+      "target": "build_status_completed_features"
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "BUILD_STATUS.md",
-      "source_location": "L21",
+      "source_location": "L56",
       "weight": 1.0,
-      "source": "build_status_zenithos_build_status",
-      "target": "build_status_current_state",
-      "confidence_score": 1.0
+      "confidence_score": 1.0,
+      "source": "build_status_zenithos_build_status_report",
+      "target": "build_status_current_blockers"
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "BUILD_STATUS.md",
-      "source_location": "L37",
+      "source_location": "L86",
       "weight": 1.0,
-      "source": "build_status_zenithos_build_status",
-      "target": "build_status_hardware_target",
-      "confidence_score": 1.0
+      "confidence_score": 1.0,
+      "source": "build_status_zenithos_build_status_report",
+      "target": "build_status_next_steps_when_sudo_is_available"
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "BUILD_STATUS.md",
-      "source_location": "L29",
+      "source_location": "L137",
       "weight": 1.0,
-      "source": "build_status_zenithos_build_status",
-      "target": "build_status_known_issues",
-      "confidence_score": 1.0
+      "confidence_score": 1.0,
+      "source": "build_status_zenithos_build_status_report",
+      "target": "build_status_skills_created_during_this_session"
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "BUILD_STATUS.md",
-      "source_location": "L7",
+      "source_location": "L152",
       "weight": 1.0,
-      "source": "build_status_zenithos_build_status",
-      "target": "build_status_quick_reference",
-      "confidence_score": 1.0
+      "confidence_score": 1.0,
+      "source": "build_status_zenithos_build_status_report",
+      "target": "build_status_success_criteria"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "BUILD_STATUS.md",
+      "source_location": "L109",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "build_status_zenithos_build_status_report",
+      "target": "build_status_technical_details"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "BUILD_STATUS.md",
+      "source_location": "L10",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "build_status_completed_features",
+      "target": "build_status_1_secure_login_system"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "BUILD_STATUS.md",
+      "source_location": "L16",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "build_status_completed_features",
+      "target": "build_status_2_pixel_skyscrapers_theme"
     },
     {
       "relation": "contains",
@@ -38407,9 +38818,89 @@
       "source_file": "BUILD_STATUS.md",
       "source_location": "L33",
       "weight": 1.0,
-      "source": "build_status_zenithos_build_status",
-      "target": "build_status_release_notes",
-      "confidence_score": 1.0
+      "confidence_score": 1.0,
+      "source": "build_status_completed_features",
+      "target": "build_status_3_zenithos_applications_12_first_party_apps"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "BUILD_STATUS.md",
+      "source_location": "L48",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "build_status_completed_features",
+      "target": "build_status_4_build_system"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "BUILD_STATUS.md",
+      "source_location": "L58",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "build_status_current_blockers",
+      "target": "build_status_critical_sudo_access_required"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "BUILD_STATUS.md",
+      "source_location": "L88",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "build_status_next_steps_when_sudo_is_available",
+      "target": "build_status_immediate_5_15_minutes"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "BUILD_STATUS.md",
+      "source_location": "L101",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "build_status_next_steps_when_sudo_is_available",
+      "target": "build_status_long_term_roadmap"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "BUILD_STATUS.md",
+      "source_location": "L95",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "build_status_next_steps_when_sudo_is_available",
+      "target": "build_status_short_term_features"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "BUILD_STATUS.md",
+      "source_location": "L111",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "build_status_technical_details",
+      "target": "build_status_build_environment"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "BUILD_STATUS.md",
+      "source_location": "L119",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "build_status_technical_details",
+      "target": "build_status_current_iso_stats"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "BUILD_STATUS.md",
+      "source_location": "L126",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "build_status_technical_details",
+      "target": "build_status_theme_integration_details"
     },
     {
       "relation": "contains",
@@ -38544,102 +39035,612 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "DEPRECATED.md",
+      "source_file": "NEW_FEATURES_SUMMARY.md",
       "source_location": "L1",
       "weight": 1.0,
-      "source": "deprecated",
-      "target": "deprecated_zenithos_documentation_status",
-      "confidence_score": 1.0
+      "confidence_score": 1.0,
+      "source": "new_features_summary",
+      "target": "new_features_summary_new_features_added_to_zenithos"
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "DEPRECATED.md",
-      "source_location": "L12",
+      "source_file": "NEW_FEATURES_SUMMARY.md",
+      "source_location": "L88",
       "weight": 1.0,
-      "source": "deprecated_zenithos_documentation_status",
-      "target": "deprecated_canonical_status_sources",
-      "confidence_score": 1.0
+      "confidence_score": 1.0,
+      "source": "new_features_summary_new_features_added_to_zenithos",
+      "target": "new_features_summary_features_summary"
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "DEPRECATED.md",
-      "source_location": "L38",
+      "source_file": "NEW_FEATURES_SUMMARY.md",
+      "source_location": "L167",
       "weight": 1.0,
-      "source": "deprecated_zenithos_documentation_status",
-      "target": "deprecated_historical_archive",
-      "confidence_score": 1.0
+      "confidence_score": 1.0,
+      "source": "new_features_summary_new_features_added_to_zenithos",
+      "target": "new_features_summary_files_created_modified"
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "DEPRECATED.md",
-      "source_location": "L24",
+      "source_file": "NEW_FEATURES_SUMMARY.md",
+      "source_location": "L197",
       "weight": 1.0,
-      "source": "deprecated_zenithos_documentation_status",
-      "target": "deprecated_why_the_may_27_summaries_were_retired",
-      "confidence_score": 1.0
+      "confidence_score": 1.0,
+      "source": "new_features_summary_new_features_added_to_zenithos",
+      "target": "new_features_summary_impact_assessment"
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "KERNEL_TRACK_STATUS.md",
-      "source_location": "L1",
-      "weight": 1.0,
-      "source": "kernel_track_status",
-      "target": "kernel_track_status_zenithos_hybrid_kernel_track_status",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "KERNEL_TRACK_STATUS.md",
-      "source_location": "L58",
-      "weight": 1.0,
-      "source": "kernel_track_status_zenithos_hybrid_kernel_track_status",
-      "target": "kernel_track_status_pointers",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "KERNEL_TRACK_STATUS.md",
-      "source_location": "L37",
-      "weight": 1.0,
-      "source": "kernel_track_status_zenithos_hybrid_kernel_track_status",
-      "target": "kernel_track_status_what_doesn_t_exist",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "KERNEL_TRACK_STATUS.md",
-      "source_location": "L22",
-      "weight": 1.0,
-      "source": "kernel_track_status_zenithos_hybrid_kernel_track_status",
-      "target": "kernel_track_status_what_exists",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "KERNEL_TRACK_STATUS.md",
-      "source_location": "L45",
-      "weight": 1.0,
-      "source": "kernel_track_status_zenithos_hybrid_kernel_track_status",
-      "target": "kernel_track_status_when_to_reopen_this_track",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "KERNEL_TRACK_STATUS.md",
+      "source_file": "NEW_FEATURES_SUMMARY.md",
       "source_location": "L8",
       "weight": 1.0,
-      "source": "kernel_track_status_zenithos_hybrid_kernel_track_status",
-      "target": "kernel_track_status_why_we_re_not_building_it_right_now",
-      "confidence_score": 1.0
+      "confidence_score": 1.0,
+      "source": "new_features_summary_new_features_added_to_zenithos",
+      "target": "new_features_summary_new_features_added"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "NEW_FEATURES_SUMMARY.md",
+      "source_location": "L219",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "new_features_summary_new_features_added_to_zenithos",
+      "target": "new_features_summary_next_steps"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "NEW_FEATURES_SUMMARY.md",
+      "source_location": "L238",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "new_features_summary_new_features_added_to_zenithos",
+      "target": "new_features_summary_quick_start"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "NEW_FEATURES_SUMMARY.md",
+      "source_location": "L100",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "new_features_summary_new_features_added_to_zenithos",
+      "target": "new_features_summary_rebuild_instructions"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "NEW_FEATURES_SUMMARY.md",
+      "source_location": "L136",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "new_features_summary_new_features_added_to_zenithos",
+      "target": "new_features_summary_testing_checklist"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "NEW_FEATURES_SUMMARY.md",
+      "source_location": "L10",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "new_features_summary_new_features_added",
+      "target": "new_features_summary_1_enhanced_first_boot_apps_10_apps_total"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "NEW_FEATURES_SUMMARY.md",
+      "source_location": "L39",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "new_features_summary_new_features_added",
+      "target": "new_features_summary_2_performance_optimization_script"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "NEW_FEATURES_SUMMARY.md",
+      "source_location": "L62",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "new_features_summary_new_features_added",
+      "target": "new_features_summary_3_storage_quota_monitor_30gb_limit"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "NEW_FEATURES_SUMMARY.md",
+      "source_location": "L123",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "new_features_summary_rebuild_instructions",
+      "target": "new_features_summary_after_build_boot_verify"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "NEW_FEATURES_SUMMARY.md",
+      "source_location": "L104",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "new_features_summary_rebuild_instructions",
+      "target": "new_features_summary_quick_rebuild_command"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "NEW_FEATURES_SUMMARY.md",
+      "source_location": "L152",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "new_features_summary_testing_checklist",
+      "target": "new_features_summary_apps"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "NEW_FEATURES_SUMMARY.md",
+      "source_location": "L146",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "new_features_summary_testing_checklist",
+      "target": "new_features_summary_performance"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "NEW_FEATURES_SUMMARY.md",
+      "source_location": "L159",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "new_features_summary_testing_checklist",
+      "target": "new_features_summary_storage"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "NEW_FEATURES_SUMMARY.md",
+      "source_location": "L140",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "new_features_summary_testing_checklist",
+      "target": "new_features_summary_theme"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "NEW_FEATURES_SUMMARY.md",
+      "source_location": "L186",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "new_features_summary_files_created_modified",
+      "target": "new_features_summary_documentation_5"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "NEW_FEATURES_SUMMARY.md",
+      "source_location": "L179",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "new_features_summary_files_created_modified",
+      "target": "new_features_summary_modified_files_3"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "NEW_FEATURES_SUMMARY.md",
+      "source_location": "L169",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "new_features_summary_files_created_modified",
+      "target": "new_features_summary_new_files_5"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "NEW_FEATURES_SUMMARY.md",
+      "source_location": "L205",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "new_features_summary_impact_assessment",
+      "target": "new_features_summary_after_these_features"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "NEW_FEATURES_SUMMARY.md",
+      "source_location": "L199",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "new_features_summary_impact_assessment",
+      "target": "new_features_summary_before_these_features"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "NEW_FEATURES_SUMMARY.md",
+      "source_location": "L211",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "new_features_summary_impact_assessment",
+      "target": "new_features_summary_user_benefits"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "NEW_FEATURES_SUMMARY.md",
+      "source_location": "L221",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "new_features_summary_next_steps",
+      "target": "new_features_summary_immediate"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "NEW_FEATURES_SUMMARY.md",
+      "source_location": "L227",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "new_features_summary_next_steps",
+      "target": "new_features_summary_when_you_return"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "OS_BUILDING_GUIDE.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "os_building_guide",
+      "target": "os_building_guide_zenithos_os_building_guide"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "OS_BUILDING_GUIDE.md",
+      "source_location": "L124",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "os_building_guide_zenithos_os_building_guide",
+      "target": "os_building_guide_adding_applications_to_zenithos"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "OS_BUILDING_GUIDE.md",
+      "source_location": "L291",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "os_building_guide_zenithos_os_building_guide",
+      "target": "os_building_guide_additional_resources"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "OS_BUILDING_GUIDE.md",
+      "source_location": "L220",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "os_building_guide_zenithos_os_building_guide",
+      "target": "os_building_guide_advanced_customization"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "OS_BUILDING_GUIDE.md",
+      "source_location": "L247",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "os_building_guide_zenithos_os_building_guide",
+      "target": "os_building_guide_build_optimization_tips"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "OS_BUILDING_GUIDE.md",
+      "source_location": "L269",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "os_building_guide_zenithos_os_building_guide",
+      "target": "os_building_guide_next_steps_for_zenithos"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "OS_BUILDING_GUIDE.md",
+      "source_location": "L7",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "os_building_guide_zenithos_os_building_guide",
+      "target": "os_building_guide_research_summary_os_building_best_practices"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "OS_BUILDING_GUIDE.md",
+      "source_location": "L194",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "os_building_guide_zenithos_os_building_guide",
+      "target": "os_building_guide_theme_integration"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "OS_BUILDING_GUIDE.md",
+      "source_location": "L85",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "os_building_guide_zenithos_os_building_guide",
+      "target": "os_building_guide_zenithos_build_system"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "OS_BUILDING_GUIDE.md",
+      "source_location": "L16",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "os_building_guide_research_summary_os_building_best_practices",
+      "target": "os_building_guide_core_principles_learned"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "OS_BUILDING_GUIDE.md",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "os_building_guide_research_summary_os_building_best_practices",
+      "target": "os_building_guide_key_resources_studied"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "OS_BUILDING_GUIDE.md",
+      "source_location": "L18",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "os_building_guide_core_principles_learned",
+      "target": "os_building_guide_1_package_management_strategy"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "OS_BUILDING_GUIDE.md",
+      "source_location": "L24",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "os_building_guide_core_principles_learned",
+      "target": "os_building_guide_2_build_system_architecture"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "OS_BUILDING_GUIDE.md",
+      "source_location": "L58",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "os_building_guide_core_principles_learned",
+      "target": "os_building_guide_3_application_distribution_strategies"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "OS_BUILDING_GUIDE.md",
+      "source_location": "L74",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "os_building_guide_core_principles_learned",
+      "target": "os_building_guide_4_common_pitfalls_avoided"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "OS_BUILDING_GUIDE.md",
+      "source_location": "L114",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "os_building_guide_zenithos_build_system",
+      "target": "os_building_guide_base_system"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "OS_BUILDING_GUIDE.md",
+      "source_location": "L101",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "os_building_guide_zenithos_build_system",
+      "target": "os_building_guide_build_commands"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "OS_BUILDING_GUIDE.md",
+      "source_location": "L87",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "os_building_guide_zenithos_build_system",
+      "target": "os_building_guide_current_architecture"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "OS_BUILDING_GUIDE.md",
+      "source_location": "L126",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "os_building_guide_adding_applications_to_zenithos",
+      "target": "os_building_guide_method_1_flatpak_recommended_for_proprietary_apps"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "OS_BUILDING_GUIDE.md",
+      "source_location": "L163",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "os_building_guide_adding_applications_to_zenithos",
+      "target": "os_building_guide_method_2_apt_packages_for_system_software"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "OS_BUILDING_GUIDE.md",
+      "source_location": "L178",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "os_building_guide_adding_applications_to_zenithos",
+      "target": "os_building_guide_method_3_custom_deb_packages_for_zenithos_features"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "OS_BUILDING_GUIDE.md",
+      "source_location": "L213",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "os_building_guide_theme_integration",
+      "target": "os_building_guide_gnome_themes"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "OS_BUILDING_GUIDE.md",
+      "source_location": "L196",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "os_building_guide_theme_integration",
+      "target": "os_building_guide_sddm_themes"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "OS_BUILDING_GUIDE.md",
+      "source_location": "L229",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "os_building_guide_advanced_customization",
+      "target": "os_building_guide_custom_init_scripts"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "OS_BUILDING_GUIDE.md",
+      "source_location": "L237",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "os_building_guide_advanced_customization",
+      "target": "os_building_guide_hardware_profiles"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "OS_BUILDING_GUIDE.md",
+      "source_location": "L222",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "os_building_guide_advanced_customization",
+      "target": "os_building_guide_kernel_customization"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "OS_BUILDING_GUIDE.md",
+      "source_location": "L255",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "os_building_guide_build_optimization_tips",
+      "target": "os_building_guide_improve_build_speed"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "OS_BUILDING_GUIDE.md",
+      "source_location": "L261",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "os_building_guide_build_optimization_tips",
+      "target": "os_building_guide_quality_assurance"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "OS_BUILDING_GUIDE.md",
+      "source_location": "L249",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "os_building_guide_build_optimization_tips",
+      "target": "os_building_guide_reduce_iso_size"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "OS_BUILDING_GUIDE.md",
+      "source_location": "L271",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "os_building_guide_next_steps_for_zenithos",
+      "target": "os_building_guide_immediate"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "OS_BUILDING_GUIDE.md",
+      "source_location": "L283",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "os_building_guide_next_steps_for_zenithos",
+      "target": "os_building_guide_long_term"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "OS_BUILDING_GUIDE.md",
+      "source_location": "L277",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "os_building_guide_next_steps_for_zenithos",
+      "target": "os_building_guide_short_term"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "OS_BUILDING_GUIDE.md",
+      "source_location": "L305",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "os_building_guide_additional_resources",
+      "target": "os_building_guide_communities"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "OS_BUILDING_GUIDE.md",
+      "source_location": "L293",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "os_building_guide_additional_resources",
+      "target": "os_building_guide_documentation"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "OS_BUILDING_GUIDE.md",
+      "source_location": "L299",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "os_building_guide_additional_resources",
+      "target": "os_building_guide_tools"
     },
     {
       "relation": "contains",
@@ -39654,126 +40655,6 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "workstation/docs/LENOVO_V14_ADA_CHECKLIST.md",
-      "source_location": "L1",
-      "weight": 1.0,
-      "source": "docs_lenovo_v14_ada_checklist",
-      "target": "docs_lenovo_v14_ada_checklist_zenithos_lenovo_v14_ada_hardware_validation_checklist",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "workstation/docs/LENOVO_V14_ADA_CHECKLIST.md",
-      "source_location": "L52",
-      "weight": 1.0,
-      "source": "docs_lenovo_v14_ada_checklist_zenithos_lenovo_v14_ada_hardware_validation_checklist",
-      "target": "docs_lenovo_v14_ada_checklist_audio",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "workstation/docs/LENOVO_V14_ADA_CHECKLIST.md",
-      "source_location": "L12",
-      "weight": 1.0,
-      "source": "docs_lenovo_v14_ada_checklist_zenithos_lenovo_v14_ada_hardware_validation_checklist",
-      "target": "docs_lenovo_v14_ada_checklist_boot_tests",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "workstation/docs/LENOVO_V14_ADA_CHECKLIST.md",
-      "source_location": "L92",
-      "weight": 1.0,
-      "source": "docs_lenovo_v14_ada_checklist_zenithos_lenovo_v14_ada_hardware_validation_checklist",
-      "target": "docs_lenovo_v14_ada_checklist_collect_probe_data",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "workstation/docs/LENOVO_V14_ADA_CHECKLIST.md",
-      "source_location": "L101",
-      "weight": 1.0,
-      "source": "docs_lenovo_v14_ada_checklist_zenithos_lenovo_v14_ada_hardware_validation_checklist",
-      "target": "docs_lenovo_v14_ada_checklist_completion",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "workstation/docs/LENOVO_V14_ADA_CHECKLIST.md",
-      "source_location": "L22",
-      "weight": 1.0,
-      "source": "docs_lenovo_v14_ada_checklist_zenithos_lenovo_v14_ada_hardware_validation_checklist",
-      "target": "docs_lenovo_v14_ada_checklist_display",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "workstation/docs/LENOVO_V14_ADA_CHECKLIST.md",
-      "source_location": "L83",
-      "weight": 1.0,
-      "source": "docs_lenovo_v14_ada_checklist_zenithos_lenovo_v14_ada_hardware_validation_checklist",
-      "target": "docs_lenovo_v14_ada_checklist_extras",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "workstation/docs/LENOVO_V14_ADA_CHECKLIST.md",
-      "source_location": "L5",
-      "weight": 1.0,
-      "source": "docs_lenovo_v14_ada_checklist_zenithos_lenovo_v14_ada_hardware_validation_checklist",
-      "target": "docs_lenovo_v14_ada_checklist_preparation",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "workstation/docs/LENOVO_V14_ADA_CHECKLIST.md",
-      "source_location": "L62",
-      "weight": 1.0,
-      "source": "docs_lenovo_v14_ada_checklist_zenithos_lenovo_v14_ada_hardware_validation_checklist",
-      "target": "docs_lenovo_v14_ada_checklist_storage",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "workstation/docs/LENOVO_V14_ADA_CHECKLIST.md",
-      "source_location": "L72",
-      "weight": 1.0,
-      "source": "docs_lenovo_v14_ada_checklist_zenithos_lenovo_v14_ada_hardware_validation_checklist",
-      "target": "docs_lenovo_v14_ada_checklist_suspend_resume_power",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "workstation/docs/LENOVO_V14_ADA_CHECKLIST.md",
-      "source_location": "L32",
-      "weight": 1.0,
-      "source": "docs_lenovo_v14_ada_checklist_zenithos_lenovo_v14_ada_hardware_validation_checklist",
-      "target": "docs_lenovo_v14_ada_checklist_touchpad",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "workstation/docs/LENOVO_V14_ADA_CHECKLIST.md",
-      "source_location": "L42",
-      "weight": 1.0,
-      "source": "docs_lenovo_v14_ada_checklist_zenithos_lenovo_v14_ada_hardware_validation_checklist",
-      "target": "docs_lenovo_v14_ada_checklist_wi_fi",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
       "source_file": "workstation/iso/README.md",
       "source_location": "L1",
       "weight": 1.0,
@@ -40348,5 +41229,5 @@
       "source_file": "README.md"
     }
   ],
-  "built_at_commit": "152194e9384796ad6e502095da13294a2ed5fc59"
+  "built_at_commit": "ffc8ae88349ecf400ed3985b04a93434be6e70c5"
 }

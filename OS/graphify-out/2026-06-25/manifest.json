@@ -9,6 +9,16 @@
     "ast_hash": "2baea336ec0572c4906e0cb706c6e257",
     "semantic_hash": "2baea336ec0572c4906e0cb706c6e257"
   },
+  "do-rebuild.sh": {
+    "mtime": 1779932632.084864,
+    "ast_hash": "597a31afbcb1dcb5be427621f54cec1d",
+    "semantic_hash": "597a31afbcb1dcb5be427621f54cec1d"
+  },
+  "full-rebuild.sh": {
+    "mtime": 1779927195.6001213,
+    "ast_hash": "96bc236eae3dae5abd9d1d6965fe60bc",
+    "semantic_hash": "96bc236eae3dae5abd9d1d6965fe60bc"
+  },
   "kernel/arch/x86_64/cpu.c": {
     "mtime": 1779243460.1704648,
     "ast_hash": "9722785a617e76c3ad5ceedc8e410670",
@@ -239,6 +249,11 @@
     "ast_hash": "c13b9c7edd0cf1b743feab5e8751781c",
     "semantic_hash": "c13b9c7edd0cf1b743feab5e8751781c"
   },
+  "rebuild-with-theme.sh": {
+    "mtime": 1779923203.7714596,
+    "ast_hash": "35213887c55316a396dde5ca7f99a59f",
+    "semantic_hash": "35213887c55316a396dde5ca7f99a59f"
+  },
   "storage.json": {
     "mtime": 1778214704.9314554,
     "ast_hash": "d40922d39cd675889fd2df95e6d9fd16",
@@ -425,8 +440,8 @@
     "semantic_hash": ""
   },
   "workstation/apps/zenith-installer/bin/zenith-install-to-disk": {
-    "mtime": 1782427528.9200907,
-    "ast_hash": "75234dd93c9b6b54bcd0e9da40104220",
+    "mtime": 1781048008.3552377,
+    "ast_hash": "ea1aa94ab56d5a1f41227079f3c482f6",
     "semantic_hash": ""
   },
   "workstation/apps/zenith-installer/src/zenith_installer/__init__.py": {
@@ -445,8 +460,8 @@
     "semantic_hash": "031bc21b52b2224571dcdf812f1a39b4"
   },
   "workstation/apps/zenith-packages/src/zenith_packages/main.py": {
-    "mtime": 1781121811.3191128,
-    "ast_hash": "5bad4bff49090389718bad7f19597486",
+    "mtime": 1781048134.1743994,
+    "ast_hash": "b37fc4a78cce16195e860dc5033d9b9b",
     "semantic_hash": ""
   },
   "workstation/apps/zenith-packages/src/zenith_packages/zpkg.py": {
@@ -530,8 +545,8 @@
     "semantic_hash": "d83d8694e7cf685a4387714f9650050b"
   },
   "workstation/distro/build-zenith-packages.sh": {
-    "mtime": 1782427471.417732,
-    "ast_hash": "b5b76502ca0b7331097aa24e4a8f7f1a",
+    "mtime": 1781031886.6651933,
+    "ast_hash": "10b514c28028a924bb3a9f44a8b5e17e",
     "semantic_hash": ""
   },
   "workstation/distro/publish-apt-repo.sh": {
@@ -550,8 +565,8 @@
     "semantic_hash": "1029611e5ab8fe97e77df893ee4f5da6"
   },
   "workstation/iso/build-rootfs.sh": {
-    "mtime": 1782427084.6310241,
-    "ast_hash": "6dcc87e9e5f3001a38a200a0cc1e8040",
+    "mtime": 1781031886.811244,
+    "ast_hash": "2349bdd666791f5f5a2a4ee5dd3dab76",
     "semantic_hash": ""
   },
   "workstation/iso/build-seed-iso.sh": {
@@ -575,8 +590,8 @@
     "semantic_hash": "842292d334051310b4f98273489b9362"
   },
   "workstation/qa/runtime-check.sh": {
-    "mtime": 1781121840.9694161,
-    "ast_hash": "b5bb71d291dec1534ec55c64fc03f336",
+    "mtime": 1781051170.842627,
+    "ast_hash": "bd7bc5ce395d8c29ba4eeb6247370698",
     "semantic_hash": ""
   },
   "workstation/scripts/first-boot-apps.sh": {
@@ -699,14 +714,29 @@
     "ast_hash": "4f2b3f2b28c063400dc3f51359730b94",
     "semantic_hash": ""
   },
+  "AUTONOMOUS_WORK_SUMMARY.md": {
+    "mtime": 1779924082.3845694,
+    "ast_hash": "2765ce1ff795e38444f5e4322595d36f",
+    "semantic_hash": ""
+  },
   "BUILD_STATUS.md": {
-    "mtime": 1782407410.9697123,
-    "ast_hash": "c76e4b905f37fec2b7fb7c98fe98ac51",
+    "mtime": 1779923267.0767682,
+    "ast_hash": "f47cdd506e37f498b7f465d69cba252a",
     "semantic_hash": ""
   },
   "CLAUDE.md": {
     "mtime": 1779244545.8171663,
     "ast_hash": "13c004f4817181c7cc6b1fb533deaf24",
+    "semantic_hash": ""
+  },
+  "NEW_FEATURES_SUMMARY.md": {
+    "mtime": 1779931263.7208288,
+    "ast_hash": "53d58cb39ebd723795506c0a7c4c69d5",
+    "semantic_hash": ""
+  },
+  "OS_BUILDING_GUIDE.md": {
+    "mtime": 1779923984.013455,
+    "ast_hash": "3486ce19aecad6143b1b46ab0bfacfd6",
     "semantic_hash": ""
   },
   "QUICK_START.md": {
@@ -854,6 +884,11 @@
     "ast_hash": "b88f78bcc3a3bf2608f10c068bd44741",
     "semantic_hash": ""
   },
+  "bg.mp4": {
+    "mtime": 1779420978.2517443,
+    "ast_hash": "88b2bb92f3a63f8520af952e2d9696ca",
+    "semantic_hash": "88b2bb92f3a63f8520af952e2d9696ca"
+  },
   "workstation/themes/sddm/pixel-skyscrapers/bg.mp4": {
     "mtime": 1779917217.3403077,
     "ast_hash": "88b2bb92f3a63f8520af952e2d9696ca",
@@ -887,46 +922,6 @@
   "workstation/apps/zenith-files/tests/test_operations.py": {
     "mtime": 1781051013.6739757,
     "ast_hash": "90978bd6d78b5af83bdbdee236bd5e2b",
-    "semantic_hash": ""
-  },
-  "rebuild.sh": {
-    "mtime": 1782428121.9044132,
-    "ast_hash": "75908cfc25c503d18b074b00ab4b326a",
-    "semantic_hash": ""
-  },
-  "workstation/apps/zenith-packages/src/zenith_packages/workers.py": {
-    "mtime": 1781121750.281124,
-    "ast_hash": "37d4780a15eb67577399b42c90d5d292",
-    "semantic_hash": ""
-  },
-  "workstation/apps/zenith-packages/tests/test_workers.py": {
-    "mtime": 1781121722.535198,
-    "ast_hash": "b59a8d5b32e58d086d0fd14aab399f99",
-    "semantic_hash": ""
-  },
-  "workstation/config/usr/lib/zenith/zenith-hardware-probe": {
-    "mtime": 1782407676.6522872,
-    "ast_hash": "812af90c5675c8bc37b53d91f8d2ae90",
-    "semantic_hash": ""
-  },
-  "workstation/config/usr/lib/zenith/zenith-snapshot": {
-    "mtime": 1782426927.910535,
-    "ast_hash": "df4c94654cbec62b76ecab0533837623",
-    "semantic_hash": ""
-  },
-  "DEPRECATED.md": {
-    "mtime": 1782427799.0288575,
-    "ast_hash": "3fed80a3d2879668b986b5807f7bdd75",
-    "semantic_hash": ""
-  },
-  "KERNEL_TRACK_STATUS.md": {
-    "mtime": 1782427949.115602,
-    "ast_hash": "f3f048cf6171699df33ffdd45d866fd0",
-    "semantic_hash": ""
-  },
-  "workstation/docs/LENOVO_V14_ADA_CHECKLIST.md": {
-    "mtime": 1782407618.6456687,
-    "ast_hash": "5588f3bfbee27964e8496e603bdb750d",
     "semantic_hash": ""
   }
 }

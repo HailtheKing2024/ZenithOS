@@ -1,16 +1,16 @@
-# Graph Report - OS  (2026-06-25)
+# Graph Report - OS  (2026-06-10)
 
 ## Corpus Check
-- 183 files · ~140,413 words
+- 181 files · ~141,081 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1360 nodes · 2518 edges · 138 communities (118 shown, 20 thin omitted)
-- Extraction: 85% EXTRACTED · 15% INFERRED · 0% AMBIGUOUS · INFERRED: 375 edges (avg confidence: 0.8)
+- 1417 nodes · 2549 edges · 142 communities (120 shown, 22 thin omitted)
+- Extraction: 85% EXTRACTED · 15% INFERRED · 0% AMBIGUOUS · INFERRED: 370 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `152194e9`
+- Built from commit: `ffc8ae88`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -65,6 +65,7 @@
 - [[_COMMUNITY_Community 47|Community 47]]
 - [[_COMMUNITY_Community 48|Community 48]]
 - [[_COMMUNITY_Community 49|Community 49]]
+- [[_COMMUNITY_Community 50|Community 50]]
 - [[_COMMUNITY_Community 51|Community 51]]
 - [[_COMMUNITY_Community 52|Community 52]]
 - [[_COMMUNITY_Community 54|Community 54]]
@@ -97,6 +98,9 @@
 - [[_COMMUNITY_Community 82|Community 82]]
 - [[_COMMUNITY_Community 83|Community 83]]
 - [[_COMMUNITY_Community 84|Community 84]]
+- [[_COMMUNITY_Community 85|Community 85]]
+- [[_COMMUNITY_Community 86|Community 86]]
+- [[_COMMUNITY_Community 87|Community 87]]
 - [[_COMMUNITY_Community 88|Community 88]]
 - [[_COMMUNITY_Community 89|Community 89]]
 - [[_COMMUNITY_Community 90|Community 90]]
@@ -138,8 +142,8 @@
   kernel/main.c → kernel/panic.c
 - `ZenithOS Workstation` --references--> `30GB Storage Quota Policy`  [EXTRACTED]
   AGENTS.md → workstation/storage/enforcement.md
-- `zenith_kernel_main()` --calls--> `x86_64_cpu_init()`  [INFERRED]
-  kernel/main.c → kernel/arch/x86_64/cpu.c
+- `activate_task()` --calls--> `x86_64_set_kernel_stack()`  [INFERRED]
+  kernel/sched/scheduler.c → kernel/arch/x86_64/cpu.c
 
 ## Import Cycles
 - None detected.
@@ -147,23 +151,23 @@
 ## Hyperedges (group relationships)
 - **ZenithOS Workstation Core Components** — agents_zenithos_workstation, autonomous_flatpak_strategy, storage_enforcement_30gb, new_features_performance_optimization [INFERRED 0.95]
 
-## Communities (138 total, 20 thin omitted)
+## Communities (142 total, 22 thin omitted)
 
 ### Community 0 - "Community 0"
-Cohesion: 0.06
-Nodes (81): ZENITH_NORETURN, panic(), panic_set_framebuffer(), ZENITH_NORETURN, kernel_thread_entry, align_up_u64(), ensure_mapped(), kheap_self_test() (+73 more)
+Cohesion: 0.09
+Nodes (34): ZENITH_NORETURN, kernel_thread_entry, vmm_kernel_address_space(), activate_task(), find_child_task(), find_free_task(), next_ready_task(), read_cs() (+26 more)
 
 ### Community 1 - "Community 1"
-Cohesion: 0.08
-Nodes (76): z_close(), z_getcwd(), z_open(), z_read(), add_output_newline(), append_char(), append_text(), apply_alias() (+68 more)
+Cohesion: 0.05
+Nodes (111): z_chdir(), z_close(), z_console_arg_read(), z_console_clear(), z_console_event(), z_console_init(), z_console_prompt(), z_console_read_line() (+103 more)
 
 ### Community 2 - "Community 2"
 Cohesion: 0.08
 Nodes (65): advance_row(), char_is_lower(), char_to_upper(), clear_body(), clear_row(), complete_current_line(), console_clear(), console_copy_argument() (+57 more)
 
 ### Community 3 - "Community 3"
-Cohesion: 0.15
-Nodes (12): Audio, Boot Tests, Collect Probe Data, Completion, Display, Extras, Preparation, Storage (+4 more)
+Cohesion: 0.06
+Nodes (35): 1. **Package Management Strategy**, 2. **Build System Architecture**, 3. **Application Distribution Strategies**, 4. **Common Pitfalls Avoided**, 📦 Adding Applications to ZenithOS, 📖 Additional Resources, 🔧 Advanced Customization, Base System: (+27 more)
 
 ### Community 4 - "Community 4"
 Cohesion: 0.08
@@ -182,8 +186,8 @@ Cohesion: 0.06
 Nodes (31): base_userspace_gb, developer_diagnostics_gb, flatpak_reserve_gb, gnome_internals_gb, linux_kernel_firmware_gb, logs_crashdumps_cache_gb, rollback_snapshot_reserve_gb, self_host_builder_gb (+23 more)
 
 ### Community 8 - "Community 8"
-Cohesion: 0.06
-Nodes (81): z_chdir(), z_console_arg_read(), z_console_clear(), z_console_event(), z_console_init(), z_console_prompt(), z_console_read_line(), z_dup2() (+73 more)
+Cohesion: 0.10
+Nodes (46): z_ui_send(), handle_key(), handle_mouse(), in_rect(), main(), redraw(), add_window(), append_text() (+38 more)
 
 ### Community 9 - "Community 9"
 Cohesion: 0.15
@@ -206,28 +210,28 @@ Cohesion: 0.11
 Nodes (21): architecture, description, role, status, product_tracks, kernel_lab, workstation, project (+13 more)
 
 ### Community 14 - "Community 14"
-Cohesion: 0.17
-Nodes (24): input_push_mouse(), keyboard_handle_irq(), keyboard_init(), scancode_to_ascii(), controller_write(), data_read(), data_write(), mouse_handle_irq() (+16 more)
+Cohesion: 0.22
+Nodes (18): input_push_mouse(), keyboard_handle_irq(), scancode_to_ascii(), controller_write(), data_read(), data_write(), mouse_handle_irq(), mouse_init() (+10 more)
 
 ### Community 15 - "Community 15"
-Cohesion: 0.29
-Nodes (6): Pointers, What doesn't exist, What exists, When to reopen this track, Why we're not building it right now, ZenithOS Hybrid Kernel Track — Status
+Cohesion: 0.07
+Nodes (26): 1. **Enhanced First-Boot Apps (10 Apps Total!)**, 2. **Performance Optimization Script**, 3. **Storage Quota Monitor (30GB Limit)**, After Build - Boot & Verify:, After These Features:, Apps:, Before These Features:, Documentation (5): (+18 more)
 
 ### Community 16 - "Community 16"
 Cohesion: 0.15
 Nodes (13): command_output(), command_status(), disk_summary(), file_status(), first_line(), gsettings_bool(), main(), memory_summary() (+5 more)
 
 ### Community 17 - "Community 17"
-Cohesion: 0.53
-Nodes (5): read_msr(), write_msr(), write_tss_descriptor(), x86_64_cpu_init(), x86_64_syscall_enable()
+Cohesion: 0.08
+Nodes (23): 1. **OS Building Research & Documentation**, 1. **SDDM Pixel-Skyscrapers Theme**, 2. **Pre-installed Applications via Flatpak**, 3. **Build System Integration**, 4. **Package Management Strategy Documentation**, Challenges Overcome:, ✅ Completed Tasks, 📁 Files Created/Modified (+15 more)
 
 ### Community 18 - "Community 18"
 Cohesion: 0.08
 Nodes (23): For /graphify add and --watch, For /graphify query, For the commit hook and native CLAUDE.md integration, For --update and --cluster-only, /graphify, Honesty Rules, Interpreter guard for subcommands, Part A - Structural extraction for code files (+15 more)
 
 ### Community 19 - "Community 19"
-Cohesion: 0.18
-Nodes (25): initramfs_init(), initramfs_lookup(), initramfs_self_test(), string_equals(), input_init(), ipc_init(), ui_init(), ZENITH_NORETURN (+17 more)
+Cohesion: 0.16
+Nodes (25): input_init(), keyboard_init(), ipc_init(), ui_init(), ZENITH_NORETURN, kib(), log_acpi(), log_framebuffer() (+17 more)
 
 ### Community 20 - "Community 20"
 Cohesion: 0.10
@@ -235,19 +239,19 @@ Nodes (19): 1. SDDM Configuration (`workstation/config/sddm/sddm.conf`), 2. User
 
 ### Community 21 - "Community 21"
 Cohesion: 0.09
-Nodes (13): FileOperationTests, ValueError, FilesApp, FilesWindow, main(), copy_path(), _decode_mount_path(), mounted_volumes() (+5 more)
+Nodes (12): FileOperationTests, FilesApp, FilesWindow, main(), copy_path(), _decode_mount_path(), mounted_volumes(), move_path() (+4 more)
 
 ### Community 22 - "Community 22"
-Cohesion: 0.25
-Nodes (7): Build Pipeline, Current State, Hardware Target, Known Issues, Quick Reference, Release Notes, ZenithOS Build Status
+Cohesion: 0.11
+Nodes (18): 1. Secure Login System, 2. Pixel-Skyscrapers Theme, 3. ZenithOS Applications (12 First-Party Apps), 4. Build System, Build Environment, ✅ Completed Features, **CRITICAL: Sudo Access Required**, 🚧 Current Blockers (+10 more)
 
 ### Community 23 - "Community 23"
-Cohesion: 0.40
-Nodes (4): Canonical status sources, Historical archive, Why the May 27 summaries were retired, ZenithOS Documentation Status
+Cohesion: 0.21
+Nodes (25): ZENITH_NORETURN, panic(), panic_set_framebuffer(), map_heap_page(), pmm_alloc_frame(), pmm_self_test(), invlpg(), make_table() (+17 more)
 
 ### Community 24 - "Community 24"
-Cohesion: 0.10
-Nodes (15): PackageWorkerCommandTests, available(), command_output(), directory_size(), first_boot_apps_status(), local_repo_count(), main(), PackagesApp (+7 more)
+Cohesion: 0.20
+Nodes (9): available(), command_output(), directory_size(), first_boot_apps_status(), local_repo_count(), main(), PackagesApp, PackagesWindow (+1 more)
 
 ### Community 25 - "Community 25"
 Cohesion: 0.22
@@ -264,6 +268,10 @@ Nodes (13): Always-On, Architecture, CLAUDE.md — ZenithOS, Closing Ritual, Glo
 ### Community 28 - "Community 28"
 Cohesion: 0.15
 Nodes (12): Hybrid Kernel Architecture, Lenovo V14-ADA, Rohan (Master OS Architect), ZenithOS Workstation, Flatpak Application Strategy, Commands, Current Capabilities, Preserved Source (+4 more)
+
+### Community 29 - "Community 29"
+Cohesion: 0.30
+Nodes (17): align_down(), align_up(), fill_bitmap_used(), frame_address(), frame_index(), frame_is_usable(), frame_is_used(), frame_mask() (+9 more)
 
 ### Community 30 - "Community 30"
 Cohesion: 0.27
@@ -338,12 +346,16 @@ Cohesion: 0.52
 Nodes (5): build-zenith-packages.sh script, build_package(), install_app_package(), require_command(), write_control()
 
 ### Community 48 - "Community 48"
-Cohesion: 0.67
-Nodes (5): drain_serial_input(), input_poll(), input_poll_packed(), input_push_key(), input_self_test()
+Cohesion: 0.19
+Nodes (15): initramfs_init(), initramfs_lookup(), initramfs_self_test(), string_equals(), drain_serial_input(), input_poll(), input_poll_packed(), input_push_key() (+7 more)
 
 ### Community 49 - "Community 49"
 Cohesion: 0.60
 Nodes (5): copy_text(), ui_bind_session(), ui_receive(), ui_self_test(), ui_send()
+
+### Community 50 - "Community 50"
+Cohesion: 0.57
+Nodes (6): align_up_u64(), ensure_mapped(), kheap_init(), kheap_self_test(), kmalloc(), kmalloc_aligned()
 
 ### Community 51 - "Community 51"
 Cohesion: 0.29
@@ -474,19 +486,19 @@ Cohesion: 0.36
 Nodes (4): Send-MonitorCommand(), Send-MonitorKey(), Send-SddmPassword(), Write-ManualInputLog()
 
 ## Knowledge Gaps
-- **349 isolated node(s):** `allow`, `PreToolUse`, `ZENITH_NORETURN`, `ZENITH_NORETURN`, `ZENITH_NORETURN` (+344 more)
+- **401 isolated node(s):** `allow`, `PreToolUse`, `do-rebuild.sh script`, `ZENITH_APT_SIGNING_KEY`, `full-rebuild.sh script` (+396 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **20 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **22 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `serial_write()` connect `Community 19` to `Community 0`, `Community 33`, `Community 2`, `Community 38`, `Community 39`, `Community 42`, `Community 14`, `Community 48`, `Community 49`, `Community 17`?**
-  _High betweenness centrality (0.011) - this node is a cross-community bridge._
-- **Why does `syscall_handle_frame()` connect `Community 2` to `Community 0`, `Community 38`, `Community 42`, `Community 14`, `Community 48`, `Community 49`?**
-  _High betweenness centrality (0.009) - this node is a cross-community bridge._
-- **Why does `z_ui_send()` connect `Community 8` to `Community 1`?**
-  _High betweenness centrality (0.007) - this node is a cross-community bridge._
+- **Why does `serial_write()` connect `Community 19` to `Community 0`, `Community 33`, `Community 2`, `Community 38`, `Community 39`, `Community 42`, `Community 14`, `Community 48`, `Community 49`, `Community 50`, `Community 23`, `Community 29`?**
+  _High betweenness centrality (0.012) - this node is a cross-community bridge._
+- **Why does `syscall_handle_frame()` connect `Community 2` to `Community 0`, `Community 38`, `Community 42`, `Community 14`, `Community 48`, `Community 49`, `Community 23`, `Community 29`?**
+  _High betweenness centrality (0.008) - this node is a cross-community bridge._
+- **Why does `panic()` connect `Community 23` to `Community 0`, `Community 2`, `Community 38`, `Community 39`, `Community 42`, `Community 48`, `Community 49`, `Community 50`, `Community 19`, `Community 29`?**
+  _High betweenness centrality (0.006) - this node is a cross-community bridge._
 - **Are the 50 inferred relationships involving `serial_write()` (e.g. with `initramfs.c` and `initramfs_init()`) actually correct?**
   _`serial_write()` has 50 INFERRED edges - model-reasoned connections that need verification._
 - **Are the 42 inferred relationships involving `panic()` (e.g. with `initramfs_self_test()` and `input_self_test()`) actually correct?**
