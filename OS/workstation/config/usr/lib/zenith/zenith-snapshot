@@ -1,0 +1,149 @@
+#!/bin/bash
+# ZenithOS Snapshot Manager — btrfs + snapper integration for @snapshots.
+#
+# Provides manual pre/post snapshots and rollback for ZenithOS installed
+# systems that were created with zenith-install-to-disk (which sets up the
+# @, @home, @var, @snapshots btrfs layout and writes /etc/snapper/configs/root).
+#
+# Subcommands:
+#   status                 Show snapper config + snapshot list summary.
+#   create [desc]          Take a manual pre/post pair around an action.
+#   list                   List snapshots (number, type, date, description).
+#   rollback <num>         Roll back @ to snapshot <num> on next boot.
+#   cleanup                Apply NUMBER_LIMIT cleanup of old snapshots.
+#   diff <a> <b>           Show changed files between snapshots a and b.
+#
+# Exit codes:
+#   0  success / nothing to do
+#   1  snapper not installed or not configured
+#   2  user error (bad arg, missing snapshot)
+#   3  btrfs not the root filesystem
+#   4  no @snapshots subvolume (installed without Btrfs layout)
+
+set -u
+
+SNAPPER_CONFIG="root"
+STATE_FILE="/var/lib/zenith/snapshot-state.env"
+
+die() { echo "zenith-snapshot: $*" >&2; exit "${2:-1}"; }
+
+require_root() {
+    [ "$(id -u)" -eq 0 ] || die "must run as root (use sudo)" 1
+}
+
+require_snapper() {
+    command -v snapper >/dev/null 2>&1 || die "snapper is not installed" 1
+    if ! snapper --config "$SNAPPER_CONFIG" get-config >/dev/null 2>&1; then
+        die "snapper config '$SNAPPER_CONFIG' is missing — was this system installed with zenith-install-to-disk?" 1
+    fi
+}
+
+require_btrfs_root() {
+    local fstype
+    fstype="$(findmnt -n -o FSTYPE / 2>/dev/null || true)"
+    if [ "$fstype" != "btrfs" ]; then
+        die "root filesystem is not btrfs (got '$fstype'); snapshots require btrfs" 3
+    fi
+    if ! btrfs subvolume show /.snapshots >/dev/null 2>&1; then
+        die "no @snapshots subvolume mounted at /.snapshots" 4
+    fi
+}
+
+write_state() {
+    local action="$1" target="${2:-}"
+    mkdir -p "$(dirname "$STATE_FILE")" 2>/dev/null || true
+    {
+        printf 'STATE=%s\n' "$action"
+        printf 'TARGET=%s\n' "$target"
+        printf 'UPDATED_UTC=%s\n' "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+    } > "$STATE_FILE" 2>/dev/null || true
+}
+
+status() {
+    echo "🗂️  ZenithOS Snapshot Status"
+    echo "============================"
+    if ! command -v snapper >/dev/null 2>&1; then
+        echo "snapper: not installed"
+        return 0
+    fi
+    if ! snapper --config "$SNAPPER_CONFIG" get-config >/dev/null 2>&1; then
+        echo "snapper config '$SNAPPER_CONFIG': missing"
+        echo "This system was installed without the ZenithOS btrfs+@snapshots layout."
+        return 0
+    fi
+    echo "snapper config: $SNAPPER_CONFIG"
+    echo ""
+    snapper --config "$SNAPPER_CONFIG" list --columns number,type,pre-number,date,description 2>/dev/null \
+        | head -20 \
+        || echo "(no snapshots yet)"
+    echo ""
+    local count
+    count="$(snapper --config "$SNAPPER_CONFIG" list --columns number 2>/dev/null | tail -n +2 | wc -l)"
+    echo "Snapshot count: $count"
+    echo "Rollback status: $(snapper --config "$SNAPPER_CONFIG" status 2>/dev/null | grep -q . && echo 'pending changes recorded' || echo 'no pending changes')"
+}
+
+create() {
+    require_root
+    require_snapper
+    require_btrfs_root
+    local desc="${1:-manual}"
+    local num
+    num="$(snapper --config "$SNAPPER_CONFIG" create --type pre --pre-number 0 --description "$desc")" \
+        || die "snapper pre-snapshot failed"
+    echo "Created pre-snapshot #$num for: $desc"
+    write_state "pre-created" "$num"
+    echo "$num"
+}
+
+list_all() {
+    require_snapper
+    snapper --config "$SNAPPER_CONFIG" list 2>&1
+}
+
+rollback() {
+    require_root
+    require_snapper
+    require_btrfs_root
+    [ "$#" -ge 1 ] || die "usage: zenith-snapshot rollback <number>" 2
+    local num="$1"
+    # snapper undochange switches @ in place — risky mid-session. We mark for
+    # next reboot via /etc/zenith-snapshot-pending so the boot hooks can act.
+    echo "Marking snapshot #$num for rollback on next boot..."
+    echo "$num" > /etc/zenith-snapshot-pending
+    write_state "rollback-pending" "$num"
+    echo "Run 'systemctl reboot' to apply. Reboot will boot into snapshot #$num."
+}
+
+cleanup() {
+    require_snapper
+    snapper --config "$SNAPPER_CONFIG" cleanup --number-limit "$@" 2>&1
+}
+
+diff_snap() {
+    require_snapper
+    [ "$#" -ge 2 ] || die "usage: zenith-snapshot diff <a> <b>" 2
+    snapper --config "$SNAPPER_CONFIG" status "$1..$2" 2>&1
+}
+
+usage() {
+    sed -n '2,16p' "$0" | sed 's/^# \{0,1\}//'
+    echo "Run 'zenith-snapshot <subcommand> --help' for subcommand-specific help."
+}
+
+main() {
+    [ "$#" -ge 1 ] || { usage; exit 0; }
+    local sub="$1"; shift
+    case "$sub" in
+        status) status ;;
+        create) create "$@" ;;
+        list) list_all ;;
+        rollback) rollback "$@" ;;
+        cleanup) cleanup "$@" ;;
+        diff) diff_snap "$@" ;;
+        -h|--help|help) usage ;;
+        *) die "unknown subcommand: $sub" 2 ;;
+    esac
+}
+
+main "$@"

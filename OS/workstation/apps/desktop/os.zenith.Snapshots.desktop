@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Zenith Snapshots
+Comment=View and manage btrfs snapshots for system rollback
+Exec=zenith-snapshot status
+Icon=system-restart
+Terminal=true
+Categories=GNOME;GTK;System;

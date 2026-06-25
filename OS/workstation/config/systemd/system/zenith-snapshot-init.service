@@ -1,0 +1,18 @@
+[Unit]
+Description=ZenithOS snapshot bootstrap (initialize snapper on first boot)
+After=local-fs.target
+ConditionPathExists=/etc/zenith-installed
+ConditionPathExists=!/var/lib/zenith/snapshot-initialized
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/bin/bash -c '\
+  if snapper --config root get-config >/dev/null 2>&1; then \
+    echo "[zenith-snapshot-init] snapper config root already present"; \
+  else \
+    snapper --config root create-config /; \
+  fi; \
+  touch /var/lib/zenith/snapshot-initialized'
+ExecStartPost=/usr/bin/systemctl enable --now snapper-timeline.timer
+ExecStartPost=/usr/bin/systemctl enable --now snapper-cleanup.timer

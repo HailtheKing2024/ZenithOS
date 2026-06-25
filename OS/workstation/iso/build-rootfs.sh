@@ -100,6 +100,7 @@ sudo chroot "$output" systemctl enable zenith-first-boot-apps.service >/dev/null
 sudo chroot "$output" systemctl enable zenith-autoinstall.service >/dev/null
 sudo chroot "$output" systemctl enable zenith-desktop-smoke-login.service >/dev/null
 sudo chroot "$output" systemctl enable zenith-session-report-watch.service >/dev/null
+sudo chroot "$output" systemctl enable zenith-snapshot-init.service >/dev/null
 for unit in \
     apt-daily.timer \
     apt-daily-upgrade.timer \
