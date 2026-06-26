@@ -9,3 +9,5 @@ ID_LIKE=debian
 HOME_URL="https://github.com/HailtheKing2024/ZenithOS"
 SUPPORT_URL="https://github.com/HailtheKing2024/ZenithOS/issues"
 BUG_REPORT_URL="https://github.com/HailtheKing2024/ZenithOS/issues"
+VARIANT="Workstation"
+VARIANT_ID=workstation

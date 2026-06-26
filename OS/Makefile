@@ -460,6 +460,24 @@ else
 	@echo 'workstation-diagnose-qemu is currently implemented for the Windows QEMU host.'
 endif
 
+# --- Branded Release ISO ---
+WORKSTATION_RELEASE_ISO := $(BUILD_DIR)/workstation/zenithos-$(shell cat workstation/config/os-release | grep VERSION_ID | cut -d= -f2 | tr -d '"').iso
+
+workstation-release-iso: workstation-seed-iso
+	@echo "Creating branded release ISO from seed ISO..."
+	cp "$(WORKSTATION_SEED_ISO)" "$(WORKSTATION_RELEASE_ISO)"
+	sha256sum "$(WORKSTATION_RELEASE_ISO)" > "$(WORKSTATION_RELEASE_ISO).sha256"
+	@echo "Release ISO: $(WORKSTATION_RELEASE_ISO)"
+	@echo "SHA256: $(WORKSTATION_RELEASE_ISO).sha256"
+	@echo "Contains branded /etc/os-release: ZenithOS Workstation Beta 2 Preview"
+
+workstation-release-iso-wsl: workstation-seed-iso-wsl
+	@echo "Creating branded release ISO from seed ISO (WSL)..."
+	cp "$(WORKSTATION_SEED_ISO)" "$(WORKSTATION_RELEASE_ISO)"
+	sha256sum "$(WORKSTATION_RELEASE_ISO)" > "$(WORKSTATION_RELEASE_ISO).sha256"
+	@echo "Release ISO: $(WORKSTATION_RELEASE_ISO)"
+	@echo "SHA256: $(WORKSTATION_RELEASE_ISO).sha256"
+
 toolchain-check:
 ifeq ($(OS),Windows_NT)
 	@if (-not (Get-Command '$(CC)' -ErrorAction SilentlyContinue)) { Write-Error 'missing $(CC)'; exit 1 }
