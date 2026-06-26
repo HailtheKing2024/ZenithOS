@@ -1,0 +1,27 @@
+#!/bin/sh
+# zenith-snapper-firstboot - Enable snapper timeline on first boot after install
+# Runs once via systemd, creates initial timeline snapshot
+
+set -u
+
+log() { echo "[zenith-snapper-firstboot] $*"; }
+
+if [ ! -f /etc/zenith-installed ]; then
+    log "Not a ZenithOS installed system; exiting"
+    exit 0
+fi
+
+if [ ! -f /etc/snapper/configs/root ]; then
+    log "snapper config not found; exiting"
+    exit 0
+fi
+
+log "Enabling snapper timeline and creating initial snapshot..."
+
+# Ensure snapper is configured for @ subvolume
+snapper --config root set-config "SUBVOLUME=@" 2>/dev/null || true
+
+# Create initial "post-install" snapshot
+snapper --config root create --description "post-install" --cleanup=number 2>/dev/null || true
+
+log "Snapper initialized. Timeline snapshots will be created automatically."

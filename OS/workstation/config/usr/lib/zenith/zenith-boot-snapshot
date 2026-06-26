@@ -1,0 +1,115 @@
+#!/usr/bin/env bash
+# zenith-boot-snapshot - List and boot from Btrfs snapshots via GRUB
+# Usage: zenith-boot-snapshot [list|boot <num>|create "description"]
+
+set -euo pipefail
+
+CONFIG="/etc/snapper/configs/root"
+SNAPSHOTS_SUBVOL="/.snapshots"
+GRUB_CFG="/boot/grub/grub.cfg"
+GRUB_D="/etc/default/grub.d/99-zenithos.cfg"
+
+usage() {
+    cat <<'EOF'
+Usage: zenith-boot-snapshot [command]
+
+Commands:
+  list              List available snapshots with numbers
+  boot <num>        Set GRUB to boot from snapshot <num> on next reboot
+  create "desc"     Create a new manual snapshot with description
+  rollback <num>    Rollback to snapshot <num> (requires reboot)
+  help              Show this help
+EOF
+}
+
+require_root() {
+    [ "$(id -u)" -eq 0 ] || { echo "This command requires root" >&2; exit 1; }
+}
+
+list_snapshots() {
+    if ! command -v snapper >/dev/null 2>&1; then
+        echo "snapper not installed" >&2
+        exit 1
+    fi
+    snapper --config root list
+}
+
+get_snapshot_path() {
+    local num="$1"
+    local path
+    path=$(snapper --config root list --csv-data --columns number,path 2>/dev/null | awk -F, -v n="$num" '$1==n {print $2}')
+    if [ -z "$path" ] || [ "$path" = "" ]; then
+        echo "Snapshot $num not found" >&2
+        exit 1
+    fi
+    echo "$path"
+}
+
+get_snapshot_info() {
+    local num="$1"
+    snapper --config root list --csv-data --columns number,date,description,cleanup 2>/dev/null | awk -F, -v n="$num" '$1==n {print $2 " | " $3 " | " $4}'
+}
+
+boot_snapshot() {
+    require_root
+    local num="$1"
+    local path
+    path=$(get_snapshot_path "$num")
+    local info
+    info=$(get_snapshot_info "$num")
+    echo "Setting next boot to snapshot $num: $info"
+    echo "Snapshot path: $path"
+
+    # Create GRUB entry for this snapshot
+    local kernel_initrd
+    kernel_initrd=$(grep -E '^(linux|initrd)' /boot/grub/grub.cfg | head -2 | tr '\n' ' ')
+
+    cat > /etc/default/grub.d/99-zenith-snapshot.cfg <<GRUB_EOF
+# ZenithOS snapshot boot entry - auto-generated
+GRUB_DEFAULT=saved
+GRUB_SAVEDEFAULT=true
+GRUB_CMDLINE_LINUX_DEFAULT="quiet splash loglevel=3 rootflags=subvol=$path"
+GRUB_CMDLINE_LINUX="rootflags=subvol=$path zenith.profile=generic-workstation"
+GRUB_EOF
+
+    update-grub
+    grub-reboot "ZenithOS (snapshot $num)" 2>/dev/null || grub-set-default "ZenithOS (snapshot $num)"
+    echo "Next boot will use snapshot $num. Reboot to activate."
+}
+
+create_snapshot() {
+    require_root
+    local desc="$1"
+    [ -n "$desc" ] || { echo "Description required" >&2; exit 1; }
+    snapper --config root create --description "$desc" --cleanup=number
+    echo "Created snapshot: $desc"
+}
+
+rollback_snapshot() {
+    require_root
+    local num="$1"
+    local path
+    path=$(get_snapshot_path "$num")
+    echo "Rolling back to snapshot $num (path: $path)..."
+    snapper --config root rollback "$num"
+    echo "Rollback scheduled. Reboot to activate."
+}
+
+main() {
+    case "${1:-help}" in
+        list) list_snapshots ;;
+        boot)
+            [ $# -ge 2 ] || { usage; exit 1; }
+            boot_snapshot "$2" ;;
+        create)
+            [ $# -ge 2 ] || { usage; exit 1; }
+            shift
+            create_snapshot "$*" ;;
+        rollback)
+            [ $# -ge 2 ] || { usage; exit 1; }
+            rollback_snapshot "$2" ;;
+        help|*) usage ;;
+    esac
+}
+
+main "$@"

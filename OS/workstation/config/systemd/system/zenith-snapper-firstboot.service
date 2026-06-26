@@ -1,0 +1,13 @@
+[Unit]
+Description=ZenithOS Snapper First-Boot Initialization
+After=local-fs.target
+ConditionPathExists=/etc/zenith-installed
+ConditionPathExists=/etc/snapper/configs/root
+
+[Service]
+Type=oneshot
+ExecStart=/usr/lib/zenith/zenith-snapper-firstboot
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
