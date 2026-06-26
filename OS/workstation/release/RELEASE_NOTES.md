@@ -21,6 +21,12 @@ Highlights:
 - ISO checksum generation at compose time.
 - `/etc/os-release` version stamping for Beta 2.
 - QEMU smoke-test helper for unattended boot checks.
+- TUI erase-confirmation token prompt with framed warnings on `zenith-install-to-disk`.
+- Snapper Btrfs snapshot config for `@snapshots` subvolume, timeline hooks, and
+  `zenith-boot-snapshot` utility for booting into snapshots via GRUB.
+- Branded release ISO target (`make workstation-release-iso`).
+- GitHub Actions CI that validates workstation files and runtime checks on PRs.
+- Lenovo V14-ADA hardware probe script with 40-test validation checklist.
 
 Validation targets:
 

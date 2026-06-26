@@ -20,3 +20,7 @@
 - Physical Lenovo V14-ADA hardware validation is still pending on the target
   machine, including display, touchpad, Wi-Fi, power profile, suspend/resume,
   and bootloader behavior.
+- `zenith-boot-snapshot` utility and snapper first-boot service are committed
+  but await end-to-end smoke validation in a real install.
+- CI workflow (`workstation-check` + `runtime-check`) is configured but has not
+  yet been triggered via a GitHub PR against the repository.

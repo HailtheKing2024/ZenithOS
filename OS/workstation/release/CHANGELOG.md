@@ -5,6 +5,11 @@
 - Added installer disk selection with non-destructive target validation.
 - Added selected-disk dry-run install plan generation for EFI plus Btrfs layout.
 - Added ISO SHA256 generation to every live ISO compose.
+- Added TUI erase-confirmation prompt in the installer.
+- Added Btrfs snapshot infrastructure (snapper config, `zenith-boot-snapshot`, first-boot service).
+- Added branded release ISO build target (`make workstation-release-iso`).
+- Added GitHub Actions CI workflow for PR validation.
+- Added Lenovo V14-ADA hardware probe script and validation checklist.
 - Added release notes, known issues, and version stamping in `/etc/os-release`.
 - Added QEMU smoke-test tooling for unattended boot checks.
 
